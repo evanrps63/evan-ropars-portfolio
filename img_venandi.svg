@@ -1,0 +1,114 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="vbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0e2a1c"/>
+      <stop offset="100%" style="stop-color:#1a4a30"/>
+    </linearGradient>
+    <radialGradient id="vglow" cx="30%" cy="70%" r="60%">
+      <stop offset="0%" style="stop-color:#2dba72;stop-opacity:.25"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+    <filter id="vblur"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="vshadow"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity=".3"/></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#vbg)"/>
+  <rect width="800" height="500" fill="url(#vglow)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="680" cy="80" r="120" fill="none" stroke="rgba(45,186,114,.08)" stroke-width="1"/>
+  <circle cx="680" cy="80" r="80" fill="none" stroke="rgba(45,186,114,.06)" stroke-width="1"/>
+
+  <!-- Dashboard mockup -->
+  <g transform="translate(60, 60)" filter="url(#vshadow)">
+    <rect width="460" height="280" rx="14" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+    <!-- Header bar -->
+    <rect width="460" height="40" rx="14" fill="rgba(255,255,255,.04)"/>
+    <rect width="460" height="26" y="14" fill="rgba(255,255,255,.04)"/>
+    <circle cx="18" cy="20" r="5" fill="#ff5f57"/>
+    <circle cx="34" cy="20" r="5" fill="#febc2e"/>
+    <circle cx="50" cy="20" r="5" fill="#28c840"/>
+    <text x="200" y="25" fill="rgba(255,255,255,.3)" font-size="10" text-anchor="middle" letter-spacing="2">LOOKER STUDIO · VENANDI DASHBOARD</text>
+
+    <!-- KPI cards -->
+    <g transform="translate(16, 52)">
+      <rect width="95" height="52" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <text x="8" y="16" fill="rgba(255,255,255,.4)" font-size="7" letter-spacing="1">ABONNÉS</text>
+      <text x="8" y="36" fill="#2dba72" font-size="20" font-weight="bold">+1600</text>
+      <text x="8" y="48" fill="#2dba72" font-size="8">↑ +312%</text>
+    </g>
+    <g transform="translate(123, 52)">
+      <rect width="95" height="52" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <text x="8" y="16" fill="rgba(255,255,255,.4)" font-size="7" letter-spacing="1">CTR ADS</text>
+      <text x="8" y="36" fill="#f5d440" font-size="20" font-weight="bold">4.2%</text>
+      <text x="8" y="48" fill="#f5d440" font-size="8">↑ +1.8pt</text>
+    </g>
+    <g transform="translate(230, 52)">
+      <rect width="95" height="52" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <text x="8" y="16" fill="rgba(255,255,255,.4)" font-size="7" letter-spacing="1">SEO PAGES</text>
+      <text x="8" y="36" fill="#ff6b45" font-size="20" font-weight="bold">40+</text>
+      <text x="8" y="48" fill="#ff6b45" font-size="8">Optimisées</text>
+    </g>
+    <g transform="translate(337, 52)">
+      <rect width="95" height="52" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+      <text x="8" y="16" fill="rgba(255,255,255,.4)" font-size="7" letter-spacing="1">QUALITY</text>
+      <text x="8" y="36" fill="#1a3cff" font-size="20" font-weight="bold">87%</text>
+      <text x="8" y="48" fill="#1a3cff" font-size="8">Score Ads</text>
+    </g>
+
+    <!-- Chart area -->
+    <g transform="translate(16, 118)">
+      <rect width="428" height="5" rx="2" fill="rgba(255,255,255,.05)"/>
+      <text x="0" y="-4" fill="rgba(255,255,255,.2)" font-size="7" letter-spacing="1">CROISSANCE ABONNÉS / MOIS</text>
+
+      <!-- Bar chart -->
+      <g transform="translate(0, 20)">
+        <rect x="0" y="98" width="28" height="22" rx="3" fill="rgba(45,186,114,.2)"/>
+        <rect x="36" y="82" width="28" height="38" rx="3" fill="rgba(45,186,114,.3)"/>
+        <rect x="72" y="68" width="28" height="52" rx="3" fill="rgba(45,186,114,.4)"/>
+        <rect x="108" y="55" width="28" height="65" rx="3" fill="rgba(45,186,114,.5)"/>
+        <rect x="144" y="38" width="28" height="82" rx="3" fill="rgba(45,186,114,.65)"/>
+        <rect x="180" y="18" width="28" height="102" rx="3" fill="rgba(45,186,114,.8)"/>
+        <rect x="216" y="0" width="28" height="120" rx="3" fill="#2dba72"/>
+
+        <!-- Labels -->
+        <text x="14" y="136" fill="rgba(255,255,255,.25)" font-size="7" text-anchor="middle">Oct</text>
+        <text x="50" y="136" fill="rgba(255,255,255,.25)" font-size="7" text-anchor="middle">Nov</text>
+        <text x="86" y="136" fill="rgba(255,255,255,.25)" font-size="7" text-anchor="middle">Déc</text>
+        <text x="122" y="136" fill="rgba(255,255,255,.25)" font-size="7" text-anchor="middle">Jan</text>
+        <text x="158" y="136" fill="rgba(255,255,255,.25)" font-size="7" text-anchor="middle">Fév</text>
+        <text x="194" y="136" fill="rgba(255,255,255,.25)" font-size="7" text-anchor="middle">Mar</text>
+        <text x="230" y="136" fill="rgba(255,255,255,.25)" font-size="7" text-anchor="middle">Avr</text>
+      </g>
+
+      <!-- Line on bars -->
+      <polyline points="14,118 50,102 86,88 122,75 158,58 194,38 230,20" fill="none" stroke="white" stroke-width="1.5" stroke-opacity=".3" transform="translate(0,20)"/>
+    </g>
+  </g>
+
+  <!-- Floating badges -->
+  <g transform="translate(540, 90)">
+    <rect width="190" height="44" rx="22" fill="rgba(45,186,114,.15)" stroke="rgba(45,186,114,.3)" stroke-width="1"/>
+    <text x="20" y="28" fill="#2dba72" font-size="22" font-weight="bold">+1 600</text>
+    <text x="90" y="20" fill="rgba(255,255,255,.5)" font-size="9">abonnés</text>
+    <text x="90" y="33" fill="rgba(255,255,255,.3)" font-size="8">en 6 mois</text>
+  </g>
+
+  <g transform="translate(540, 148)">
+    <rect width="190" height="44" rx="22" fill="rgba(245,212,64,.1)" stroke="rgba(245,212,64,.2)" stroke-width="1"/>
+    <text x="16" y="28" fill="#f5d440" font-size="22" font-weight="bold">40+ pages</text>
+    <text x="140" y="22" fill="rgba(255,255,255,.3)" font-size="8">SEO</text>
+    <text x="140" y="34" fill="rgba(255,255,255,.2)" font-size="7">optimisées</text>
+  </g>
+
+  <g transform="translate(540, 206)">
+    <rect width="190" height="44" rx="22" fill="rgba(26,60,255,.15)" stroke="rgba(26,60,255,.25)" stroke-width="1"/>
+    <text x="16" y="28" fill="#7090ff" font-size="14" font-weight="bold">Shopify · GA4 · Ads</text>
+  </g>
+
+  <!-- Bottom label -->
+  <text x="60" y="390" fill="white" font-size="36" font-weight="bold" letter-spacing="-1" opacity=".9">Venandi</text>
+  <text x="60" y="418" fill="rgba(255,255,255,.4)" font-size="13" letter-spacing="1">RESPONSABLE MARKETING & COMMUNICATION</text>
+  <text x="60" y="438" fill="rgba(255,255,255,.25)" font-size="11">Alternance · Depuis septembre 2025 · Lyon</text>
+</svg>

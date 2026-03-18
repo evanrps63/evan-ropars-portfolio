@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Likèn — Evan Ropars</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet">
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0
+      }
+
+      :root {
+        --bg: #EEE0CC;
+        --bg2: #e6d4b8;
+        --bg3: #f7f1e8;
+        --ink: #1a1208;
+        --ink2: #3d2d18;
+        --muted: #9a8060;
+        --green: #5D866C;
+        --brown: #73543C;
+        --cream: #EEE0CC;
+        --border: rgba(115, 84, 60, 0.15);
+        --border2: rgba(115, 84, 60, 0.25);
+      }
+
+      html {
+        scroll-behavior: smooth
+      }
+
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        overflow-x: hidden;
+        cursor: none
+      }
+
+      .cur {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: multiply
+      }
+
+      .cur-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--green)
+      }
+
+      .cur-ring {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1.5px solid var(--ink);
+        opacity: .2;
+        transition: width .25s, height .25s, opacity .25s
+      }
+
+      .cur-ring.hover {
+        width: 70px;
+        height: 70px;
+        opacity: .45
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 2.5rem;
+        background: rgba(238, 224, 204, 0.94);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border)
+      }
+
+      .logo {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        color: var(--ink);
+        text-decoration: none
+      }
+
+      .logo em {
+        color: var(--green);
+        font-style: normal
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        font-size: .75rem;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color .2s;
+        cursor: none
+      }
+
+      .back-btn:hover {
+        color: var(--ink)
+      }
+
+      /* HERO */
+      .proj-hero {
+        padding: 9rem 2.5rem 5rem;
+        border-bottom: 1.5px solid var(--border2);
+        background: var(--bg3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .proj-meta {
+        display: flex;
+        gap: .75rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap
+      }
+
+      .proj-tag {
+        font-size: .62rem;
+        font-weight: 600;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        padding: .35rem .9rem;
+        border: 1.5px solid var(--border2);
+        border-radius: 100px;
+        color: var(--muted)
+      }
+
+      .proj-tag.g {
+        background: var(--green);
+        border-color: var(--green);
+        color: white
+      }
+
+      .proj-tag.b {
+        background: var(--brown);
+        border-color: var(--brown);
+        color: white
+      }
+
+      .hero-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: center
+      }
+
+      .hero-l h1 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.05;
+        letter-spacing: -.01em;
+        color: var(--ink);
+        margin-bottom: 1.25rem;
+      }
+
+      .hero-l h1 strong {
+        font-style: normal;
+        font-family: 'Unbounded', sans-serif;
+        font-size: 42%;
+        font-weight: 900;
+        display: block;
+        letter-spacing: -.01em;
+        color: var(--brown);
+        margin-bottom: .6rem;
+      }
+
+      .hero-l p {
+        font-size: .95rem;
+        color: var(--ink2);
+        line-height: 1.85;
+        font-weight: 300;
+        max-width: 440px
+      }
+
+      .hero-l p strong {
+        color: var(--ink);
+        font-weight: 500
+      }
+
+      /* Logo réel */
+      .logo-showcase {
+        background: var(--cream);
+        border-radius: 24px;
+        padding: 3rem 2rem;
+        border: 1.5px solid var(--border2);
+        box-shadow: 0 20px 60px rgba(115, 84, 60, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .logo-main {
+        width: 100%;
+        max-width: 320px
+      }
+
+      .logo-main img {
+        width: 100%;
+        height: auto;
+        display: block
+      }
+
+      .logo-divider {
+        width: 100%;
+        height: 1px;
+        background: var(--border)
+      }
+
+      .logo-variants-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: .75rem;
+        width: 100%
+      }
+
+      .logo-v {
+        border-radius: 12px;
+        padding: 1.1rem .75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden
+      }
+
+      .logo-v img {
+        width: 80%;
+        max-width: 120px;
+        height: auto;
+        display: block
+      }
+
+      /* STATS */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-bottom: 1.5px solid var(--border2)
+      }
+
+      .stat-cell {
+        padding: 2.5rem 2rem;
+        border-right: 1.5px solid var(--border2)
+      }
+
+      .stat-cell:last-child {
+        border-right: none
+      }
+
+      .stat-n {
+        font-family: 'Unbounded', sans-serif;
+        font-size: clamp(1.6rem, 3vw, 2.5rem);
+        font-weight: 900;
+        color: var(--brown);
+        margin-bottom: .4rem
+      }
+
+      .stat-l {
+        font-size: .72rem;
+        color: var(--muted);
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        line-height: 1.5
+      }
+
+      /* SECTIONS */
+      .section {
+        padding: 6rem 2.5rem;
+        border-bottom: 1.5px solid var(--border2)
+      }
+
+      .section-label {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .58rem;
+        font-weight: 700;
+        letter-spacing: .22em;
+        text-transform: uppercase;
+        color: var(--brown);
+        margin-bottom: 1rem
+      }
+
+      .section-label.v {
+        color: var(--green)
+      }
+
+      .section h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.05;
+        margin-bottom: 2rem;
+        letter-spacing: -.01em
+      }
+
+      /* PALETTE */
+      .palette-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2.5rem
+      }
+
+      .pal-card {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1.5px solid var(--border)
+      }
+
+      .pal-swatch {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center
+      }
+
+      .pal-info {
+        background: white;
+        padding: 1rem 1.25rem
+      }
+
+      .pal-name {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .6rem;
+        font-weight: 700;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        margin-bottom: .25rem
+      }
+
+      .pal-hex {
+        font-size: .68rem;
+        color: var(--muted);
+        font-family: monospace
+      }
+
+      .pal-role {
+        font-size: .65rem;
+        color: var(--muted);
+        margin-top: .2rem;
+        font-style: italic
+      }
+
+      /* TYPO */
+      .typo-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem
+      }
+
+      .typo-block {
+        padding: 2rem;
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 16px
+      }
+
+      .typo-meta {
+        font-size: .62rem;
+        color: var(--muted);
+        margin-top: .75rem
+      }
+
+      .typo-meta strong {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .58rem;
+        color: var(--ink);
+        display: block;
+        margin-bottom: .2rem;
+        letter-spacing: .1em;
+        text-transform: uppercase
+      }
+
+      /* FONDS GRAPHIQUES */
+      .fonds-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-top: 2rem
+      }
+
+      .fond-card {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1.5px solid var(--border);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, .04);
+        transition: transform .2s
+      }
+
+      .fond-card:hover {
+        transform: translateY(-4px)
+      }
+
+      .fond-img {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        display: block
+      }
+
+      .fond-footer {
+        background: white;
+        padding: 1.1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+      }
+
+      .fond-title {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .62rem;
+        font-weight: 700;
+        letter-spacing: .1em;
+        text-transform: uppercase
+      }
+
+      .fond-hex {
+        font-size: .62rem;
+        font-family: monospace;
+        color: var(--muted)
+      }
+
+      /* MOCKUP GMS */
+      .mockup-section {
+        padding: 6rem 2.5rem;
+        border-bottom: 1.5px solid var(--border2);
+        background: var(--bg3)
+      }
+
+      .mockup-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: center;
+        margin-top: 2rem
+      }
+
+      .mockup-img-wrap {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, .1);
+        border: 1px solid var(--border)
+      }
+
+      .mockup-img-wrap img {
+        width: 100%;
+        height: auto;
+        display: block
+      }
+
+      .mockup-text p {
+        font-size: .95rem;
+        color: var(--ink2);
+        line-height: 1.85;
+        font-weight: 300;
+        margin-bottom: 1.25rem
+      }
+
+      .mockup-text p strong {
+        color: var(--ink);
+        font-weight: 500
+      }
+
+      .mockup-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin-top: 1.5rem
+      }
+
+      .pill {
+        font-size: .6rem;
+        font-weight: 600;
+        padding: .3rem .85rem;
+        border-radius: 100px;
+        letter-spacing: .06em;
+        text-transform: uppercase
+      }
+
+      .pill.g {
+        background: #e8f0ea;
+        color: var(--green);
+        border: 1.5px solid rgba(93, 134, 108, .2)
+      }
+
+      .pill.b {
+        background: #f5ede0;
+        color: var(--brown);
+        border: 1.5px solid rgba(115, 84, 60, .2)
+      }
+
+      .pill.n {
+        background: var(--bg2);
+        color: var(--muted);
+        border: 1.5px solid var(--border)
+      }
+
+      /* BACK */
+      .back-section {
+        padding: 4rem 2.5rem;
+        border-top: 1.5px solid var(--border2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+      }
+
+      .next-proj {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .68rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        transition: gap .2s;
+        cursor: none
+      }
+
+      .next-proj:hover {
+        gap: 1.25rem
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(36px);
+        transition: opacity .85s cubic-bezier(.22, 1, .36, 1), transform .85s cubic-bezier(.22, 1, .36, 1)
+      }
+
+      .reveal.in {
+        opacity: 1;
+        transform: none
+      }
+
+      .reveal-d1 {
+        transition-delay: .08s
+      }
+
+      .reveal-d2 {
+        transition-delay: .18s
+      }
+
+      .reveal-d3 {
+        transition-delay: .28s
+      }
+
+      footer {
+        border-top: 1.5px solid var(--border2);
+        padding: 2rem 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+      }
+
+      .foot-logo {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .7rem;
+        font-weight: 900;
+        letter-spacing: .05em
+      }
+
+      .foot-logo em {
+        color: var(--green);
+        font-style: normal
+      }
+
+      footer p {
+        font-size: .72rem;
+        color: var(--muted)
+      }
+
+      @media(max-width:768px) {
+        nav {
+          padding: 1rem 1.5rem
+        }
+
+        .proj-hero {
+          padding: 7rem 1.5rem 3rem
+        }
+
+        .hero-split {
+          grid-template-columns: 1fr;
+          gap: 3rem
+        }
+
+        .stats-row {
+          grid-template-columns: 1fr
+        }
+
+        .stat-cell {
+          border-right: none;
+          border-bottom: 1.5px solid var(--border2)
+        }
+
+        .section,
+        .mockup-section {
+          padding: 4rem 1.5rem
+        }
+
+        .palette-grid,
+        .typo-grid,
+        .fonds-grid,
+        .mockup-grid {
+          grid-template-columns: 1fr
+        }
+
+        .back-section {
+          padding: 3rem 1.5rem;
+          flex-direction: column;
+          gap: 2rem;
+          align-items: flex-start
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="cur" id="cd">
+      <div class="cur-dot"></div>
+    </div>
+    <div class="cur" id="cr">
+      <div class="cur-ring" id="crr"></div>
+    </div>
+
+    <nav>
+      <a href="index.html" class="logo">EVAN <em>ROPARS</em></a>
+      <a href="index.html" class="back-btn">← Retour aux projets</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="proj-hero">
+      <div class="proj-meta reveal">
+        <span class="proj-tag g">Brand Identity</span>
+        <span class="proj-tag b">Naming</span>
+        <span class="proj-tag">Identité visuelle</span>
+        <span class="proj-tag">Brandbook</span>
+        <span class="proj-tag">Plaquette GMS</span>
+        <span class="proj-tag">2025</span>
+      </div>
+      <div class="hero-split">
+        <div class="hero-l">
+          <h1 class="reveal reveal-d1">
+            <strong>Likèn — Brand Identity</strong>
+            Sauvage<br>par nature.
+          </h1>
+          <p class="reveal reveal-d2">
+            Création complète de <strong>A à Z</strong> d'une identité de marque autour de produits issus de la nature
+            sauvage — naming, logo, charte graphique, univers illustré, étiquettes produits et plaquette commerciale
+            pour la <strong>grande et moyenne surface.</strong>
+          </p>
+        </div>
+        <div class="logo-showcase reveal reveal-d1">
+          <!-- Vrai logo sur fond crème -->
+          <div class="logo-main">
+            <img src="logo_liken.png" alt="Logo Likèn — Sauvage par nature" />
+          </div>
+          <div class="logo-divider"></div>
+          <!-- Déclinaisons fond coloré -->
+          <div class="logo-variants-row">
+            <div class="logo-v" style="background:#1a1208;">
+              <img src="logo_liken.png" alt="Logo Likèn fond noir"
+                style="filter:brightness(0) invert(1);opacity:.85;" />
+            </div>
+            <div class="logo-v" style="background:var(--brown);">
+              <img src="logo_liken.png" alt="Logo Likèn fond brun"
+                style="filter:brightness(0) invert(1);opacity:.85;" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-cell reveal">
+        <div class="stat-n">3</div>
+        <div class="stat-l">Couleurs<br>dans la charte</div>
+      </div>
+      <div class="stat-cell reveal reveal-d1">
+        <div class="stat-n">2</div>
+        <div class="stat-l">Univers graphiques<br>illustrés</div>
+      </div>
+      <div class="stat-cell reveal reveal-d2">
+        <div class="stat-n">GMS</div>
+        <div class="stat-l">Cible de<br>distribution</div>
+      </div>
+    </div>
+
+    <!-- PALETTE -->
+    <section class="section">
+      <div class="section-label reveal">Identité chromatique</div>
+      <h2 class="reveal reveal-d1">La palette<br>officielle</h2>
+      <div class="palette-grid">
+        <div class="pal-card reveal">
+          <div class="pal-swatch" style="background:#5D866C;">
+            <img src="logo_liken.png" alt="" style="width:60%;filter:brightness(0) invert(1);opacity:.8;" />
+          </div>
+          <div class="pal-info">
+            <div class="pal-name" style="color:#5D866C;">Vert forêt</div>
+            <div class="pal-hex">#5D866C</div>
+            <div class="pal-role">Couleur principale · Univers Cerf</div>
+          </div>
+        </div>
+        <div class="pal-card reveal reveal-d1">
+          <div class="pal-swatch" style="background:#73543C;">
+            <img src="logo_liken.png" alt="" style="width:60%;filter:brightness(0) invert(1);opacity:.8;" />
+          </div>
+          <div class="pal-info">
+            <div class="pal-name" style="color:#73543C;">Brun sauvage</div>
+            <div class="pal-hex">#73543C</div>
+            <div class="pal-role">Chaleur naturelle · Univers Sanglier</div>
+          </div>
+        </div>
+        <div class="pal-card reveal reveal-d2">
+          <div class="pal-swatch" style="background:#EEE0CC;border-bottom:1.5px solid var(--border);">
+            <img src="logo_liken.png" alt="" style="width:60%;opacity:.7;" />
+          </div>
+          <div class="pal-info">
+            <div class="pal-name" style="color:#73543C;">Parchemin</div>
+            <div class="pal-hex">#EEE0CC</div>
+            <div class="pal-role">Fond · Étiquettes · Plaquette</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TYPO -->
+      <div class="section-label reveal" style="margin-top:3.5rem;">Typographie</div>
+      <div class="typo-grid">
+        <div class="typo-block reveal">
+          <img src="logo_liken.png" alt="Tan Pearl — logo Likèn" style="width:70%;height:auto;display:block;" />
+          <div class="typo-meta"><strong>Tan Pearl Regular</strong>Logo · Titres · Affichage<br>Sérif organique
+            identitaire</div>
+        </div>
+        <div class="typo-block reveal reveal-d1">
+          <div
+            style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.8rem;font-weight:300;color:var(--muted);line-height:1.3;">
+            Sauvage<br>par nature.</div>
+          <div class="typo-meta"><strong>Authentic Signature</strong>Tagline · Accroches émotionnelles<br>Script
+            manuscrit authentique</div>
+        </div>
+        <div class="typo-block reveal reveal-d2">
+          <div style="margin-bottom:.5rem;">
+            <div style="font-size:.85rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;">SANGLIER SAUVAGE
+              SÉCHÉ</div>
+            <div
+              style="font-size:.72rem;font-weight:300;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.2rem;">
+              FAÇON SAUCISSON</div>
+          </div>
+          <div class="typo-meta"><strong>Proxima Nova</strong>Regular & Light · Corps de texte<br>Étiquettes, plaquette,
+            descriptions</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FONDS GRAPHIQUES -->
+    <section class="section" style="background:var(--bg3);">
+      <div class="section-label v reveal">Univers illustré</div>
+      <h2 class="reveal reveal-d1">Les fonds graphiques<br>nature & sauvage</h2>
+      <p class="reveal reveal-d2"
+        style="font-size:.95rem;color:var(--ink2);line-height:1.85;font-weight:300;max-width:600px;margin-bottom:2.5rem;">
+        Chaque univers produit est associé à un fond graphique illustré représentant l'environnement sauvage —
+        champignons, plantes, animaux de forêt, ustensiles artisanaux. Ces patterns créent une identité packaging forte
+        et reconnaissable en rayon.
+      </p>
+      <div class="fonds-grid">
+        <div class="fond-card reveal">
+          <img class="fond-img" src="fond_sanglier.png" alt="Fond graphique Univers Sanglier — Likèn" />
+          <div class="fond-footer">
+            <span class="fond-title" style="color:var(--brown);">Univers Sanglier</span>
+            <span class="fond-hex">#73543C</span>
+          </div>
+        </div>
+        <div class="fond-card reveal reveal-d1">
+          <img class="fond-img" src="fond_cerf.png" alt="Fond graphique Univers Cerf — Likèn" />
+          <div class="fond-footer">
+            <span class="fond-title" style="color:var(--green);">Univers Cerf</span>
+            <span class="fond-hex">#5D866C</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOCKUP GMS -->
+    <section class="mockup-section">
+      <div class="section-label reveal">Activation en point de vente</div>
+      <h2 class="reveal reveal-d1"
+        style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-style:italic;font-weight:300;line-height:1.05;margin-bottom:0;">
+        Likèn en grande surface</h2>
+      <div class="mockup-grid">
+        <div class="mockup-img-wrap reveal">
+          <img src="mockup_gms.png" alt="Mockup Likèn en grande surface — affichage PLV" />
+        </div>
+        <div class="mockup-text reveal reveal-d1">
+          <p>Le mockup GMS illustre comment la marque <strong>Likèn prend vie en point de vente</strong> — ici sous
+            forme d'affichage PLV en allée centrale d'hypermarché.</p>
+          <p>Le visuel met en avant le logo, la baseline <em>"Sauvage par nature"</em> et le positionnement <strong>"Un
+              apéro 100% Nature"</strong> avec le drapeau français — un argument fort pour convaincre les acheteurs GMS.
+          </p>
+          <p>Ce support faisait partie intégrante de la <strong>plaquette commerciale</strong> présentée aux
+            distributeurs pour le référencement produit.</p>
+          <div class="mockup-pills">
+            <span class="pill g">100% gibier français</span>
+            <span class="pill g">Sauvage par nature</span>
+            <span class="pill b">PLV point de vente</span>
+            <span class="pill n">Référencement GMS</span>
+            <span class="pill n">Stratégie distribution</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="back-section">
+      <a href="index.html" class="next-proj">← Tous les projets</a>
+      <a href="cepage.html" class="next-proj">Projet suivant : Bar à Cépage →</a>
+    </div>
+
+    <footer>
+      <div class="foot-logo">EVAN <em>ROPARS</em></div>
+      <p>Likèn · Brand Identity complète · 2025</p>
+    </footer>
+
+    <script>
+const cd=document.getElementById('cd'),crr=document.getElementById('crr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.transform=`translate(${mx-6}px,${my-6}px)`});
+(function loop(){rx+=(mx-rx-22)*.1;ry+=(my-ry-22)*.1;document.getElementById('cr').style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>crr.classList.add('hover'));el.addEventListener('mouseleave',()=>crr.classList.remove('hover'))});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+  </body>
+</html>

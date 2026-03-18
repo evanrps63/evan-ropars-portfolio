@@ -1,0 +1,102 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="cbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1c100a"/>
+      <stop offset="100%" style="stop-color:#2a0808"/>
+    </linearGradient>
+    <radialGradient id="cglow" cx="60%" cy="40%" r="50%">
+      <stop offset="0%" style="stop-color:#8b2020;stop-opacity:.2"/>
+      <stop offset="100%" style="stop-color:transparent"/>
+    </radialGradient>
+    <filter id="cshadow"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity=".4"/></filter>
+    <filter id="cgoldshadow"><feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#c9a84c" flood-opacity=".3"/></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#cbg)"/>
+  <rect width="800" height="500" fill="url(#cglow)"/>
+
+  <!-- Subtle grain -->
+  <rect width="800" height="500" fill="none" stroke="rgba(201,168,76,.03)" stroke-width="1"/>
+
+  <!-- Wine glass illustration -->
+  <g transform="translate(480, 30)" filter="url(#cshadow)">
+    <!-- Glass stem -->
+    <rect x="105" y="300" width="10" height="80" rx="4" fill="rgba(201,168,76,.15)"/>
+    <!-- Base -->
+    <rect x="70" y="375" width="80" height="8" rx="4" fill="rgba(201,168,76,.2)"/>
+    <!-- Bowl -->
+    <path d="M60 30 Q50 150 80 260 Q100 300 110 300 Q120 300 140 260 Q170 150 160 30 Z"
+          fill="rgba(139,32,32,.4)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+    <!-- Wine fill -->
+    <path d="M68 160 Q62 230 83 270 Q100 295 110 298 Q120 295 137 270 Q158 230 152 160 Z"
+          fill="rgba(139,32,32,.7)"/>
+    <!-- Shine -->
+    <path d="M72 80 Q68 130 72 160" stroke="rgba(255,255,255,.15)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Menu card -->
+  <g transform="translate(50, 50)" filter="url(#cshadow)">
+    <rect width="380" height="340" rx="16" fill="rgba(28,16,10,.9)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+
+    <!-- Header -->
+    <rect width="380" height="60" rx="16" fill="rgba(201,168,76,.08)"/>
+    <rect x="0" y="44" width="380" height="16" fill="rgba(201,168,76,.08)"/>
+    <text x="190" y="30" fill="white" font-size="22" font-weight="300" text-anchor="middle" font-style="italic" letter-spacing="-0.5">Bar à Cépage</text>
+    <text x="190" y="48" fill="rgba(201,168,76,.5)" font-size="8" text-anchor="middle" letter-spacing="3" font-family="sans-serif">LYON · PRESQU'ÎLE</text>
+
+    <!-- Divider -->
+    <line x1="30" y1="68" x2="350" y2="68" stroke="rgba(201,168,76,.15)" stroke-width="1"/>
+
+    <!-- Section title -->
+    <text x="30" y="90" fill="rgba(201,168,76,.6)" font-size="8" letter-spacing="3" font-family="sans-serif">VINS AU VERRE — ROUGES</text>
+
+    <!-- Wine items -->
+    <g transform="translate(30, 102)">
+      <text x="0" y="14" fill="white" font-size="13" font-style="italic">Syrah de l'Ardèche</text>
+      <text x="0" y="26" fill="rgba(255,255,255,.3)" font-size="8" font-family="sans-serif">Vallée du Rhône · 2022</text>
+      <text x="290" y="14" fill="rgba(201,168,76,.9)" font-size="14" font-weight="bold" font-family="sans-serif">8€</text>
+    </g>
+    <line x1="30" y1="136" x2="350" y2="136" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+    <g transform="translate(30, 144)">
+      <text x="0" y="14" fill="white" font-size="13" font-style="italic">Gamay Noir Beaujolais</text>
+      <text x="0" y="26" fill="rgba(255,255,255,.3)" font-size="8" font-family="sans-serif">Beaujolais · 2023</text>
+      <text x="290" y="14" fill="rgba(201,168,76,.9)" font-size="14" font-weight="bold" font-family="sans-serif">7€</text>
+    </g>
+    <line x1="30" y1="178" x2="350" y2="178" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+    <g transform="translate(30, 186)">
+      <text x="0" y="14" fill="white" font-size="13" font-style="italic">Pinot Noir Bourguignon</text>
+      <text x="0" y="26" fill="rgba(255,255,255,.3)" font-size="8" font-family="sans-serif">Côte de Nuits · 2021</text>
+      <text x="290" y="14" fill="rgba(201,168,76,.9)" font-size="14" font-weight="bold" font-family="sans-serif">12€</text>
+    </g>
+
+    <!-- Section title 2 -->
+    <line x1="30" y1="222" x2="350" y2="222" stroke="rgba(201,168,76,.15)" stroke-width="1"/>
+    <text x="30" y="242" fill="rgba(201,168,76,.6)" font-size="8" letter-spacing="3" font-family="sans-serif">BLANCS &amp; NATURE</text>
+    <g transform="translate(30, 254)">
+      <text x="0" y="14" fill="white" font-size="13" font-style="italic">Roussanne de Savoie</text>
+      <text x="0" y="26" fill="rgba(255,255,255,.3)" font-size="8" font-family="sans-serif">Chignin · 2022</text>
+      <text x="290" y="14" fill="rgba(201,168,76,.9)" font-size="14" font-weight="bold" font-family="sans-serif">9€</text>
+    </g>
+  </g>
+
+  <!-- Grade badge -->
+  <g transform="translate(530, 290)" filter="url(#cgoldshadow)">
+    <rect width="160" height="80" rx="14" fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.35)" stroke-width="1.5"/>
+    <text x="80" y="30" fill="rgba(255,255,255,.4)" font-size="9" text-anchor="middle" letter-spacing="2" font-family="sans-serif">NOTE OBTENUE</text>
+    <text x="80" y="62" fill="#c9a84c" font-size="40" font-weight="bold" text-anchor="middle" font-family="sans-serif">16</text>
+    <text x="120" y="55" fill="rgba(201,168,76,.5)" font-size="16" font-family="sans-serif">/20</text>
+  </g>
+
+  <!-- Tags bottom right -->
+  <g transform="translate(530, 390)">
+    <rect width="76" height="22" rx="11" fill="rgba(139,32,32,.3)" stroke="rgba(139,32,32,.4)" stroke-width="1"/>
+    <text x="38" y="15" fill="rgba(255,255,255,.7)" font-size="8" text-anchor="middle" font-family="sans-serif" letter-spacing="1">BRANDING</text>
+    <rect x="84" width="100" height="22" rx="11" fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+    <text x="134" y="15" fill="rgba(201,168,76,.8)" font-size="8" text-anchor="middle" font-family="sans-serif" letter-spacing="1">BUSINESS MODEL</text>
+  </g>
+
+  <!-- Bottom label -->
+  <text x="50" y="448" fill="white" font-size="36" font-weight="bold" letter-spacing="-1.5" font-family="sans-serif">Bar à Cépage</text>
+  <text x="50" y="472" fill="rgba(255,255,255,.3)" font-size="12" letter-spacing="2" font-family="sans-serif">CONCEPT EN DÉVELOPPEMENT · LYON</text>
+</svg>

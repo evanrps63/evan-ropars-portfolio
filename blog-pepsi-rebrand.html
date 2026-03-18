@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pepsi 2023 : premier grand rebrand en 15 ans — ce qu'il faut retenir</title>
+  <meta name="description" content="Après 15 ans sans changer d'identité visuelle, Pepsi a dévoilé un nouveau logo en 2023. Retour aux fondamentaux ou prise de risque marketing ?">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f5f2eb;--bg2:#edeae0;--ink:#131110;--ink2:#3a3630;--muted:#9a9080;--accent:#e8401c;--accent2:#ff6b45;--border:rgba(19,17,16,.1);--border2:rgba(19,17,16,.18)}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;cursor:none}
+    .cur{position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:multiply}
+    .cur-dot{width:12px;height:12px;border-radius:50%;background:var(--accent2)}
+    .cur-ring{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ink);opacity:.25;transition:width .25s,height .25s,opacity .25s}
+    .cur-ring.hover{width:70px;height:70px;opacity:.5}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;background:rgba(245,242,235,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .logo{font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--ink);text-decoration:none}
+    .logo em{color:var(--accent2);font-style:normal}
+    .nav-links{display:flex;align-items:center;gap:1.5rem}
+    .nav-link{font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;cursor:none}
+    .nav-link:hover{color:var(--ink)}
+    .nav-cta{font-family:'Unbounded',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:white;background:var(--ink);border-radius:100px;padding:.55rem 1.1rem;text-decoration:none;transition:background .2s;cursor:none}
+    .nav-cta:hover{background:var(--accent)}
+    .art-hero{padding:9rem 2.5rem 4rem;max-width:860px;margin:0 auto;border-bottom:1.5px solid var(--border2)}
+    .art-tags{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem}
+    .art-tag{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .8rem;border-radius:100px;border:1.5px solid var(--border2);color:var(--muted)}
+    .art-tag.branding,.art-tag.strategie{background:#fff8e0;color:#b07d10;border-color:#f0dfa0}
+    .art-tag.identite{background:#e8f0ff;color:#1a3cff;border-color:#b4c8f5}
+    .art-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.25rem}
+    .art-hero-sub{font-size:1.05rem;color:var(--ink2);line-height:1.7;font-weight:300;margin-bottom:1.75rem}
+    .art-meta{display:flex;align-items:center;gap:1.5rem;font-size:.72rem;color:var(--muted)}
+    .art-meta-sep{opacity:.3}
+    .art-cover{max-width:860px;margin:0 auto;padding:2.5rem 2.5rem 0}
+    .art-cover img{width:100%;border-radius:16px;display:block;max-height:440px;object-fit:cover}
+    .art-body{max-width:680px;margin:0 auto;padding:3.5rem 2.5rem 5rem}
+    .art-body h2{font-family:'Unbounded',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:-.02em;margin:2.5rem 0 .9rem;line-height:1.3}
+    .art-body h3{font-family:'Unbounded',sans-serif;font-size:.9rem;font-weight:700;margin:2rem 0 .7rem;color:var(--ink2)}
+    .art-body p{font-size:.95rem;line-height:1.85;color:var(--ink2);font-weight:300;margin-bottom:1.25rem}
+    .art-body p strong{color:var(--ink);font-weight:600}
+    .art-body ul,.art-body ol{padding-left:1.4rem;margin-bottom:1.25rem}
+    .art-body li{font-size:.95rem;line-height:1.8;color:var(--ink2);font-weight:300;margin-bottom:.35rem}
+    .art-body blockquote{border-left:3px solid var(--accent2);padding:.75rem 0 .75rem 1.5rem;margin:2rem 0;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.15rem;color:var(--ink);line-height:1.6}
+    .art-body hr{border:none;border-top:1.5px solid var(--border2);margin:2.5rem 0}
+    .art-body a{color:var(--accent);text-underline-offset:3px}
+    .art-takeaway{background:var(--ink);border-radius:16px;padding:2rem;margin:2.5rem 0}
+    .art-takeaway-label{font-family:'Unbounded',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent2);margin-bottom:.75rem}
+    .art-takeaway p{color:rgba(255,255,255,.8);margin:0;font-size:.9rem;line-height:1.7}
+    .art-author{display:flex;align-items:center;gap:1.25rem;padding:2rem;background:white;border:1.5px solid var(--border);border-radius:16px;margin-top:3rem}
+    .art-author-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg2)}
+    .art-author-name{font-family:'Unbounded',sans-serif;font-size:.72rem;font-weight:700;margin-bottom:.2rem}
+    .art-author-bio{font-size:.78rem;color:var(--ink2);font-weight:300;line-height:1.6}
+    .art-nav{max-width:860px;margin:0 auto;padding:2.5rem 2.5rem 5rem;display:flex;justify-content:space-between;gap:2rem;border-top:1.5px solid var(--border2)}
+    .art-nav-btn{font-family:'Unbounded',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:gap .2s;cursor:none}
+    .art-nav-btn:hover{gap:.85rem}
+    footer{border-top:1.5px solid var(--border2);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center}
+    .foot-logo{font-family:'Unbounded',sans-serif;font-size:.7rem;font-weight:900;letter-spacing:.05em}
+    .foot-logo em{color:var(--accent2);font-style:normal}
+    footer p{font-size:.72rem;color:var(--muted)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.in{opacity:1;transform:none}
+    @media(max-width:768px){
+      nav{padding:1rem 1.25rem}
+      .nav-links{display:none}
+      .art-hero{padding:6rem 1.25rem 2.5rem}
+      .art-cover{padding:1.5rem 1.25rem 0}
+      .art-body{padding:2.5rem 1.25rem 4rem}
+      .art-nav{padding:2rem 1.25rem 4rem}
+      .art-author{flex-direction:column;align-items:flex-start}
+      footer{flex-direction:column;gap:1rem;text-align:center;padding:1.5rem}
+      img{max-width:100%}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cur" id="cd"><div class="cur-dot"></div></div>
+  <div class="cur" id="cr"><div class="cur-ring" id="crr"></div></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="logo">EVAN <em>ROPARS</em></a>
+    <div class="nav-links">
+      <a href="index.html#work" class="nav-link">Projets</a>
+      <a href="index.html#about" class="nav-link">Histoire</a>
+      <a href="index.html#data" class="nav-link">Compétences</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="mailto:evanropars63@gmail.com" class="nav-cta">Me recruter</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="art-hero reveal">
+    <div class="art-tags">
+      <span class="art-tag branding">Branding</span>
+      <span class="art-tag identite">Identité</span>
+    </div>
+    <h1>Pepsi 2023 : premier grand rebrand en 15 ans</h1>
+    <p class="art-hero-sub">Après une décennie et demie d'immobilisme visuel, PepsiCo a refondu l'identité de sa marque phare pour son 125e anniversaire. Un retour aux sources ambitieux qui mêle nostalgie et modernité — décryptage.</p>
+    <div class="art-meta">
+      <span>Evan Ropars</span>
+      <span class="art-meta-sep">—</span>
+      <span>Mai 2023</span>
+      <span class="art-meta-sep">—</span>
+      <span>5 min de lecture</span>
+    </div>
+  </header>
+
+  <!-- Cover -->
+  <div class="art-cover reveal">
+    <img src="https://images.unsplash.com/photo-1581636625402-29b2a704ef13?w=1200&q=80&auto=format&fit=crop" alt="Pepsi rebrand 2023" loading="lazy">
+  </div>
+
+  <!-- Body -->
+  <article class="art-body">
+
+    <p class="reveal">En 2008, Pepsi avait dépensé plus d'un milliard de dollars pour moderniser son identité visuelle — un investissement colossal qui avait abouti à un logo perçu comme trop lisse, trop générique, trop peu distinctif. Quinze ans plus tard, en 2023, la marque opère un virage à 180 degrés : elle revient à ses fondamentaux. Et elle le fait bien.</p>
+
+    <h2 class="reveal">Un retour au wordmark</h2>
+
+    <p class="reveal">La principale évolution du nouveau logo Pepsi est le retour du <strong>wordmark "PEPSI" à l'intérieur du globe</strong>. Dans la version 2008, le nom de la marque avait été retiré du symbole circulaire pour vivre sa vie de façon autonome. Résultat : une séparation entre l'icône et le nom qui affaiblissait la reconnaissance instantanée du tout. Le nouveau logo réintègre le nom, en capitales grasses et serrées, directement dans le cercle bleu-rouge-blanc. Une décision graphique qui semble évidente a posteriori.</p>
+
+    <p class="reveal">La typographie elle-même est entièrement nouvelle. PepsiCo a développé une police propriétaire — la <strong>Pepsi font</strong> — aux formes larges, confiantes, légèrement condensées. Moins ronde que l'ancienne, plus affirmée, elle évoque les typographies industrielles américaines des années 1970-80 tout en restant parfaitement lisible à toutes les tailles.</p>
+
+    <h2 class="reveal">La palette : du bleu électrique et du noir</h2>
+
+    <p class="reveal">Autre changement majeur : la couleur. Le bleu Pepsi passe d'un bleu ciel assez pâle à un <strong>bleu électrique profond</strong>, presque cobalt. Cette intensification chromatique répond à un défi concret : la visibilité dans les rayons, où Pepsi affronte Coca-Cola dans un environnement visuel saturé. Un bleu plus saturé capte l'œil plus efficacement.</p>
+
+    <p class="reveal">Nouveauté plus surprenante : l'introduction du <strong>noir</strong> dans la palette principale. Ce n'était pas un accident. Le noir permet à Pepsi de s'associer visuellement aux codes premium et à la gamme Pepsi Black (sans sucre), de plus en plus centrale dans la stratégie commerciale de la marque à mesure que les consommateurs réduisent leur consommation de sodas sucrés.</p>
+
+    <h3 class="reveal">Une évolution, pas une révolution</h3>
+
+    <p class="reveal">Il est important de souligner que Pepsi n'a pas tout cassé. Le globe tricolore — rouge, blanc, bleu — est maintenu. La reconnaissance de marque accumulée sur 125 ans est préservée. C'est une <em>évolution ambitieuse</em>, pas un rebrand table rase comme celui de Jaguar ou Twitter la même année.</p>
+
+    <blockquote class="reveal">"Le meilleur rebrand est celui que les gens ne remarquent pas consciemment, mais qui les fait ressentir que la marque est plus moderne, plus forte, plus désirable." — Mauro Porcini, Chief Design Officer, PepsiCo</blockquote>
+
+    <h2 class="reveal">Le contexte : 125 ans et la guerre du cola</h2>
+
+    <p class="reveal">Le timing du rebrand n'est pas anodin. 2023 marque le <strong>125e anniversaire de Pepsi</strong> — une occasion symbolique idéale pour opérer un changement d'identité sans que celui-ci semble arbitraire. Anniversaire rime avec légitimité : on peut se réinventer quand on célèbre.</p>
+
+    <p class="reveal">Mais le contexte concurrentiel est tout aussi déterminant. Coca-Cola a, ces dernières années, renforcé sa présence visuelle sur les réseaux sociaux avec un branding cohérent et assertif. Pepsi, avec son identité vieillissante, paraissait en retrait. Ce rebrand est aussi une réponse directe à la pression concurrentielle — un signal envoyé aux retailers, aux partenaires et aux consommateurs : Pepsi est toujours là, et elle joue pour gagner.</p>
+
+    <ul class="reveal">
+      <li>Wordmark réintégré dans le globe pour une reconnaissance renforcée</li>
+      <li>Typographie propriétaire plus affirmée et plus contemporaine</li>
+      <li>Bleu électrique profond pour plus de visibilité en rayon</li>
+      <li>Introduction du noir pour ancrer la gamme sans sucre dans l'identité principale</li>
+      <li>Continuité des codes historiques (globe tricolore) pour préserver l'equity de marque</li>
+    </ul>
+
+    <hr>
+
+    <h2 class="reveal">Les leçons pour l'identité de marque</h2>
+
+    <p class="reveal">Le rebrand Pepsi 2023 illustre parfaitement ce qu'est une <strong>modernisation réussie</strong> : on améliore ce qui existe sans rompre avec ce qui fonctionne. Contrairement à la tendance "flat design à tout prix" qui a produit des logos interchangeables dans les années 2010, Pepsi a choisi d'assumer ses codes historiques tout en les rendant plus percutants.</p>
+
+    <p class="reveal">C'est aussi une leçon sur la nostalgie comme outil stratégique. En revenant à un wordmark intégré, Pepsi active des décennies de mémoire collective. Les consommateurs qui ont grandi avec le logo des années 1990 ressentent une familiarité immédiate — même si le logo est objectivement différent. La nostalgie évoquée, pas imitée.</p>
+
+    <div class="art-takeaway reveal">
+      <div class="art-takeaway-label">À retenir</div>
+      <p>Un grand rebrand de marque patrimoniale ne consiste pas à tout effacer, mais à amplifier ce qui rend la marque unique. Pepsi a su identifier ses actifs visuels fondamentaux — le globe, les couleurs nationales, le nom en capitales — et les rendre simplement plus puissants. La nostalgie n'est pas un frein à la modernité : bien utilisée, c'est un levier de désirabilité extraordinaire.</p>
+    </div>
+
+    <p class="reveal">Le succès du rebrand Pepsi s'est confirmé dans les mois suivants son lancement : les campagnes publicitaires construites autour de la nouvelle identité ont généré un engagement digital nettement supérieur aux années précédentes. La preuve qu'une identité visuelle forte amplifie tout ce qu'elle touche.</p>
+
+    <!-- Author card -->
+    <div class="art-author reveal">
+      <div class="art-author-avatar"></div>
+      <div>
+        <div class="art-author-name">Evan Ropars</div>
+        <p class="art-author-bio">Designer & stratège de marque. Passionné par les identités visuelles qui racontent une histoire et les rebrands qui font réfléchir.</p>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- Article nav -->
+  <nav class="art-nav">
+    <a href="blog-jaguar-rebrand.html" class="art-nav-btn">← Article précédent</a>
+    <a href="blog-twitter-x-rebrand.html" class="art-nav-btn">Article suivant →</a>
+  </nav>
+
+  <!-- Footer -->
+  <footer>
+    <div class="foot-logo">Evan<em>.</em></div>
+    <p>© 2024 Evan Ropars — Design & Stratégie</p>
+  </footer>
+
+  <script>
+    const cd=document.getElementById('cd'),crr=document.getElementById('crr');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.transform=`translate(${mx-6}px,${my-6}px)`});
+    (function loop(){rx+=(mx-rx-22)*.1;ry+=(my-ry-22)*.1;document.getElementById('cr').style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>crr.classList.add('hover'));el.addEventListener('mouseleave',()=>crr.classList.remove('hover'))});
+    const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+
+</body>
+</html>
