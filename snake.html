@@ -1188,19 +1188,22 @@ let swipeStartX = 0;
 let swipeStartY = 0;
 const SWIPE_MIN = 30;
 
-canvas.addEventListener('touchstart', e => {
+document.addEventListener('touchstart', e => {
+  if (!running) return;
   swipeStartX = e.touches[0].clientX;
   swipeStartY = e.touches[0].clientY;
-}, { passive: true });
+  e.preventDefault();
+}, { passive: false });
 
-canvas.addEventListener('touchend', e => {
+document.addEventListener('touchend', e => {
+  if (!running) return;
   const dx = e.changedTouches[0].clientX - swipeStartX;
   const dy = e.changedTouches[0].clientY - swipeStartY;
   if (Math.abs(dx) < SWIPE_MIN && Math.abs(dy) < SWIPE_MIN) return;
-  const dir = Math.abs(dx) > Math.abs(dy)
+  const swipeDir = Math.abs(dx) > Math.abs(dy)
     ? (dx > 0 ? { x:1, y:0 } : { x:-1, y:0 })
     : (dy > 0 ? { x:0, y:1 } : { x:0, y:-1 });
-  applyDir(dir);
+  applyDir(swipeDir);
 }, { passive: true });
 
 document.getElementById('joystickPause').addEventListener('touchstart', e => {
@@ -1216,3 +1219,4 @@ document.getElementById('name-input').focus();
 </script>
 </body>
 </html>
+
