@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merci — Evan Ropars</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+
+    :root {
+      --bg:     #0d0b08;
+      --bg2:    #141209;
+      --ink:    #f5f0e8;
+      --muted:  rgba(245,240,232,.35);
+      --gold:   #c9a84c;
+      --gold2:  #e8c96e;
+      --border: rgba(245,240,232,.08);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CURSOR ── */
+    .cur { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: screen }
+    @media (pointer: coarse) { .cur { display: none } body { cursor: auto } }
+    .cur-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold) }
+    .cur-ring { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--gold); opacity: .3; transition: width .25s, height .25s, opacity .25s }
+    .cur-ring.hover { width: 64px; height: 64px; opacity: .55 }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 2.5rem;
+      background: rgba(13,11,8,.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border)
+    }
+    .logo { font-family: 'Unbounded', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .05em; color: var(--ink); text-decoration: none }
+    .logo em { color: var(--gold); font-style: normal }
+    .back-btn { font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; cursor: none }
+    .back-btn:hover { color: var(--ink) }
+
+    /* ── STARS ── */
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden }
+    .star {
+      position: absolute; border-radius: 50%; background: white;
+      animation: twinkle var(--d, 3s) var(--delay, 0s) ease-in-out infinite alternate
+    }
+    @keyframes twinkle { from { opacity: var(--min, .1) } to { opacity: var(--max, .6) } }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; padding: 8rem 2rem 6rem;
+      position: relative; z-index: 1
+    }
+    .hero-eyebrow {
+      font-family: 'Unbounded', sans-serif; font-size: .55rem; font-weight: 700;
+      letter-spacing: .25em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 2.5rem; opacity: 0; animation: fadeUp .8s .3s ease forwards
+    }
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(5rem, 16vw, 13rem);
+      font-weight: 400; font-style: italic; line-height: .9;
+      letter-spacing: -.03em; color: var(--ink);
+      opacity: 0; animation: fadeUp .9s .5s ease forwards
+    }
+    .hero h1 em { color: var(--gold); font-style: normal }
+    .hero-sub {
+      max-width: 560px; margin-top: 3rem;
+      font-family: 'Instrument Serif', serif; font-size: 1.15rem; font-style: italic;
+      color: var(--muted); line-height: 1.75;
+      opacity: 0; animation: fadeUp .8s .7s ease forwards
+    }
+    .hero-sub strong { color: rgba(245,240,232,.7); font-style: normal; font-weight: 400 }
+    .scroll-hint {
+      margin-top: 4rem; font-size: .58rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--muted); display: flex; align-items: center; gap: .75rem;
+      opacity: 0; animation: fadeUp .7s 1s ease forwards
+    }
+    .scroll-hint::before, .scroll-hint::after {
+      content: ''; width: 32px; height: 1px; background: var(--muted)
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px) } to { opacity: 1; transform: none } }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1) }
+    .reveal.in { opacity: 1; transform: none }
+    .reveal-d1 { transition-delay: .1s }
+    .reveal-d2 { transition-delay: .2s }
+    .reveal-d3 { transition-delay: .3s }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'Unbounded', sans-serif; font-size: .5rem; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: .85rem
+    }
+
+    /* ── LETTRE INTRO ── */
+    .lettre {
+      padding: 6rem 2.5rem; max-width: 720px; margin: 0 auto;
+      position: relative; z-index: 1; border-bottom: 1px solid var(--border)
+    }
+    .lettre-text {
+      font-family: 'Instrument Serif', serif; font-size: clamp(1.05rem, 2vw, 1.3rem);
+      font-style: italic; line-height: 1.85; color: rgba(245,240,232,.7)
+    }
+    .lettre-text strong { color: var(--ink); font-style: normal; font-weight: 400 }
+    .lettre-signature {
+      margin-top: 3rem; font-family: 'Instrument Serif', serif;
+      font-size: 1.1rem; font-style: italic; color: var(--gold)
+    }
+
+    /* ── GROUPES ── */
+    .groupe { padding: 6rem 2.5rem; border-bottom: 1px solid var(--border); position: relative; z-index: 1 }
+    .groupe-header { margin-bottom: 3.5rem }
+    .groupe-title {
+      font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 5vw, 3.5rem);
+      font-style: italic; line-height: 1; color: var(--ink)
+    }
+    .groupe-desc {
+      margin-top: 1rem; font-size: .85rem; color: var(--muted); line-height: 1.7; max-width: 480px
+    }
+
+    /* ── CARTES PERSONNES ── */
+    .people-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border) }
+    .person-card {
+      background: var(--bg); padding: 2rem 1.75rem;
+      transition: background .25s
+    }
+    .person-card:hover { background: var(--bg2) }
+    .person-name {
+      font-family: 'Unbounded', sans-serif; font-size: .78rem; font-weight: 700;
+      letter-spacing: -.01em; color: var(--ink); margin-bottom: .4rem
+    }
+    .person-role {
+      font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.1rem; font-weight: 500
+    }
+    .person-text {
+      font-family: 'Instrument Serif', serif; font-size: .92rem; font-style: italic;
+      color: var(--muted); line-height: 1.7
+    }
+
+    /* ── PERSONNE FEATURED (pleine largeur) ── */
+    .person-card.featured {
+      grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; align-items: center; padding: 3rem 2.5rem
+    }
+    .person-card.featured .person-name { font-size: 1.1rem }
+    .person-card.featured .person-text { font-size: 1.05rem }
+
+    /* ── MOT FINAL ── */
+    .final {
+      padding: 8rem 2.5rem; text-align: center; position: relative; z-index: 1;
+      max-width: 680px; margin: 0 auto
+    }
+    .final-quote {
+      font-family: 'Instrument Serif', serif; font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-style: italic; color: var(--ink); line-height: 1.4; margin-bottom: 3rem
+    }
+    .final-quote em { color: var(--gold); font-style: normal }
+    .final-sub {
+      font-size: .8rem; color: var(--muted); line-height: 1.8; max-width: 460px; margin: 0 auto
+    }
+
+    /* ── BACK ── */
+    .back-section {
+      padding: 3rem 2.5rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: center; position: relative; z-index: 1
+    }
+    .back-link {
+      font-family: 'Unbounded', sans-serif; font-size: .62rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: color .2s; cursor: none
+    }
+    .back-link:hover { color: var(--gold) }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 768px) {
+      nav { padding: 1rem 1.25rem }
+      .lettre { padding: 4rem 1.25rem }
+      .groupe { padding: 4rem 1.25rem }
+      .people-grid { grid-template-columns: 1fr 1fr }
+      .person-card.featured { grid-template-columns: 1fr; gap: 1.5rem }
+      .final { padding: 5rem 1.25rem }
+    }
+    @media(max-width: 480px) {
+      .hero h1 { font-size: 4.5rem }
+      .people-grid { grid-template-columns: 1fr }
+      .person-card.featured { grid-column: 1 }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cur" id="cd"><div class="cur-dot"></div></div>
+  <div class="cur" id="cr"><div class="cur-ring" id="crr"></div></div>
+
+  <!-- Étoiles générées en JS -->
+  <div class="stars" id="stars"></div>
+
+  <nav>
+    <a href="index.html" class="logo">EVAN <em>ROPARS</em></a>
+    <a href="index.html" class="back-btn">← Retour au portfolio</a>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-eyebrow">Une page que personne ne m'a demandé d'écrire</div>
+    <h1>Mer<em>ci.</em></h1>
+    <p class="hero-sub">
+      Personne n'arrive quelque part seul.<br>
+      Cette page est pour ceux qui ont été là — <strong>de près, de loin, au bon moment.</strong>
+    </p>
+    <div class="scroll-hint">Continuer à lire</div>
+  </section>
+
+  <!-- ── LETTRE ── -->
+  <div class="lettre reveal">
+    <div class="section-label">Avant tout</div>
+    <p class="lettre-text">
+      J'aurais pu faire un portfolio propre, technique, optimisé pour les recruteurs,
+      et passer à autre chose. Mais je crois que ce qu'on construit ne sort pas de nulle part.
+      Ça vient de <strong>conversations, de personnes, de moments qui changent quelque chose en vous</strong>
+      sans qu'on s'en rende forcément compte sur le coup.<br><br>
+      Cette page, c'est ma façon de ne pas faire semblant que j'ai fait ça tout seul.
+    </p>
+    <div class="lettre-signature">— Evan</div>
+  </div>
+
+  <!-- ── FAMILLE ── -->
+  <section class="groupe">
+    <div class="groupe-header reveal">
+      <div class="section-label">Les fondations</div>
+      <div class="groupe-title">Famille</div>
+      <p class="groupe-desc">Ceux qui ont tout rendu possible avant même que je comprenne ce que ça voulait dire.</p>
+    </div>
+    <div class="people-grid">
+      <div class="person-card featured reveal">
+        <div>
+          <div class="person-name">[Prénom] · [Prénom]</div>
+          <div class="person-role">Mes parents</div>
+        </div>
+        <div class="person-text">
+          "[Ce qu'ils t'ont donné — leur soutien, leurs valeurs, leur façon de t'avoir appris à travailler...]"
+        </div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[Ce que cette personne t'a apporté ou représente pour toi...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d1">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[Ce que cette personne t'a apporté ou représente pour toi...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d2">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[Ce que cette personne t'a apporté ou représente pour toi...]"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MENTORS ── -->
+  <section class="groupe">
+    <div class="groupe-header reveal">
+      <div class="section-label">Ceux qui ont cru avant moi</div>
+      <div class="groupe-title">Mentors &<br>professeurs</div>
+      <p class="groupe-desc">Ils m'ont fait confiance sur des choses pour lesquelles je n'étais pas encore prêt. C'est pour ça que je le suis devenu.</p>
+    </div>
+    <div class="people-grid">
+      <div class="person-card reveal">
+        <div class="person-name">[Prénom Nom]</div>
+        <div class="person-role">Professeur · IUT d'Allier</div>
+        <div class="person-text">"[Ce qu'il/elle t'a appris ou ce moment qui a compté...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d1">
+        <div class="person-name">[Prénom Nom]</div>
+        <div class="person-role">Responsable · Venandi</div>
+        <div class="person-text">"[Ce que cette relation professionnelle t'a apporté...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d2">
+        <div class="person-name">[Prénom Nom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[Ce que cette personne t'a appris ou donné...]"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ÉQUIPE ── -->
+  <section class="groupe">
+    <div class="groupe-header reveal">
+      <div class="section-label">Ceux avec qui j'ai construit</div>
+      <div class="groupe-title">L'équipe</div>
+      <p class="groupe-desc">Manager c'est bien. Travailler avec des gens qui te donnent envie de le faire encore mieux, c'est autre chose.</p>
+    </div>
+    <div class="people-grid">
+      <div class="person-card reveal">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">Service TIC · IUT d'Allier</div>
+        <div class="person-text">"[Ce que cette collaboration t'a apporté, ce que tu retiens de cette personne...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d1">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">Service TIC · IUT d'Allier</div>
+        <div class="person-text">"[Ce que cette collaboration t'a apporté, ce que tu retiens de cette personne...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d2">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[Ce que cette collaboration t'a apporté...]"</div>
+      </div>
+      <div class="person-card reveal">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d1">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d2">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[...]"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── AMIS ── -->
+  <section class="groupe">
+    <div class="groupe-header reveal">
+      <div class="section-label">Ceux qui étaient là</div>
+      <div class="groupe-title">Les amis</div>
+      <p class="groupe-desc">Pas dans un contexte pro, pas pour une raison particulière. Juste là.</p>
+    </div>
+    <div class="people-grid">
+      <div class="person-card reveal">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[Ce que cette amitié t'a apporté, un souvenir, une phrase qu'il/elle t'a dite...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d1">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[...]"</div>
+      </div>
+      <div class="person-card reveal reveal-d2">
+        <div class="person-name">[Prénom]</div>
+        <div class="person-role">À compléter</div>
+        <div class="person-text">"[...]"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MOT FINAL ── -->
+  <div class="final reveal">
+    <p class="final-quote">
+      "On devient qui on est grâce à ceux<br>qui ont <em>cru en nous</em> avant qu'on y croie soi-même."
+    </p>
+    <p class="final-sub">
+      Cette page ne sera jamais complète — parce que les gens qui comptent continuent d'arriver.
+      Mais elle sera toujours honnête.
+    </p>
+  </div>
+
+  <div class="back-section">
+    <a href="index.html" class="back-link">← Retour au portfolio</a>
+  </div>
+
+  <script>
+    // Curseur
+    const cd = document.getElementById('cd'), crr = document.getElementById('crr');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    const isMobile = window.matchMedia('(pointer: coarse)').matches;
+    if (!isMobile) {
+      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cd.style.transform = `translate(${mx-5}px,${my-5}px)` });
+      (function loop() { rx += (mx-rx-20)*.1; ry += (my-ry-20)*.1; document.getElementById('cr').style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(loop) })();
+      document.querySelectorAll('a,button').forEach(el => { el.addEventListener('mouseenter', () => crr.classList.add('hover')); el.addEventListener('mouseleave', () => crr.classList.remove('hover')) });
+    }
+
+    // Étoiles
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 160; i++) {
+      const s = document.createElement('div');
+      const size = Math.random() * 2.2 + .4;
+      s.className = 'star';
+      s.style.cssText = `
+        left:${Math.random()*100}%;
+        top:${Math.random()*100}%;
+        width:${size}px; height:${size}px;
+        --d:${2+Math.random()*4}s;
+        --delay:${Math.random()*5}s;
+        --min:${.05+Math.random()*.15};
+        --max:${.3+Math.random()*.5};
+      `;
+      starsEl.appendChild(s);
+    }
+
+    // Reveal
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in') });
+    }, { threshold: .1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

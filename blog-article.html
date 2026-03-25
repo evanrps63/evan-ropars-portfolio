@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✏️ SEO — À MODIFIER POUR CHAQUE ARTICLE -->
+  <title>Titre de l'article — Evan Ropars</title>
+  <meta name="description" content="Description de l'article en 150 caractères max — optimisée pour Google.">
+  <!-- ✏️ FIN SEO -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f5f2eb;--bg2:#edeae0;--ink:#131110;--ink2:#3a3630;--muted:#9a9080;--accent:#e8401c;--accent2:#ff6b45;--border:rgba(19,17,16,.1);--border2:rgba(19,17,16,.18)}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;cursor:none}
+
+    .cur{position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:multiply}
+    .cur-dot{width:12px;height:12px;border-radius:50%;background:var(--accent2)}
+    .cur-ring{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ink);opacity:.25;transition:width .25s,height .25s,opacity .25s}
+    .cur-ring.hover{width:70px;height:70px;opacity:.5}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;background:rgba(245,242,235,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .logo{font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--ink);text-decoration:none}
+    .logo em{color:var(--accent2);font-style:normal}
+    .back-btn{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;cursor:none}
+    .back-btn:hover{color:var(--ink)}
+
+    /* HERO ARTICLE */
+    .art-hero{padding:9rem 2.5rem 4rem;max-width:860px;margin:0 auto;border-bottom:1.5px solid var(--border2)}
+    .art-tags{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem}
+    .art-tag{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .8rem;border-radius:100px;border:1.5px solid var(--border2);color:var(--muted)}
+    .art-tag.seo{background:#e8f5ef;color:#1a6b3a;border-color:#b8dfc9}
+    .art-tag.ads{background:#fff0eb;color:var(--accent);border-color:#f5c4b4}
+    .art-tag.data{background:#e8f0ff;color:#1a3cff;border-color:#b4c8f5}
+    .art-tag.social{background:#fdf0f7;color:#c13584;border-color:#f0c0de}
+    .art-tag.strategie{background:#fff8e0;color:#b07d10;border-color:#f0dfa0}
+    .art-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.25rem}
+    .art-hero-sub{font-size:1.05rem;color:var(--ink2);line-height:1.7;font-weight:300;margin-bottom:1.75rem}
+    .art-meta{display:flex;align-items:center;gap:1.5rem;font-size:.72rem;color:var(--muted)}
+    .art-meta-sep{opacity:.3}
+
+    /* COVER IMAGE */
+    .art-cover{max-width:860px;margin:0 auto;padding:2.5rem 2.5rem 0}
+    .art-cover img{width:100%;border-radius:16px;display:block;max-height:440px;object-fit:cover}
+    .art-cover-placeholder{width:100%;border-radius:16px;background:var(--bg2);height:360px;display:flex;align-items:center;justify-content:center;font-size:5rem;border:1.5px solid var(--border)}
+
+    /* CONTENU ARTICLE */
+    .art-body{max-width:680px;margin:0 auto;padding:3.5rem 2.5rem 5rem}
+
+    /* TYPOGRAPHY */
+    .art-body h2{font-family:'Unbounded',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:-.02em;margin:2.5rem 0 .9rem;line-height:1.3}
+    .art-body h3{font-family:'Unbounded',sans-serif;font-size:.9rem;font-weight:700;margin:2rem 0 .7rem;color:var(--ink2)}
+    .art-body p{font-size:.95rem;line-height:1.85;color:var(--ink2);font-weight:300;margin-bottom:1.25rem}
+    .art-body p strong{color:var(--ink);font-weight:600}
+    .art-body ul,.art-body ol{padding-left:1.4rem;margin-bottom:1.25rem}
+    .art-body li{font-size:.95rem;line-height:1.8;color:var(--ink2);font-weight:300;margin-bottom:.35rem}
+    .art-body blockquote{border-left:3px solid var(--accent2);padding:.75rem 0 .75rem 1.5rem;margin:2rem 0;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.15rem;color:var(--ink);line-height:1.6}
+    .art-body hr{border:none;border-top:1.5px solid var(--border2);margin:2.5rem 0}
+    .art-body a{color:var(--accent);text-underline-offset:3px}
+    .art-body a:hover{color:var(--accent2)}
+
+    /* KEY TAKEAWAY */
+    .art-takeaway{background:var(--ink);border-radius:16px;padding:2rem;margin:2.5rem 0}
+    .art-takeaway-label{font-family:'Unbounded',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent2);margin-bottom:.75rem}
+    .art-takeaway p{color:rgba(255,255,255,.8);margin:0;font-size:.9rem;line-height:1.7}
+
+    /* AUTEUR */
+    .art-author{display:flex;align-items:center;gap:1.25rem;padding:2rem;background:white;border:1.5px solid var(--border);border-radius:16px;margin-top:3rem}
+    .art-author-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg2)}
+    .art-author-name{font-family:'Unbounded',sans-serif;font-size:.72rem;font-weight:700;margin-bottom:.2rem}
+    .art-author-bio{font-size:.78rem;color:var(--ink2);font-weight:300;line-height:1.6}
+
+    /* NAV ARTICLES */
+    .art-nav{max-width:860px;margin:0 auto;padding:0 2.5rem 5rem;display:flex;justify-content:space-between;gap:2rem;border-top:1.5px solid var(--border2);padding-top:2.5rem}
+    .art-nav-btn{font-family:'Unbounded',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:gap .2s;cursor:none}
+    .art-nav-btn:hover{gap:.85rem}
+
+    footer{border-top:1.5px solid var(--border2);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center}
+    .foot-logo{font-family:'Unbounded',sans-serif;font-size:.7rem;font-weight:900;letter-spacing:.05em}
+    .foot-logo em{color:var(--accent2);font-style:normal}
+    footer p{font-size:.72rem;color:var(--muted)}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.in{opacity:1;transform:none}
+
+    @media(max-width:768px){
+      nav{padding:1rem 1.5rem}
+      .art-hero,.art-cover,.art-body,.art-nav{padding-left:1.5rem;padding-right:1.5rem}
+      .art-hero{padding-top:7rem}
+    }
+  </style>
+</head>
+<body>
+
+<div class="cur" id="cd"><div class="cur-dot"></div></div>
+<div class="cur" id="cr"><div class="cur-ring" id="crr"></div></div>
+
+<nav>
+  <a href="index.html" class="logo">EVAN <em>ROPARS</em></a>
+  <a href="blog.html" class="back-btn">← Retour au blog</a>
+</nav>
+
+<!-- HERO ARTICLE — ✏️ À MODIFIER -->
+<header class="art-hero reveal">
+  <div class="art-tags">
+    <span class="art-tag seo">SEO</span>
+    <span class="art-tag strategie">Stratégie</span>
+  </div>
+  <h1>Comment j'ai optimisé 40+ pages SEO pour Venandi, retour d'expérience</h1>
+  <p class="art-hero-sub">Audit on-page, recherche de mots-clés, optimisation des balises et suivi des positions : tout ce que j'ai mis en place pour faire monter le site dans les résultats Google.</p>
+  <div class="art-meta">
+    <span>Evan Ropars</span>
+    <span class="art-meta-sep">·</span>
+    <span>Mars 2025</span>
+    <span class="art-meta-sep">·</span>
+    <span>5 min de lecture</span>
+  </div>
+</header>
+
+<!-- COVER — ✏️ Décommente et remplace src quand tu as ton image -->
+<!-- <div class="art-cover reveal">
+  <img src="mon-image.jpg" alt="Description de l'image" />
+</div> -->
+
+<!-- CORPS DE L'ARTICLE — ✏️ C'EST ICI QUE TU ÉCRIS -->
+<main class="art-body reveal">
+
+  <p>Quand je suis arrivé chez Venandi, le site Shopify existait mais n'était pas du tout optimisé pour le référencement naturel. Pas de balises title cohérentes, des descriptions vides, aucune structure de mots-clés. J'ai décidé d'attaquer ça méthodiquement.</p>
+
+  <h2>1. L'audit de départ</h2>
+  <p>Avant de toucher quoi que ce soit, j'ai fait un audit complet avec <strong>Google Search Console</strong> et <strong>Semrush</strong>. L'objectif : comprendre où on était, quelles pages existaient déjà et lesquelles avaient un potentiel.</p>
+  <ul>
+    <li>Analyse des positions existantes (même mauvaises, elles donnent une direction)</li>
+    <li>Détection des pages sans balise title ou description</li>
+    <li>Repérage des cannibalisations de mots-clés</li>
+  </ul>
+
+  <blockquote>Le référencement, c'est 20% de technique et 80% de compréhension de ce que cherchent vraiment les gens.</blockquote>
+
+  <h2>2. La recherche de mots-clés</h2>
+  <p>Dans le secteur du gibier, les volumes de recherche sont faibles mais les intentions sont très précises. J'ai travaillé sur des <strong>mots-clés longue traîne</strong> plutôt que sur des termes génériques impossibles à cibler.</p>
+
+  <div class="art-takeaway">
+    <div class="art-takeaway-label">💡 À retenir</div>
+    <p>Sur une niche comme le gibier, mieux vaut être 1er sur "saucisson de sanglier français artisanal" que 50ème sur "charcuterie". Le volume est moindre, mais le taux de conversion explose.</p>
+  </div>
+
+  <h2>3. L'optimisation page par page</h2>
+  <p>Avec 40+ pages à traiter, j'ai créé un tableau de suivi pour ne rien oublier. Chaque page avait sa fiche : mot-clé cible, title actuel, title optimisé, description, contenu à retravailler.</p>
+
+  <hr>
+
+  <p>Au bout de 3 mois, les premières positions ont commencé à bouger. Pas de miracle, juste du travail régulier et de la rigueur.</p>
+
+  <!-- AUTEUR -->
+  <div class="art-author">
+    <img src="evan_photo.jpg" alt="Evan Ropars" class="art-author-avatar" />
+    <div>
+      <div class="art-author-name">Evan Ropars</div>
+      <p class="art-author-bio">Étudiant en Bachelor Marketing Digital, alternant chez Venandi. Je partage ce que j'apprends sur le terrain, sans filtre.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- NAVIGATION ARTICLES -->
+<div class="art-nav reveal">
+  <a href="blog.html" class="art-nav-btn">← Tous les articles</a>
+  <a href="blog.html" class="art-nav-btn">Article suivant →</a>
+</div>
+
+<footer>
+  <div class="foot-logo">EVAN <em>ROPARS</em></div>
+  <p>Blog — Marketing Digital & Data</p>
+</footer>
+
+<script>
+const cd=document.getElementById('cd'),crr=document.getElementById('crr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.transform=`translate(${mx-6}px,${my-6}px)`});
+(function loop(){rx+=(mx-rx-22)*.1;ry+=(my-ry-22)*.1;document.getElementById('cr').style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>crr.classList.add('hover'));el.addEventListener('mouseleave',()=>crr.classList.remove('hover'))});
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

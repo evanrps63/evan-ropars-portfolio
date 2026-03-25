@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service TIC — Evan Ropars</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet">
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+
+      :root {
+        --bg:      #f5f4f0;
+        --bg2:     #eceae3;
+        --ink:     #0d0c0a;
+        --ink2:    #3a3830;
+        --muted:   #8a8880;
+        --accent:  #0051ff;
+        --accent2: #4d85ff;
+        --tic:     #0d0c0a;
+        --border:  rgba(13,12,10,.1);
+        --border2: rgba(13,12,10,.18)
+      }
+
+      html { scroll-behavior: smooth; overflow-x: hidden }
+
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        overflow-x: hidden;
+        cursor: none
+      }
+
+      /* ── CURSOR ── */
+      .cur { position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: multiply }
+      @media (pointer: coarse) { .cur { display: none } }
+      .cur-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent) }
+      .cur-ring { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--ink); opacity: .25; transition: width .25s, height .25s, opacity .25s }
+      .cur-ring.hover { width: 70px; height: 70px; opacity: .5 }
+
+      /* ── NAV ── */
+      nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 1.25rem 2.5rem;
+        background: rgba(245,244,240,.95); backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border)
+      }
+      .logo { font-family: 'Unbounded', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .05em; color: var(--ink); text-decoration: none }
+      .logo em { color: var(--accent); font-style: normal }
+      .back-btn { display: flex; align-items: center; gap: .6rem; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; cursor: none }
+      .back-btn:hover { color: var(--ink) }
+
+      /* ── HERO ── */
+      .hero {
+        min-height: 92vh;
+        background: var(--tic);
+        display: flex; flex-direction: column; justify-content: flex-end;
+        padding: 8rem 2.5rem 5rem;
+        position: relative; overflow: hidden
+      }
+      .hero::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse at 80% 20%, rgba(0,81,255,.18) 0%, transparent 55%),
+                    radial-gradient(ellipse at 10% 90%, rgba(0,81,255,.1) 0%, transparent 50%)
+      }
+      .hero-bg-text {
+        position: absolute; right: -1rem; bottom: -2rem;
+        font-family: 'Unbounded', sans-serif; font-size: clamp(6rem,16vw,14rem);
+        font-weight: 900; line-height: 1; letter-spacing: -.04em;
+        color: rgba(255,255,255,.03); pointer-events: none; white-space: nowrap
+      }
+      .hero-inner { position: relative; z-index: 1 }
+      .hero-eyebrow {
+        display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem
+      }
+      .tic-logo {
+        width: 52px; height: 52px; border-radius: 12px;
+        background: var(--accent); display: flex; align-items: center; justify-content: center;
+        font-family: 'Unbounded', sans-serif; font-size: .8rem; font-weight: 900; color: white;
+        letter-spacing: -.02em; flex-shrink: 0
+      }
+      .hero-org {
+        font-family: 'Unbounded', sans-serif; font-size: .58rem; font-weight: 700;
+        letter-spacing: .15em; text-transform: uppercase; color: var(--accent2)
+      }
+      .hero-location {
+        font-size: .68rem; color: rgba(255,255,255,.4); margin-top: .2rem; letter-spacing: .05em
+      }
+      .hero h1 {
+        font-family: 'Unbounded', sans-serif;
+        font-size: clamp(2.8rem, 7vw, 6.5rem);
+        font-weight: 900; line-height: .95; letter-spacing: -.04em;
+        color: white; margin-bottom: 1.5rem
+      }
+      .hero h1 em {
+        font-style: italic; font-family: 'Instrument Serif', serif;
+        color: var(--accent2); font-size: 90%; font-weight: 400
+      }
+      .hero-sub {
+        font-size: 1rem; color: rgba(255,255,255,.5); line-height: 1.75;
+        max-width: 580px; font-weight: 300; margin-bottom: 2.5rem
+      }
+      .hero-sub strong { color: rgba(255,255,255,.85); font-weight: 500 }
+      .hero-tags { display: flex; gap: .6rem; flex-wrap: wrap }
+      .hero-tag {
+        font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+        padding: .3rem .85rem; border: 1px solid rgba(255,255,255,.15);
+        border-radius: 100px; color: rgba(255,255,255,.5)
+      }
+      .hero-tag.hi {
+        background: var(--accent); border-color: var(--accent); color: white
+      }
+
+      /* ── STATS ROW ── */
+      .stats-row {
+        display: grid; grid-template-columns: repeat(4,1fr);
+        border-bottom: 1.5px solid var(--border2)
+      }
+      .stat-cell {
+        padding: 2.5rem 2rem; border-right: 1.5px solid var(--border2)
+      }
+      .stat-cell:last-child { border-right: none }
+      .stat-n {
+        font-family: 'Unbounded', sans-serif; font-size: clamp(1.6rem,3vw,2.6rem);
+        font-weight: 900; color: var(--accent); margin-bottom: .4rem
+      }
+      .stat-l { font-size: .7rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; line-height: 1.5 }
+
+      /* ── SECTION LABEL ── */
+      .section-label {
+        font-family: 'Unbounded', sans-serif; font-size: .55rem; font-weight: 700;
+        letter-spacing: .2em; text-transform: uppercase; color: var(--accent);
+        margin-bottom: .75rem
+      }
+      h2.serif {
+        font-family: 'Instrument Serif', serif; font-size: clamp(1.8rem,4vw,3rem);
+        font-style: italic; line-height: 1.1; margin-bottom: 2rem
+      }
+
+      /* ── REVEAL ── */
+      .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1) }
+      .reveal.in { opacity: 1; transform: none }
+      .reveal-d1 { transition-delay: .08s }
+      .reveal-d2 { transition-delay: .16s }
+      .reveal-d3 { transition-delay: .24s }
+
+      /* ── CONTEXTE ── */
+      .contexte {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+        padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2)
+      }
+      .contexte p {
+        font-size: .95rem; color: var(--ink2); line-height: 1.8; font-weight: 300; margin-bottom: 1rem
+      }
+      .partner-chips { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1.5rem }
+      .partner-chip {
+        background: white; border: 1.5px solid var(--border2);
+        border-radius: 100px; padding: .35rem .9rem;
+        font-size: .65rem; font-weight: 500; color: var(--ink2)
+      }
+      .ctx-aside {
+        background: var(--ink); border-radius: 20px; overflow: hidden
+      }
+      .ctx-aside-top {
+        padding: 2rem; border-bottom: 1px solid rgba(255,255,255,.07)
+      }
+      .ctx-aside-label {
+        font-family: 'Unbounded', sans-serif; font-size: .5rem; font-weight: 700;
+        letter-spacing: .18em; text-transform: uppercase;
+        color: rgba(255,255,255,.35); margin-bottom: 1rem
+      }
+      .ctx-aside-title {
+        font-family: 'Instrument Serif', serif; font-size: 1.4rem;
+        font-style: italic; color: white; line-height: 1.25; margin-bottom: .75rem
+      }
+      .ctx-aside-sub { font-size: .8rem; color: rgba(255,255,255,.45); line-height: 1.65; font-weight: 300 }
+      .ctx-facts { padding: 0 }
+      .ctx-fact {
+        display: flex; align-items: center; gap: 1rem;
+        padding: 1rem 2rem; border-bottom: 1px solid rgba(255,255,255,.06)
+      }
+      .ctx-fact:last-child { border-bottom: none }
+      .ctx-fact-icon { font-size: 1.1rem; flex-shrink: 0 }
+      .ctx-fact-text { font-size: .78rem; color: rgba(255,255,255,.6); line-height: 1.5 }
+      .ctx-fact-text strong { color: rgba(255,255,255,.88); font-weight: 500 }
+
+      /* ── TIMELINE ── */
+      .timeline-section { padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2) }
+      .timeline-wrap { margin-top: 3rem; position: relative }
+      .timeline-line {
+        position: absolute; left: 50%; top: 0; bottom: 0;
+        width: 1.5px; background: var(--border2); transform: translateX(-50%)
+      }
+      .tl-phase {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+        margin-bottom: 3rem; position: relative
+      }
+      .tl-phase:last-child { margin-bottom: 0 }
+      .tl-left { padding-right: 3.5rem; text-align: right }
+      .tl-right { padding-left: 3.5rem }
+      .tl-dot {
+        position: absolute; left: 50%; top: 2rem; transform: translateX(-50%);
+        width: 14px; height: 14px; border-radius: 50%;
+        background: var(--accent); border: 3px solid var(--bg); z-index: 1
+      }
+      .tl-phase:first-child .tl-dot { background: var(--muted) }
+      .tl-phase-badge {
+        display: inline-flex; align-items: center; gap: .5rem;
+        background: var(--accent); color: white; border-radius: 100px;
+        padding: .3rem .85rem; font-family: 'Unbounded', sans-serif;
+        font-size: .5rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+        margin-bottom: 1rem
+      }
+      .tl-phase:first-child .tl-phase-badge { background: var(--bg2); color: var(--muted) }
+      .tl-period {
+        font-family: 'Unbounded', sans-serif; font-size: .52rem; font-weight: 700;
+        letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem
+      }
+      .tl-title {
+        font-family: 'Instrument Serif', serif; font-size: 1.5rem; font-style: italic;
+        line-height: 1.15; margin-bottom: 1rem
+      }
+      .tl-desc { font-size: .82rem; color: var(--ink2); line-height: 1.7; font-weight: 300 }
+      .tl-skills { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: 1rem; justify-content: flex-end }
+      .tl-right .tl-skills { justify-content: flex-start }
+      .tl-skill {
+        font-size: .58rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+        padding: .25rem .7rem; background: rgba(0,81,255,.08);
+        border-radius: 100px; color: var(--accent)
+      }
+
+      /* ── DÉFI ── */
+      .defi-section {
+        padding: 6rem 2.5rem;
+        background: var(--ink);
+        border-bottom: 1.5px solid rgba(255,255,255,.06)
+      }
+      .defi-inner { max-width: 820px }
+      .defi-label {
+        font-family: 'Unbounded', sans-serif; font-size: .52rem; font-weight: 700;
+        letter-spacing: .2em; text-transform: uppercase;
+        color: var(--accent2); margin-bottom: 2rem
+      }
+      .defi-quote {
+        font-family: 'Instrument Serif', serif; font-size: clamp(1.4rem, 3vw, 2rem);
+        font-style: italic; color: white; line-height: 1.4;
+        border-left: 3px solid var(--accent); padding-left: 1.5rem;
+        margin-bottom: 1.75rem
+      }
+      .defi-body {
+        font-size: .95rem; color: rgba(255,255,255,.5); line-height: 1.8;
+        font-weight: 300; margin-bottom: 3rem
+      }
+      .defi-body strong { color: rgba(255,255,255,.85); font-weight: 500 }
+      .defi-approach-title {
+        font-family: 'Unbounded', sans-serif; font-size: .52rem; font-weight: 700;
+        letter-spacing: .15em; text-transform: uppercase;
+        color: rgba(255,255,255,.3); margin-bottom: 1.25rem
+      }
+      .defi-styles { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem }
+      .defi-style {
+        background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+        border-radius: 16px; padding: 1.75rem; transition: border-color .2s
+      }
+      .defi-style:hover { border-color: var(--accent2) }
+      .defi-style-tag {
+        display: inline-block;
+        font-family: 'Unbounded', sans-serif; font-size: .55rem; font-weight: 700;
+        letter-spacing: .1em; text-transform: uppercase;
+        background: var(--accent); color: white;
+        padding: .3rem .85rem; border-radius: 100px; margin-bottom: 1rem
+      }
+      .defi-style-desc {
+        font-size: .82rem; color: rgba(255,255,255,.45); line-height: 1.75; font-weight: 300
+      }
+
+      /* ── MISSIONS ── */
+      .missions-section { padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2) }
+      .missions-grid {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem
+      }
+      .mission-card {
+        background: white; border: 1.5px solid var(--border); border-radius: 20px;
+        padding: 2rem; transition: border-color .2s, transform .2s
+      }
+      .mission-card:hover { border-color: var(--accent); transform: translateY(-3px) }
+      .mission-card-icon {
+        width: 48px; height: 48px; border-radius: 12px;
+        background: var(--ink); display: flex; align-items: center; justify-content: center;
+        font-size: 1.25rem; margin-bottom: 1.5rem
+      }
+      .mission-card.alt .mission-card-icon { background: rgba(0,81,255,.08) }
+      .mission-card-label {
+        font-family: 'Unbounded', sans-serif; font-size: .48rem; font-weight: 700;
+        letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem
+      }
+      .mission-card-title {
+        font-size: 1.05rem; font-weight: 700; margin-bottom: .85rem; line-height: 1.2
+      }
+      .mission-card-body {
+        font-size: .82rem; color: var(--ink2); line-height: 1.7; font-weight: 300
+      }
+      .mission-card-kpi {
+        margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
+        display: flex; align-items: center; gap: .6rem
+      }
+      .mission-card-wide {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: start;
+        gap: 1.5rem
+      }
+      .mission-card-wide .mission-card-icon { margin-bottom: 0; align-self: start }
+      .mission-card-wide .mission-card-kpi {
+        margin-top: 0; padding-top: 0; border-top: none;
+        border-left: 1px solid var(--border); padding-left: 1.5rem;
+        flex-direction: column; align-items: flex-start; gap: .35rem;
+        white-space: nowrap; align-self: center
+      }
+      .mission-kpi-n {
+        font-family: 'Unbounded', sans-serif; font-size: 1.1rem; font-weight: 900; color: var(--accent)
+      }
+      .mission-kpi-l { font-size: .65rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; line-height: 1.4 }
+
+      /* ── RÉSULTATS ── */
+      .results-section { padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2); background: var(--ink) }
+      .results-section .section-label { color: var(--accent2) }
+      .results-section h2.serif { color: white }
+      .results-grid {
+        display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem
+      }
+      .result-card {
+        border: 1px solid rgba(255,255,255,.08); border-radius: 18px; padding: 2rem;
+        transition: border-color .2s
+      }
+      .result-card:hover { border-color: var(--accent2) }
+      .result-card-n {
+        font-family: 'Unbounded', sans-serif; font-size: clamp(2rem,4vw,3.2rem);
+        font-weight: 900; color: var(--accent2); margin-bottom: .4rem; line-height: 1
+      }
+      .result-card-l { font-size: .72rem; color: rgba(255,255,255,.45); letter-spacing: .08em; text-transform: uppercase; line-height: 1.5 }
+      .result-card-desc { font-size: .8rem; color: rgba(255,255,255,.35); margin-top: .75rem; line-height: 1.6; font-weight: 300 }
+
+      /* ── COMPÉTENCES ── */
+      .skills-section { padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2) }
+      .skills-wrap {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3rem
+      }
+      .skills-group-title {
+        font-family: 'Unbounded', sans-serif; font-size: .52rem; font-weight: 700;
+        letter-spacing: .15em; text-transform: uppercase; color: var(--muted);
+        margin-bottom: 1rem; padding-bottom: .75rem; border-bottom: 1px solid var(--border)
+      }
+      .skill-tags { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2rem }
+      .skill-tag {
+        padding: .45rem 1rem; border-radius: 100px; font-size: .68rem; font-weight: 500;
+        border: 1.5px solid var(--border2); background: white; color: var(--ink);
+        transition: border-color .2s, color .2s
+      }
+      .skill-tag:hover { border-color: var(--accent); color: var(--accent) }
+      .skill-tag.featured {
+        background: var(--accent); border-color: var(--accent); color: white
+      }
+
+      /* ── ÉQUIPE ── */
+      .team-section {
+        padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2);
+        display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center
+      }
+      .team-photo-wrap { }
+      .team-photo-zone {
+        display: block; border-radius: 20px; overflow: hidden; line-height: 0
+      }
+      .team-photo-zone img {
+        width: 100%; height: auto; display: block; object-fit: cover; border-radius: 20px
+      }
+      .team-caption {
+        margin-top: .85rem; font-size: .68rem; color: var(--muted);
+        letter-spacing: .06em
+      }
+
+      /* ── GALERIE PLACEHOLDER ── */
+      .gallery-section { padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2); background: var(--bg2) }
+      .gallery-grid {
+        display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 3rem
+      }
+      .gallery-item {
+        background: var(--bg); border: 1.5px dashed var(--border2); border-radius: 16px;
+        aspect-ratio: 4/3; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: .75rem; cursor: default
+      }
+      .gallery-item-icon { font-size: 2rem; opacity: .3 }
+      .gallery-item-label { font-size: .62rem; color: var(--muted); text-align: center; letter-spacing: .06em; text-transform: uppercase }
+      .gallery-note {
+        margin-top: 2rem; padding: 1.25rem 1.5rem; background: white;
+        border: 1.5px solid var(--border); border-radius: 14px;
+        display: flex; align-items: center; gap: 1rem
+      }
+      .gallery-note-icon { font-size: 1.25rem; flex-shrink: 0 }
+      .gallery-note-text { font-size: .8rem; color: var(--ink2); line-height: 1.6 }
+      .gallery-note-text strong { color: var(--ink); font-weight: 600 }
+
+      /* ── OUTILS ── */
+      .outils-bar {
+        display: flex; align-items: center; gap: 0;
+        border-bottom: 1.5px solid var(--border2); overflow-x: auto;
+        -webkit-overflow-scrolling: touch
+      }
+      .outil-item {
+        display: flex; align-items: center; gap: .6rem;
+        padding: 1.25rem 2rem; border-right: 1px solid var(--border);
+        white-space: nowrap; flex-shrink: 0
+      }
+      .outil-item:last-child { border-right: none }
+      .outil-icon { font-size: 1.1rem }
+      .outil-name { font-size: .68rem; font-weight: 600; color: var(--ink2) }
+      .outil-label { font-size: .58rem; color: var(--muted) }
+
+      /* ── AVANT / APRÈS ── */
+      .avantapres-section {
+        padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2); background: var(--bg2)
+      }
+      .avantapres-grid {
+        display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem;
+        align-items: center; margin-top: 3rem
+      }
+      .avantapres-col {
+        background: white; border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem
+      }
+      .avantapres-col.after { border-color: var(--accent); background: rgba(0,81,255,.03) }
+      .avantapres-tag {
+        font-family: 'Unbounded', sans-serif; font-size: .48rem; font-weight: 700;
+        letter-spacing: .18em; text-transform: uppercase;
+        color: var(--muted); margin-bottom: 1.25rem
+      }
+      .avantapres-col.after .avantapres-tag { color: var(--accent) }
+      .avantapres-item {
+        display: flex; align-items: flex-start; gap: .75rem;
+        padding: .75rem 0; border-bottom: 1px solid var(--border)
+      }
+      .avantapres-item:last-child { border-bottom: none; padding-bottom: 0 }
+      .avantapres-dot {
+        width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
+        flex-shrink: 0; margin-top: .35rem
+      }
+      .avantapres-col.after .avantapres-dot { background: var(--accent) }
+      .avantapres-text { font-size: .8rem; color: var(--ink2); line-height: 1.5 }
+      .avantapres-text strong { color: var(--ink); font-weight: 600 }
+      .avantapres-arrow {
+        font-family: 'Unbounded', sans-serif; font-size: 1.5rem; font-weight: 900;
+        color: var(--accent); text-align: center
+      }
+
+      /* ── PROJET MIS EN AVANT ── */
+      .spotlight-section { padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2) }
+
+      /* header row : titre gauche, badge+sous-titre droite */
+      .spotlight-header-row {
+        display: flex; align-items: flex-end; justify-content: space-between;
+        gap: 2.5rem; flex-wrap: wrap; margin-bottom: 3.5rem
+      }
+      .spotlight-intro { flex: 1; min-width: 260px }
+      .spotlight-intro-meta {
+        max-width: 340px; display: flex; flex-direction: column;
+        align-items: flex-end; gap: .75rem; padding-bottom: .4rem
+      }
+      .spotlight-card-badge {
+        display: inline-flex; align-items: center; gap: .4rem;
+        background: var(--accent); color: white; border-radius: 100px;
+        padding: .35rem .9rem; font-family: 'Unbounded', sans-serif;
+        font-size: .58rem; font-weight: 700; letter-spacing: .08em;
+        text-transform: uppercase
+      }
+      .spotlight-card-sub { font-size: .78rem; color: var(--muted); line-height: 1.55; text-align: right }
+
+      /* mockup centré */
+      .nl-mockup-center {
+        display: flex; justify-content: center; margin-bottom: 3.5rem
+      }
+      .nl-mockup-center .nl-mockup { max-width: 860px; width: 100% }
+
+      /* grille de faits */
+      .spotlight-facts-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem
+      }
+      .spotlight-fact-card {
+        background: var(--bg2); border-radius: 14px; padding: 1.4rem 1.5rem;
+        border: 1px solid var(--border)
+      }
+      .spotlight-fact-card strong {
+        display: block; font-size: .78rem; font-weight: 600;
+        color: var(--ink); margin-bottom: .45rem
+      }
+      .spotlight-fact-card p {
+        font-size: .78rem; color: var(--ink2); line-height: 1.65; font-weight: 300; margin: 0
+      }
+
+      /* ── TÉMOIGNAGE ── */
+      .temoignage-section { padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2); background: var(--bg2) }
+      .temoignage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem }
+      .temoignage-card {
+        background: white; border: 1.5px solid var(--border); border-radius: 20px; padding: 2rem
+      }
+      .temoignage-stars { color: var(--accent); font-size: .9rem; margin-bottom: 1rem; letter-spacing: 2px }
+      .temoignage-quote {
+        font-family: 'Instrument Serif', serif; font-size: 1.05rem; font-style: italic;
+        line-height: 1.6; color: var(--ink); margin-bottom: 1.5rem
+      }
+      .temoignage-author { display: flex; align-items: center; gap: .85rem }
+      .temoignage-avatar {
+        width: 38px; height: 38px; border-radius: 50%;
+        background: var(--bg2); border: 2px solid var(--border2);
+        display: flex; align-items: center; justify-content: center;
+        font-size: .85rem; font-weight: 700; color: var(--muted); flex-shrink: 0
+      }
+      .temoignage-name { font-size: .8rem; font-weight: 600; color: var(--ink) }
+      .temoignage-role { font-size: .65rem; color: var(--muted) }
+
+      /* ── RÉTROSPECTIVE + VENANDI ── */
+      .retro-section { padding: 6rem 2.5rem; border-bottom: 1.5px solid var(--border2) }
+      .retro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; align-items: start }
+      .retro-list { display: flex; flex-direction: column; gap: .85rem }
+      .retro-item {
+        display: flex; gap: 1rem; align-items: flex-start;
+        padding: 1.1rem; background: var(--bg2); border-radius: 12px
+      }
+      .retro-item-icon { font-size: 1rem; flex-shrink: 0; margin-top: .05rem }
+      .retro-item-text { font-size: .82rem; color: var(--ink2); line-height: 1.6 }
+      .retro-item-text strong { color: var(--ink); font-weight: 600 }
+      .venandi-bridge {
+        background: var(--ink); border-radius: 20px; padding: 2rem; position: relative; overflow: hidden
+      }
+      .venandi-bridge::before {
+        content: '→'; position: absolute; right: 1.5rem; bottom: 1rem;
+        font-family: 'Unbounded', sans-serif; font-size: 6rem; font-weight: 900;
+        color: rgba(255,255,255,.04); line-height: 1
+      }
+      .venandi-bridge-label {
+        font-family: 'Unbounded', sans-serif; font-size: .48rem; font-weight: 700;
+        letter-spacing: .18em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1.25rem
+      }
+      .venandi-bridge-title {
+        font-family: 'Instrument Serif', serif; font-size: 1.35rem;
+        font-style: italic; color: white; margin-bottom: 1rem; line-height: 1.2
+      }
+      .venandi-bridge-list { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.75rem }
+      .venandi-bridge-item { font-size: .8rem; color: rgba(255,255,255,.5); display: flex; gap: .5rem; line-height: 1.5 }
+      .venandi-bridge-item::before { content: '✓'; color: var(--accent2); font-weight: 700; flex-shrink: 0 }
+      .venandi-bridge-link {
+        display: inline-flex; align-items: center; gap: .5rem;
+        font-family: 'Unbounded', sans-serif; font-size: .55rem; font-weight: 700;
+        letter-spacing: .08em; text-transform: uppercase;
+        color: white; text-decoration: none; border: 1px solid rgba(255,255,255,.2);
+        padding: .6rem 1.1rem; border-radius: 100px; transition: background .2s, border-color .2s
+      }
+      .venandi-bridge-link:hover { background: var(--accent); border-color: var(--accent) }
+
+      /* ── NEWSLETTER DIAPORAMA MOCKUP ── */
+      .nl-mockup {
+        border-radius: 16px; overflow: hidden; width: 100%;
+        box-shadow: 0 16px 60px rgba(0,0,0,.22);
+        background: #0d0c0a; border: 1.5px solid rgba(255,255,255,.08)
+      }
+
+      /* Écran 16:9 — slide en cours */
+      .slide-screen {
+        aspect-ratio: 16 / 9; display: flex; flex-direction: column;
+        position: relative; overflow: hidden
+      }
+      .slide-topbar {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: .75rem 1.25rem;
+        border-bottom: 1px solid rgba(255,255,255,.07); flex-shrink: 0
+      }
+      .slide-logo {
+        font-family: 'Unbounded', sans-serif; font-size: .65rem; font-weight: 900;
+        color: white; letter-spacing: .04em
+      }
+      .slide-logo em { color: var(--accent2); font-style: normal }
+      .slide-counter {
+        font-family: 'DM Mono', monospace; font-size: .6rem;
+        color: rgba(255,255,255,.28); letter-spacing: .04em
+      }
+      .slide-content {
+        flex: 1; display: flex; flex-direction: column; justify-content: center;
+        padding: 5% 7%; transition: opacity .32s ease
+      }
+      .slide-content.fading { opacity: 0 }
+      .slide-rubrique {
+        font-family: 'Unbounded', sans-serif; font-size: .5rem; font-weight: 700;
+        letter-spacing: .18em; text-transform: uppercase;
+        color: var(--accent); margin-bottom: .7rem
+      }
+      .slide-title {
+        font-family: 'Instrument Serif', serif; font-style: italic;
+        font-size: clamp(1.3rem, 3.5vw, 2.4rem);
+        color: white; line-height: 1.1; margin-bottom: .75rem
+      }
+      .slide-body {
+        font-size: clamp(.6rem, 1.2vw, .82rem); color: rgba(255,255,255,.48);
+        line-height: 1.65; font-weight: 300; max-width: 62%
+      }
+      .slide-accent-bar {
+        position: absolute; left: 0; top: 0; bottom: 0;
+        width: 4px; background: var(--accent)
+      }
+      .slide-footer {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: .6rem 1.25rem;
+        border-top: 1px solid rgba(255,255,255,.07); flex-shrink: 0
+      }
+      .slide-dots { display: flex; gap: .35rem; align-items: center }
+      .slide-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: rgba(255,255,255,.18)
+      }
+      .slide-dot.active {
+        background: var(--accent); width: 16px; border-radius: 3px
+      }
+      .slide-meta { font-size: .55rem; color: rgba(255,255,255,.22); letter-spacing: .08em }
+
+      /* Bande de miniatures */
+      .slide-strip {
+        background: rgba(0,0,0,.5); padding: .6rem .75rem;
+        display: flex; gap: .5rem; align-items: center;
+        border-top: 1px solid rgba(255,255,255,.06)
+      }
+      .slide-thumb {
+        flex: 1; aspect-ratio: 16/9; border-radius: 5px; overflow: hidden;
+        border: 1.5px solid rgba(255,255,255,.1);
+        display: flex; flex-direction: column; justify-content: flex-end;
+        padding: 5px 6px; position: relative; min-width: 0;
+        cursor: pointer; transition: border-color .2s, opacity .2s
+      }
+      .slide-thumb:not(.active):hover { opacity: .75 }
+      .slide-thumb.active { border-color: var(--accent) }
+      .slide-thumb-bg {
+        position: absolute; inset: 0
+      }
+      .slide-thumb-label {
+        position: relative; font-family: 'Unbounded', sans-serif;
+        font-size: .28rem; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .1em; color: rgba(255,255,255,.5); margin-bottom: 2px
+      }
+      .slide-thumb.active .slide-thumb-label { color: var(--accent) }
+      .slide-thumb-title {
+        position: relative; font-family: 'Instrument Serif', serif;
+        font-style: italic; font-size: .38rem; color: white; line-height: 1.2
+      }
+
+      /* ── BACK ── */
+      .back-section {
+        padding: 4rem 2.5rem; display: flex; justify-content: space-between; align-items: center;
+        border-top: 1.5px solid var(--border2)
+      }
+      .next-proj {
+        font-family: 'Unbounded', sans-serif; font-size: .7rem; font-weight: 700;
+        letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
+        color: var(--ink); display: flex; align-items: center; gap: .75rem;
+        transition: gap .2s
+      }
+      .next-proj:hover { gap: 1.25rem }
+
+      footer {
+        border-top: 1.5px solid var(--border2); padding: 2rem 2.5rem;
+        display: flex; justify-content: space-between; align-items: center
+      }
+      .foot-logo { font-family: 'Unbounded', sans-serif; font-size: .7rem; font-weight: 900; letter-spacing: .05em }
+      .foot-logo em { color: var(--accent); font-style: normal }
+      footer p { font-size: .68rem; color: var(--muted) }
+
+      /* ═══════════════════════════
+         RESPONSIVE 768px
+      ═══════════════════════════ */
+      @media(max-width:768px) {
+        nav { padding: 1rem 1.25rem }
+        .hero { padding: 6rem 1.25rem 3.5rem; min-height: auto }
+        .hero-bg-text { display: none }
+        .stats-row { grid-template-columns: 1fr 1fr }
+        .stat-cell:nth-child(2) { border-right: none }
+        .stat-cell:nth-child(3) { border-top: 1.5px solid var(--border2) }
+        .stat-cell:nth-child(4) { border-top: 1.5px solid var(--border2); border-right: none }
+        .contexte { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.25rem }
+        .timeline-section { padding: 4rem 1.25rem }
+        .timeline-line { display: none }
+        .tl-phase { grid-template-columns: 1fr; gap: 0 }
+        .tl-left { text-align: left; padding-right: 0; padding-left: 1.5rem; border-left: 2px solid var(--border2); margin-bottom: 2.5rem }
+        .tl-right { padding-left: 1.5rem; border-left: 2px solid var(--accent) }
+        .tl-dot { display: none }
+        .tl-skills { justify-content: flex-start }
+        .defi-section { padding: 4rem 1.25rem }
+        .defi-styles { grid-template-columns: 1fr }
+        .missions-section { padding: 4rem 1.25rem }
+        .missions-grid { grid-template-columns: 1fr; gap: 1rem }
+        .team-section { grid-template-columns: 1fr; gap: 2rem; padding: 4rem 1.25rem }
+        .results-section { padding: 4rem 1.25rem }
+        .results-grid { grid-template-columns: 1fr 1fr }
+        .skills-section { padding: 4rem 1.25rem }
+        .skills-wrap { grid-template-columns: 1fr; gap: 2rem }
+        .gallery-section { padding: 4rem 1.25rem }
+        .gallery-grid { grid-template-columns: 1fr 1fr }
+        .avantapres-grid { grid-template-columns: 1fr; }
+        .avantapres-arrow { text-align: center; font-size: 1.2rem; transform: rotate(90deg); }
+        .spotlight-header-row { flex-direction: column; align-items: flex-start; gap: 1.5rem }
+        .spotlight-intro-meta { align-items: flex-start }
+        .spotlight-card-sub { text-align: left }
+        .spotlight-facts-grid { grid-template-columns: 1fr 1fr }
+        .temoignage-grid { grid-template-columns: 1fr }
+        .retro-grid { grid-template-columns: 1fr; gap: 2rem }
+        .back-section { flex-direction: column; gap: 1.5rem; align-items: flex-start; padding: 2.5rem 1.25rem }
+        footer { flex-direction: column; gap: .5rem; align-items: flex-start; padding: 1.5rem 1.25rem }
+      }
+
+      /* ═══════════════════════════
+         RESPONSIVE 480px
+      ═══════════════════════════ */
+      @media(max-width:480px) {
+        * { max-width: 100%; word-break: break-word; box-sizing: border-box }
+        html, body { overflow-x: hidden; overscroll-behavior-x: none }
+
+        nav { padding: .75rem 1.25rem }
+        .logo { font-size: .58rem }
+        .back-btn { font-size: .55rem }
+
+        .hero {
+          padding: 5rem 1.25rem 2.5rem; min-height: auto;
+          flex-direction: column; justify-content: flex-end
+        }
+        .hero-eyebrow { margin-bottom: 1.5rem }
+        .tic-logo { width: 40px; height: 40px; font-size: .65rem; border-radius: 9px }
+        .hero h1 { font-size: 2.2rem; margin-bottom: 1rem }
+        .hero-sub { font-size: .82rem; margin-bottom: 1.75rem; max-width: 100% }
+
+        .stats-row { grid-template-columns: 1fr 1fr }
+        .stat-cell { padding: 1.5rem 1rem }
+        .stat-n { font-size: 1.5rem }
+        .stat-l { font-size: .6rem }
+
+        .section-label { font-size: .46rem }
+        h2.serif { font-size: 1.5rem !important; margin-bottom: 1.25rem }
+
+        .contexte { padding: 2.5rem 1.25rem; gap: 2rem }
+        .ctx-aside-title { font-size: 1.1rem }
+        .ctx-fact { padding: .85rem 1.25rem }
+
+        .timeline-section { padding: 2.5rem 1.25rem }
+        .tl-title { font-size: 1.2rem }
+        .tl-desc { font-size: .76rem }
+
+        .defi-section { padding: 2.5rem 1.25rem }
+        .defi-quote { font-size: 1.2rem }
+        .missions-section { padding: 2.5rem 1.25rem }
+        .mission-card { padding: 1.4rem }
+        .mission-card-title { font-size: .9rem }
+        .mission-card-body { font-size: .76rem }
+        .mission-card-wide { grid-template-columns: 1fr; gap: 1rem }
+        .mission-card-wide .mission-card-kpi { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 1rem; margin-top: .75rem; white-space: normal }
+
+        .team-section { padding: 2.5rem 1.25rem }
+        .results-section { padding: 2.5rem 1.25rem }
+        .results-grid { grid-template-columns: 1fr; gap: 1rem }
+        .result-card { padding: 1.5rem }
+
+        .skills-section { padding: 2.5rem 1.25rem }
+        .gallery-section { padding: 2.5rem 1.25rem }
+        .gallery-grid { grid-template-columns: 1fr }
+
+        .avantapres-section { padding: 2.5rem 1.25rem }
+        .spotlight-section { padding: 2.5rem 1.25rem }
+        .spotlight-facts-grid { grid-template-columns: 1fr }
+        .nl-mockup { max-width: 100% }
+        .temoignage-section { padding: 2.5rem 1.25rem }
+        .retro-section { padding: 2.5rem 1.25rem }
+        .back-section { padding: 1.75rem 1.25rem; gap: 1rem }
+        footer { padding: 1.25rem 1.25rem }
+        .next-proj { font-size: .6rem }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="cur" id="cd"><div class="cur-dot"></div></div>
+    <div class="cur" id="cr"><div class="cur-ring" id="crr"></div></div>
+
+    <nav>
+      <a href="index.html" class="logo">EVAN <em>ROPARS</em></a>
+      <a href="index.html" class="back-btn">← Retour aux projets</a>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="hero-bg-text">TIC</div>
+      <div class="hero-inner">
+        <div class="hero-eyebrow reveal">
+          <div class="tic-logo">TIC★</div>
+          <div>
+            <div class="hero-org">Service TIC — Agence Digitale</div>
+            <div class="hero-location">IUT d'Allier · Montluçon · Oct. 2023 – Avr. 2025</div>
+          </div>
+        </div>
+        <h1 class="reveal reveal-d1">De contributeur<br>à <em>chef d'équipe</em></h1>
+        <p class="hero-sub reveal reveal-d2">
+          1 an 7 mois au sein d'une <strong>agence digitale étudiante réelle</strong>.
+          D'abord dans la production vidéo, puis à la tête d'une équipe de <strong>13 étudiants</strong>
+          — newsletter, budget, management, clients.
+        </p>
+        <div class="hero-tags reveal reveal-d3">
+          <span class="hero-tag hi">Management</span>
+          <span class="hero-tag hi">Chef de service</span>
+          <span class="hero-tag">Vidéo</span>
+          <span class="hero-tag">Newsletter écrans</span>
+          <span class="hero-tag">CRM</span>
+          <span class="hero-tag">Satisfaction client</span>
+          <span class="hero-tag">Association étudiante</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STATS ── -->
+    <div class="stats-row">
+      <div class="stat-cell reveal">
+        <div class="stat-n">1a 7m</div>
+        <div class="stat-l">Durée totale<br>d'implication</div>
+      </div>
+      <div class="stat-cell reveal reveal-d1">
+        <div class="stat-n">13</div>
+        <div class="stat-l">Étudiants<br>managés</div>
+      </div>
+      <div class="stat-cell reveal reveal-d2">
+        <div class="stat-n">+150</div>
+        <div class="stat-l">Lecteurs par<br>édition newsletter</div>
+      </div>
+      <div class="stat-cell reveal reveal-d3">
+        <div class="stat-n">+800€</div>
+        <div class="stat-l">Résultat budgétaire<br>annuel positif</div>
+      </div>
+    </div>
+
+    <!-- ── OUTILS BAR ── -->
+    <div class="outils-bar">
+      <div class="outil-item">
+        <span class="outil-icon">🎬</span>
+        <span class="outil-name">Final Cut Pro</span>
+        <span class="outil-label">Montage vidéo</span>
+      </div>
+      <div class="outil-item">
+        <span class="outil-icon">🗂️</span>
+        <span class="outil-name">CRM maison</span>
+        <span class="outil-label">Suivi clients</span>
+      </div>
+      <div class="outil-item">
+        <span class="outil-icon">📺</span>
+        <span class="outil-name">Écrans IUT</span>
+        <span class="outil-label">Diffusion newsletter</span>
+      </div>
+      <div class="outil-item">
+        <span class="outil-icon">📋</span>
+        <span class="outil-name">Google Forms</span>
+        <span class="outil-label">Satisfaction clients</span>
+      </div>
+      <div class="outil-item">
+        <span class="outil-icon">🎨</span>
+        <span class="outil-name">Canva</span>
+        <span class="outil-label">Visuels & supports</span>
+      </div>
+      <div class="outil-item">
+        <span class="outil-icon">📱</span>
+        <span class="outil-name">Réseaux sociaux</span>
+        <span class="outil-label">Publication & community</span>
+      </div>
+    </div>
+
+    <!-- ── CONTEXTE ── -->
+    <section class="contexte">
+      <div class="reveal">
+        <div class="section-label">Contexte</div>
+        <h2 class="serif">Une vraie agence,<br>dans une école</h2>
+        <p>
+          Le Service TIC est l'agence digitale interne du BUT Techniques de Commercialisation de l'IUT d'Allier.
+          Loin d'être un simple exercice pédagogique, c'est une structure qui répond à
+          <strong>de vrais clients</strong> — entreprises locales, événements régionaux,
+          et la ville de Montluçon elle-même.
+        </p>
+        <p>
+          Les étudiants y produisent des contenus vidéo, gèrent des briefs clients,
+          respectent des délais et des exigences professionnelles. Une agence à taille humaine,
+          mais avec des responsabilités réelles.
+        </p>
+        <div class="partner-chips">
+          <span class="partner-chip">🏙️ Ville de Montluçon</span>
+          <span class="partner-chip">🎬 Événements régionaux</span>
+          <span class="partner-chip">🏢 Entreprises locales</span>
+          <span class="partner-chip">🎓 IUT d'Allier</span>
+        </div>
+      </div>
+      <div class="ctx-aside reveal reveal-d1">
+        <div class="ctx-aside-top">
+          <div class="ctx-aside-label">À propos du service</div>
+          <div class="ctx-aside-title">Agence Digitale TIC</div>
+          <div class="ctx-aside-sub">
+            Association étudiante structurée comme une vraie agence, pole vidéo, communication, digital.
+            Les projets sont livrés à de vrais clients avec des exigences professionnelles.
+          </div>
+        </div>
+        <div class="ctx-facts">
+          <div class="ctx-fact">
+            <div class="ctx-fact-icon">📍</div>
+            <div class="ctx-fact-text"><strong>Montluçon</strong>, Auvergne-Rhône-Alpes</div>
+          </div>
+          <div class="ctx-fact">
+            <div class="ctx-fact-icon">🗓️</div>
+            <div class="ctx-fact-text"><strong>Oct. 2023 → Avr. 2025</strong> · 1 an 7 mois</div>
+          </div>
+          <div class="ctx-fact">
+            <div class="ctx-fact-icon">🎬</div>
+            <div class="ctx-fact-text">Pôle <strong>vidéo</strong> + communication + digital</div>
+          </div>
+          <div class="ctx-fact">
+            <div class="ctx-fact-icon">🤝</div>
+            <div class="ctx-fact-text">Partenariats avec <strong>entreprises & collectivités</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── AVANT / APRÈS ── -->
+    <section class="avantapres-section">
+      <div class="section-label reveal">Avant / Après</div>
+      <h2 class="serif reveal reveal-d1">Ce que j'ai<br>changé concrètement</h2>
+      <div class="avantapres-grid reveal reveal-d2">
+        <div class="avantapres-col">
+          <div class="avantapres-tag">Avant mon arrivée en chef</div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text"><strong>Aucune newsletter</strong>, pas de lien régulier avec les étudiants du BUT TC</div>
+          </div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text"><strong>Facturation complexe</strong>, pas de CRM — suivi clients approximatif et éparpillé</div>
+          </div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text"><strong>Aucun retour clients</strong>, pas de questionnaire ni de suivi satisfaction après livraison</div>
+          </div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text">Production vidéo <strong>réactive</strong>, sans cadrage éditorial</div>
+          </div>
+        </div>
+        <div class="avantapres-arrow">→</div>
+        <div class="avantapres-col after">
+          <div class="avantapres-tag">Après — résultats mesurables</div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text"><strong>Newsletter créée de zéro</strong> → +150 lecteurs/édition pour le BUT TC Montluçon</div>
+          </div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text"><strong>+800€ d'excédent</strong> budgétaire, premier bilan positif géré de A à Z</div>
+          </div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text"><strong>CRM + facturation simplifiée</strong>, repris par les autres services de l'association l'année suivante</div>
+          </div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text"><strong>Questionnaire de satisfaction</strong> avec suivi réel, retours clients intégrés à chaque livraison</div>
+          </div>
+          <div class="avantapres-item">
+            <div class="avantapres-dot"></div>
+            <div class="avantapres-text">Productions vidéo avec <strong>brief client formalisé</strong> et suivi qualité</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TIMELINE ── -->
+    <section class="timeline-section">
+      <div class="section-label reveal">Mon parcours</div>
+      <h2 class="serif reveal reveal-d1">Deux phases,<br>une progression</h2>
+
+      <div class="timeline-wrap">
+        <div class="timeline-line"></div>
+
+        <!-- Phase 1 -->
+        <div class="tl-phase">
+          <div class="tl-left reveal">
+            <div class="tl-phase-badge">Phase 1</div>
+            <div class="tl-period">Oct. 2023 — Fév. 2024 · 5 mois</div>
+            <h3 class="tl-title">Membre<br>de l'agence</h3>
+            <p class="tl-desc">
+              Intégré dans la cellule vidéo, j'apprends la production de A à Z :
+              prise de brief, tournage, montage sur Final Cut Pro, livraison client.
+              Je travaille avec la ville de Montluçon et des entreprises locales,
+              en respectant des délais et des exigences professionnelles.
+            </p>
+            <div class="tl-skills">
+              <span class="tl-skill">Final Cut Pro</span>
+              <span class="tl-skill">Relation client</span>
+              <span class="tl-skill">Production vidéo</span>
+            </div>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-right reveal reveal-d1" style="padding-top:4rem;opacity:.4;filter:blur(0)">
+            <!-- spacer for phase 1 right side -->
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="tl-phase">
+          <div class="tl-left reveal" style="padding-top:4rem;opacity:.4">
+            <!-- spacer -->
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-right reveal reveal-d1">
+            <div class="tl-phase-badge">Phase 2</div>
+            <div class="tl-period">Fév. 2024 — Avr. 2025 · 1 an 3 mois</div>
+            <h3 class="tl-title">Chef du<br>Service TIC</h3>
+            <p class="tl-desc">
+              Promotion interne. Je prends la tête du service, management d'une équipe de 13 étudiants,
+              lancement et pilotage d'une newsletter mensuelle à +150 lecteurs,
+              gestion du budget communication avec un résultat annuel positif de 800€.
+            </p>
+            <div class="tl-skills">
+              <span class="tl-skill">Management</span>
+              <span class="tl-skill">Budget</span>
+              <span class="tl-skill">Newsletter</span>
+              <span class="tl-skill">Leadership</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── DÉFI ── -->
+    <section class="defi-section">
+      <div class="defi-inner reveal">
+        <div class="defi-label">Plus grande difficulté</div>
+        <blockquote class="defi-quote">
+          "Manager des gens de ton âge, c'est la chose la plus difficile qu'on ne t'apprend pas en cours."
+        </blockquote>
+        <p class="defi-body">
+          Passer de collègue à responsable du jour au lendemain, avec des étudiants ayant
+          <strong>le même âge ou un an de moins</strong>, c'est un exercice d'équilibriste.
+          Trop autoritaire et tu perds leur adhésion. Trop copain et tu perds leur respect.
+          J'ai appris à m'affirmer sans imposer, à décider sans écraser.
+        </p>
+        <div class="defi-approach">
+          <div class="defi-approach-title">La réponse : deux styles de management combinés</div>
+          <div class="defi-styles">
+            <div class="defi-style">
+              <div class="defi-style-tag">Participatif</div>
+              <div class="defi-style-desc">
+                Impliquer l'équipe dans les décisions, recueillir les avis avant de trancher.
+                Chacun se sentait acteur, pas exécutant, ce qui renforçait la motivation
+                et l'engagement sur les projets clients.
+              </div>
+            </div>
+            <div class="defi-style">
+              <div class="defi-style-tag">Délégatif</div>
+              <div class="defi-style-desc">
+                Faire confiance, donner de l'autonomie sur les tâches selon les points forts
+                de chacun. Moins de micro-management, plus de responsabilisation.
+                Ça libère du temps pour le pilotage global et ça valorise chaque membre.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MISSIONS ── -->
+    <section class="missions-section">
+      <div class="section-label reveal">Missions</div>
+      <h2 class="serif reveal reveal-d1">Ce que j'ai<br>concrètement fait</h2>
+      <div class="missions-grid">
+
+        <div class="mission-card reveal">
+          <div class="mission-card-icon">🎬</div>
+          <div class="mission-card-label">Pôle Vidéo</div>
+          <div class="mission-card-title">Production vidéo complète</div>
+          <div class="mission-card-body">
+            De la prise de brief à la livraison, tournage, montage sur Final Cut Pro,
+            optimisation pour l'impact visuel. Clients : entreprises locales, événements régionaux,
+            ville de Montluçon. Suivi des retours clients pour améliorer continuellement la qualité.
+          </div>
+          <div class="mission-card-kpi">
+            <div>
+              <div class="mission-kpi-n">Final Cut Pro</div>
+              <div class="mission-kpi-l">Outil principal de montage</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mission-card alt reveal reveal-d1">
+          <div class="mission-card-icon">📺</div>
+          <div class="mission-card-label">Communication</div>
+          <div class="mission-card-title">Newsletter affichée sur les écrans de l'IUT</div>
+          <div class="mission-card-body">
+            Création from scratch d'une newsletter diffusée sur les <strong>écrans stratégiques de l'IUT</strong> —
+            pas d'envoi mail (trop peu de lectures), mais un affichage visuel là où les étudiants passent.
+            Contenu : interviews, montage vidéo, calendrier des événements, actualités inter-services.
+            Formation des 1ères années à aller chercher l'info comme des reporters.
+          </div>
+          <div class="mission-card-kpi">
+            <div class="mission-kpi-n">+150</div>
+            <div class="mission-kpi-l">vues / édition sur écrans</div>
+          </div>
+        </div>
+
+        <div class="mission-card alt reveal">
+          <div class="mission-card-icon">👥</div>
+          <div class="mission-card-label">Management</div>
+          <div class="mission-card-title">Chef d'une équipe de 13</div>
+          <div class="mission-card-body">
+            Coordination de 13 étudiants sur les projets de communication et production.
+            Répartition des tâches, suivi de production, gestion des délais, cohésion d'équipe.
+            Première expérience réelle de management opérationnel.
+          </div>
+          <div class="mission-card-kpi">
+            <div class="mission-kpi-n">13</div>
+            <div class="mission-kpi-l">étudiants coordonnés</div>
+          </div>
+        </div>
+
+        <div class="mission-card reveal reveal-d1">
+          <div class="mission-card-icon">💰</div>
+          <div class="mission-card-label">Gestion</div>
+          <div class="mission-card-title">Budget & pilotage</div>
+          <div class="mission-card-body">
+            Responsable du budget pôle communication, planification des dépenses,
+            pilotage des actions, arbitrages. Résultat : exercice annuel bouclé
+            avec un excédent positif de 800€ malgré les contraintes associatives.
+          </div>
+          <div class="mission-card-kpi">
+            <div class="mission-kpi-n">+800€</div>
+            <div class="mission-kpi-l">résultat annuel</div>
+          </div>
+        </div>
+
+        <div class="mission-card mission-card-wide reveal">
+          <div class="mission-card-icon">🗂️</div>
+          <div class="mission-card-label">Gestion & Suivi client</div>
+          <div class="mission-card-title">CRM, facturation simplifiée & questionnaire de satisfaction</div>
+          <div class="mission-card-body">
+            Mise en place d'un <strong>système de facturation plus simple et d'un CRM</strong> pour un suivi client
+            structuré, centralisé, lisible, réutilisable. Ce système a été repris par les autres services
+            de l'association l'année suivante. Lancement d'un <strong>questionnaire de satisfaction</strong>
+            après chaque livraison, avec un vrai suivi des retours pour améliorer les productions.
+          </div>
+          <div class="mission-card-kpi">
+            <div class="mission-kpi-n">CRM</div>
+            <div class="mission-kpi-l">repris par l'ensemble de l'asso l'année suivante</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── PROJET MIS EN AVANT ── -->
+    <section class="spotlight-section">
+
+      <!-- En-tête : titre gauche / badge+sous-titre droite -->
+      <div class="spotlight-header-row reveal">
+        <div class="spotlight-intro">
+          <div class="section-label">Projet phare</div>
+          <h2 class="serif">La newsletter sur<br>les écrans, créée de zéro</h2>
+        </div>
+        <div class="spotlight-intro-meta">
+          <div class="spotlight-card-badge">★ Création from scratch</div>
+          <div class="spotlight-card-sub">Lancée dès ma prise de poste<br>Diffusion mensuelle sur écrans stratégiques du campus</div>
+        </div>
+      </div>
+
+      <!-- Mockup centré -->
+      <div class="nl-mockup-center reveal reveal-d1">
+        <div class="nl-mockup">
+
+          <!-- Slide principale -->
+          <div class="slide-screen">
+            <div class="slide-accent-bar"></div>
+            <div class="slide-topbar">
+              <div class="slide-logo">TIC <em>NEWS</em></div>
+              <div class="slide-counter" id="tic-counter">01 / 05</div>
+            </div>
+            <div class="slide-content" id="tic-content">
+              <div class="slide-rubrique" id="tic-rubrique">Édito</div>
+              <div class="slide-title" id="tic-title">Bienvenue dans<br>ce numéro</div>
+              <div class="slide-body" id="tic-body">Chaque mois, le service TIC vous résume l'essentiel de l'association Proteco du BUT TC Montluçon.</div>
+            </div>
+            <div class="slide-footer">
+              <div class="slide-dots" id="tic-dots">
+                <span class="slide-dot active"></span>
+                <span class="slide-dot"></span>
+                <span class="slide-dot"></span>
+                <span class="slide-dot"></span>
+                <span class="slide-dot"></span>
+              </div>
+              <span class="slide-meta">BUT TC Montluçon · IUT d'Allier</span>
+            </div>
+          </div>
+
+          <!-- Bande de miniatures -->
+          <div class="slide-strip" id="tic-strip">
+            <div class="slide-thumb active" data-idx="0" style="background:#111">
+              <div class="slide-thumb-label">Édito</div>
+              <div class="slide-thumb-title">Bienvenue<br>dans ce numéro</div>
+            </div>
+            <div class="slide-thumb" data-idx="1" style="background:#0a0a14">
+              <div class="slide-thumb-label">Interview</div>
+              <div class="slide-thumb-title">Coulisses<br>du service com'</div>
+            </div>
+            <div class="slide-thumb" data-idx="2" style="background:#0e0e0e">
+              <div class="slide-thumb-label">Calendrier</div>
+              <div class="slide-thumb-title">Événements<br>du mois</div>
+            </div>
+            <div class="slide-thumb" data-idx="3" style="background:#0d0c0a">
+              <div class="slide-thumb-label">Vie de l'asso</div>
+              <div class="slide-thumb-title">Nouveaux<br>projets clients</div>
+            </div>
+            <div class="slide-thumb" data-idx="4" style="background:#0a0d0a">
+              <div class="slide-thumb-label">À venir</div>
+              <div class="slide-thumb-title">Prochain<br>numéro</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Faits en grille 3 colonnes -->
+      <div class="spotlight-facts-grid reveal reveal-d2">
+        <div class="spotlight-fact-card">
+          <strong>Pourquoi pas par mail</strong>
+          <p>Les envois par mail généraient très peu de lectures. Les écrans placés à des endroits stratégiques de l'IUT — couloirs, hall d'entrée — attirent naturellement l'œil.</p>
+        </div>
+        <div class="spotlight-fact-card">
+          <strong>Problème résolu</strong>
+          <p>Les étudiants manquaient d'informations sur la vie du BUT TC, et les services communiquaient mal entre eux. La newsletter a créé un canal commun.</p>
+        </div>
+        <div class="spotlight-fact-card">
+          <strong>Contenu</strong>
+          <p>Interviews, calendrier des événements, actualités inter-services, montage vidéo intégré et gestion des demandes à projeter.</p>
+        </div>
+        <div class="spotlight-fact-card">
+          <strong>Formation</strong>
+          <p>Les étudiants de 1ère année formés à aller chercher l'information comme des reporters — interviews, vérification, rédaction.</p>
+        </div>
+        <div class="spotlight-fact-card">
+          <strong>Coordination</strong>
+          <p>Travail avec les autres services de l'association pour centraliser les infos et éviter les doublons ou les ratés de communication.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── ÉQUIPE ── -->
+    <section class="team-section">
+      <div class="reveal">
+        <div class="section-label">L'équipe</div>
+        <h2 class="serif">13 étudiants,<br>une vraie dynamique</h2>
+        <p style="font-size:.88rem; color:var(--ink2); line-height:1.75; font-weight:300; max-width:380px;">
+          Une équipe pluridisciplinaire, vidéo, rédaction, social media, web.
+          Chacun avec ses forces, réunis autour de projets clients réels.
+        </p>
+      </div>
+      <div class="team-photo-wrap reveal reveal-d1">
+        <div class="team-photo-zone">
+          <img src="ticphoto.jpg" alt="Photo de groupe — Service TIC, IUT d'Allier 2024–2025">
+        </div>
+        <div class="team-caption">Service TIC · IUT d'Allier · 2024–2025</div>
+      </div>
+    </section>
+
+    <!-- ── TÉMOIGNAGES ── -->
+    <section class="temoignage-section">
+      <div class="section-label reveal">Témoignages</div>
+      <h2 class="serif reveal reveal-d1">Ce qu'ils<br>en ont dit</h2>
+      <div class="temoignage-grid reveal reveal-d2">
+        <div class="temoignage-card">
+          <div class="temoignage-stars">★★★★★</div>
+          <div class="temoignage-quote">
+            "Evan a pris les rênes du service avec une maturité surprenante pour son âge. Il a su fédérer l'équipe autour de projets concrets et livrer des productions de qualité professionnelle."
+          </div>
+          <div class="temoignage-author">
+            <div class="temoignage-avatar">P</div>
+            <div>
+              <div class="temoignage-name">Professeur encadrant</div>
+              <div class="temoignage-role">IUT d'Allier · BUT TC Montluçon</div>
+            </div>
+          </div>
+        </div>
+        <div class="temoignage-card">
+          <div class="temoignage-stars">★★★★★</div>
+          <div class="temoignage-quote">
+            "La newsletter qu'il a lancée était vraiment un plus pour notre promo. On recevait des infos utiles chaque mois et c'était bien fait. Evan s'est vraiment impliqué dans tout ça."
+          </div>
+          <div class="temoignage-author">
+            <div class="temoignage-avatar">A</div>
+            <div>
+              <div class="temoignage-name">Étudiant BUT TC</div>
+              <div class="temoignage-role">Promotion 2023–2025 · IUT d'Allier</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:1.25rem; padding:.85rem 1.25rem; background:white; border:1.5px solid var(--border); border-radius:12px; font-size:.72rem; color:var(--muted);">
+        ✏️ <strong style="color:var(--ink);">À personnaliser :</strong> remplace ces témoignages par de vraies citations de tes encadrants ou collègues.
+      </div>
+    </section>
+
+    <!-- ── RÉSULTATS ── -->
+    <section class="results-section">
+      <div class="section-label reveal">Résultats</div>
+      <h2 class="serif reveal reveal-d1">Ce que cette<br>expérience a produit</h2>
+      <div class="results-grid">
+
+        <div class="result-card reveal">
+          <div class="result-card-n">1a 7m</div>
+          <div class="result-card-l">Durée d'implication totale</div>
+          <div class="result-card-desc">La plus longue expérience associative de mon parcours, engagement continu d'octobre 2023 à avril 2025.</div>
+        </div>
+
+        <div class="result-card reveal reveal-d1">
+          <div class="result-card-n">+150</div>
+          <div class="result-card-l">Lecteurs / édition newsletter</div>
+          <div class="result-card-desc">Création et développement d'une newsletter mensuelle depuis zéro, atteinte d'une audience fidèle au fil des éditions.</div>
+        </div>
+
+        <div class="result-card reveal reveal-d2">
+          <div class="result-card-n">+800€</div>
+          <div class="result-card-l">Excédent budgétaire</div>
+          <div class="result-card-desc">Pilotage du budget communication avec un résultat positif, première expérience de gestion financière réelle.</div>
+        </div>
+
+        <div class="result-card reveal">
+          <div class="result-card-n">13</div>
+          <div class="result-card-l">Personnes managées</div>
+          <div class="result-card-desc">Coordination d'une équipe pluridisciplinaire, vidéo, rédaction, social media avec des projets clients réels.</div>
+        </div>
+
+        <div class="result-card reveal reveal-d1">
+          <div class="result-card-n">×2</div>
+          <div class="result-card-l">Progression de rôle</div>
+          <div class="result-card-desc">De membre à chef de service en 5 mois, reconnaissance par les pairs et les encadrants de ma montée en compétences.</div>
+        </div>
+
+        <div class="result-card reveal reveal-d2">
+          <div class="result-card-n">A–Z</div>
+          <div class="result-card-l">Maîtrise de la chaîne</div>
+          <div class="result-card-desc">Brief client → production → livraison → retours. Expérience complète du cycle d'une agence de communication.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── RÉTROSPECTIVE + VENANDI ── -->
+    <section class="retro-section">
+      <div class="section-label reveal">Rétrospective</div>
+      <h2 class="serif reveal reveal-d1">Ce que je<br>referais autrement</h2>
+      <div class="retro-grid reveal reveal-d2">
+        <div class="retro-list">
+          <div class="retro-item">
+            <span class="retro-item-icon">🔄</span>
+            <div class="retro-item-text"><strong>Mieux structurer l'onboarding</strong> des nouveaux membres, arriver en chef sans process d'intégration formel coûte du temps les premières semaines.</div>
+          </div>
+          <div class="retro-item">
+            <span class="retro-item-icon">📊</span>
+            <div class="retro-item-text"><strong>Mettre en place des KPIs dès le départ</strong>, j'ai mesuré les résultats en cours de route, pas dès le lancement de la newsletter.</div>
+          </div>
+          <div class="retro-item">
+            <span class="retro-item-icon">🗣️</span>
+            <div class="retro-item-text"><strong>Communiquer plus tôt sur les décisions</strong>, j'aurais gagné à expliquer le "pourquoi" avant d'annoncer le "quoi" à l'équipe.</div>
+          </div>
+          <div class="retro-item">
+            <span class="retro-item-icon">✅</span>
+            <div class="retro-item-text"><strong>Ce que je referais :</strong> lancer la newsletter, déléguer par points forts, et maintenir l'ambiance de travail positive qui a tenu l'équipe soudée sur 1 an.</div>
+          </div>
+        </div>
+        <div class="venandi-bridge">
+          <div class="venandi-bridge-label">La suite logique</div>
+          <div class="venandi-bridge-title">Ces compétences, je les ai approfondies chez Venandi</div>
+          <div class="venandi-bridge-list">
+            <div class="venandi-bridge-item">SEO on-page → Google Search Console & Analytics réels</div>
+            <div class="venandi-bridge-item">WordPress basique → développement de sites clients</div>
+            <div class="venandi-bridge-item">Newsletter étudiante → stratégie digitale professionnelle</div>
+            <div class="venandi-bridge-item">Management interne → coordination avec des clients externes</div>
+          </div>
+          <a href="venandi.html" class="venandi-bridge-link">Voir le projet Venandi →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── COMPÉTENCES ── -->
+    <section class="skills-section">
+      <div class="section-label reveal">Compétences</div>
+      <h2 class="serif reveal reveal-d1">Ce que j'en<br>ai retenu</h2>
+      <div class="skills-wrap">
+
+        <div class="reveal reveal-d1">
+          <div class="skills-group-title">Management & Stratégie</div>
+          <div class="skill-tags">
+            <span class="skill-tag featured">Management d'équipe</span>
+            <span class="skill-tag featured">Leadership</span>
+            <span class="skill-tag">Gestion de projet</span>
+            <span class="skill-tag">Gestion budgétaire</span>
+            <span class="skill-tag">Coordination</span>
+            <span class="skill-tag">Communication interne</span>
+          </div>
+
+          <div class="skills-group-title">Production de contenu & Web</div>
+          <div class="skill-tags">
+            <span class="skill-tag featured">Final Cut Pro</span>
+            <span class="skill-tag featured">WordPress</span>
+            <span class="skill-tag">SEO on-page</span>
+            <span class="skill-tag">Rédaction articles</span>
+            <span class="skill-tag">Montage vidéo</span>
+            <span class="skill-tag">Newsletter</span>
+          </div>
+        </div>
+
+        <div class="reveal reveal-d2">
+          <div class="skills-group-title">Relation client & Terrain</div>
+          <div class="skill-tags">
+            <span class="skill-tag featured">Relation client</span>
+            <span class="skill-tag">Prise de brief</span>
+            <span class="skill-tag">Respect des délais</span>
+            <span class="skill-tag">Suivi qualité</span>
+            <span class="skill-tag">Collaboration externe</span>
+          </div>
+
+          <div class="skills-group-title">Ce que cette expérience m'a appris</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Autonomie</span>
+            <span class="skill-tag">Responsabilité réelle</span>
+            <span class="skill-tag">Prendre des décisions</span>
+            <span class="skill-tag">Gérer l'incertitude</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── GALERIE ── -->
+    <section class="gallery-section">
+      <div class="section-label reveal">Médias & productions</div>
+      <h2 class="serif reveal reveal-d1">Quelques<br>productions</h2>
+      <div class="gallery-grid reveal reveal-d2">
+        <div class="gallery-item">
+          <div class="gallery-item-icon">🎬</div>
+          <div class="gallery-item-label">Vidéo promotionnelle<br>client local</div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-icon">📧</div>
+          <div class="gallery-item-label">Newsletter mensuelle<br>édition TIC</div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-item-icon">🏙️</div>
+          <div class="gallery-item-label">Captation vidéo<br>événement BUT TC</div>
+        </div>
+      </div>
+      <div class="gallery-note reveal reveal-d3">
+        <div class="gallery-note-icon">📩</div>
+        <div class="gallery-note-text">
+          <strong>Médias disponibles sur demande.</strong>
+          Retrouvez des exemples de productions vidéo et d'éditions de la newsletter
+          en me contactant directement à evanropars63@gmail.com
+        </div>
+      </div>
+    </section>
+
+    <!-- ── BACK ── -->
+    <div class="back-section">
+      <a href="index.html" class="next-proj">← Tous les projets</a>
+      <a href="cepage.html" class="next-proj">Voir Bar à Cépage →</a>
+    </div>
+
+    <footer>
+      <div class="foot-logo">EVAN <em>ROPARS</em></div>
+      <p>Service TIC · Agence digitale étudiante · Oct. 2023 – Avr. 2025</p>
+    </footer>
+
+    <script>
+const cd=document.getElementById('cd'),crr=document.getElementById('crr');
+let mx=0,my=0,rx=0,ry=0;
+const isMobile=window.matchMedia('(pointer: coarse)').matches;
+if(!isMobile){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.transform=`translate(${mx-6}px,${my-6}px)`});
+  (function loop(){rx+=(mx-rx-22)*.1;ry+=(my-ry-22)*.1;document.getElementById('cr').style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>crr.classList.add('hover'));el.addEventListener('mouseleave',()=>crr.classList.remove('hover'))});
+}
+
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ── DIAPORAMA ──
+const ticSlides=[
+  {rubrique:'Édito',         title:'Bienvenue dans<br>ce numéro',           body:'Chaque mois, le service TIC vous résume l\'essentiel de la vie associative du BUT TC Montluçon.'},
+  {rubrique:'Interview du mois', title:'Dans les coulisses<br>du service com\'', body:'Nos reporters de 1ère année ont interviewé le chef du service communication. Ce qu\'ils ont découvert…'},
+  {rubrique:'Calendrier',    title:'Ce qui arrive<br>ce mois-ci',            body:'Forum entreprises le 15, soirée intégration le 22, tournage institutionnel en semaine 3.'},
+  {rubrique:'Vie de l\'asso', title:'Nouveaux projets<br>clients en cours',  body:'Le pôle vidéo tourne pour un client local. Le pôle com\' finalise sa campagne de fin d\'année…'},
+  {rubrique:'À venir',       title:'Rendez-vous<br>le mois prochain',        body:'Interviews, actus et surprises dans le prochain numéro du TIC News. Restez connectés.'}
+];
+let ticIdx=0;
+const ticContent=document.getElementById('tic-content');
+const ticCounter=document.getElementById('tic-counter');
+const ticDots=document.getElementById('tic-dots');
+const ticThumbs=document.querySelectorAll('#tic-strip .slide-thumb');
+function ticGo(i){
+  ticContent.classList.add('fading');
+  setTimeout(()=>{
+    const s=ticSlides[i];
+    document.getElementById('tic-rubrique').textContent=s.rubrique;
+    document.getElementById('tic-title').innerHTML=s.title;
+    document.getElementById('tic-body').textContent=s.body;
+    ticCounter.textContent=String(i+1).padStart(2,'0')+' / 05';
+    ticDots.querySelectorAll('.slide-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+    ticThumbs.forEach((t,j)=>t.classList.toggle('active',j===i));
+    ticContent.classList.remove('fading');
+  },320);
+}
+setInterval(()=>{ticIdx=(ticIdx+1)%ticSlides.length;ticGo(ticIdx);},3800);
+ticThumbs.forEach((t,i)=>t.addEventListener('click',()=>{ticIdx=i;ticGo(i);}));
+    </script>
+  </body>
+</html>

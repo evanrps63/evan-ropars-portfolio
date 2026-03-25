@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Evan Ropars · Marketing Digital & Data</title>
+  <meta name="description" content="Articles sur le marketing digital, la data, le SEO et la stratégie de contenu — par Evan Ropars, étudiant en Bachelor Marketing Digital.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:#f5f2eb;--bg2:#edeae0;--ink:#131110;--ink2:#3a3630;
+      --muted:#9a9080;--accent:#e8401c;--accent2:#ff6b45;
+      --border:rgba(19,17,16,.1);--border2:rgba(19,17,16,.18)
+    }
+
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;cursor:none}
+
+    /* CURSOR */
+    .cur{position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:multiply}
+    .cur-dot{width:12px;height:12px;border-radius:50%;background:var(--accent2)}
+    .cur-ring{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ink);opacity:.25;transition:width .25s,height .25s,opacity .25s}
+    .cur-ring.hover{width:70px;height:70px;opacity:.5}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;background:rgba(245,242,235,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .logo{font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--ink);text-decoration:none}
+    .logo em{color:var(--accent2);font-style:normal}
+    .nav-links{display:flex;align-items:center;gap:1.5rem}
+    .nav-link{font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;cursor:none}
+    .nav-link:hover,.nav-link.active{color:var(--ink)}
+    .nav-cta{font-family:'Unbounded',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:white;background:var(--ink);border-radius:100px;padding:.55rem 1.1rem;text-decoration:none;transition:background .2s;cursor:none}
+    .nav-cta:hover{background:var(--accent)}
+
+    /* HERO BLOG */
+    .blog-hero{padding:9rem 2.5rem 4rem;border-bottom:1.5px solid var(--border2)}
+    .blog-label{font-family:'Unbounded',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+    .blog-title{font-family:'Unbounded',sans-serif;font-size:clamp(2.5rem,7vw,5.5rem);font-weight:900;line-height:.95;letter-spacing:-.04em;margin-bottom:1.25rem}
+    .blog-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--accent2);font-size:110%}
+    .blog-sub{font-size:1rem;color:var(--ink2);line-height:1.7;max-width:520px;font-weight:300}
+
+    /* FILTRES */
+    .blog-filters{padding:2rem 2.5rem;border-bottom:1px solid var(--border);display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+    .filter-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:.5rem}
+    .filter-btn{font-size:.68rem;font-weight:600;padding:.35rem .9rem;border-radius:100px;border:1.5px solid var(--border2);color:var(--ink2);background:white;cursor:none;transition:all .2s}
+    .filter-btn:hover,.filter-btn.active{background:var(--ink);color:white;border-color:var(--ink)}
+
+    /* GRILLE ARTICLES */
+    .blog-grid-wrap{padding:4rem 2.5rem}
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+
+    /* CARD ARTICLE */
+    .article-card{background:white;border:1.5px solid var(--border);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s cubic-bezier(.22,1,.36,1),border-color .25s;cursor:none}
+    .article-card:hover{transform:translateY(-6px);border-color:var(--border2)}
+    .article-card.featured{grid-column:1/-1;display:flex;flex-direction:column;min-height:auto}
+    .article-thumb{display:none}
+    .article-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+    .article-card:hover .article-thumb img{transform:scale(1.04)}
+    /* Quand tu ajoutes une image : retire display:none sur .article-thumb et rétablis l'aspect-ratio */
+    .article-body{padding:1.75rem;display:flex;flex-direction:column;flex:1}
+    .article-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+    .article-tag{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .7rem;border-radius:100px;border:1.5px solid var(--border2);color:var(--muted)}
+    .article-tag.seo{background:#e8f5ef;color:#1a6b3a;border-color:#b8dfc9}
+    .article-tag.ads{background:#fff0eb;color:var(--accent);border-color:#f5c4b4}
+    .article-tag.data{background:#e8f0ff;color:#1a3cff;border-color:#b4c8f5}
+    .article-tag.social{background:#fdf0f7;color:#c13584;border-color:#f0c0de}
+    .article-tag.branding{background:#fef3e2;color:#c47c0a;border-color:#f5d88a}
+    .article-tag.strategie{background:#fff8e0;color:#b07d10;border-color:#f0dfa0}
+    .article-title{font-family:'Unbounded',sans-serif;font-size:clamp(.85rem,1.5vw,1.05rem);font-weight:700;line-height:1.3;letter-spacing:-.02em;margin-bottom:.75rem;color:var(--ink)}
+    .article-card.featured .article-title{font-size:clamp(1.1rem,2vw,1.5rem)}
+    .article-excerpt{font-size:.82rem;color:var(--ink2);line-height:1.7;font-weight:300;flex:1;margin-bottom:1.25rem}
+    .article-meta{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+    .article-date{font-size:.65rem;color:var(--muted);letter-spacing:.05em}
+    .article-read{font-size:.65rem;color:var(--muted)}
+    .article-link{font-family:'Unbounded',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:gap .2s;cursor:none}
+    .article-link:hover{gap:.7rem}
+
+    /* NEWSLETTER */
+    .newsletter{margin:0 2.5rem 4rem;background:var(--ink);border-radius:24px;padding:3.5rem;display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap}
+    .newsletter-l .nl-label{font-family:'Unbounded',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent2);margin-bottom:.75rem}
+    .newsletter-l h3{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(1.4rem,3vw,2rem);color:white;line-height:1.2}
+    .newsletter-r{display:flex;gap:.75rem;flex-wrap:wrap}
+    .nl-input{font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.75rem 1.25rem;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:white;outline:none;width:260px;transition:border-color .2s}
+    .nl-input::placeholder{color:rgba(255,255,255,.35)}
+    .nl-input:focus{border-color:rgba(255,255,255,.4)}
+    .nl-btn{font-family:'Unbounded',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--accent2);color:white;border:none;border-radius:100px;padding:.75rem 1.5rem;cursor:none;transition:background .2s;white-space:nowrap}
+    .nl-btn:hover{background:var(--accent)}
+
+    /* FOOTER */
+    footer{border-top:1.5px solid var(--border2);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center}
+    .foot-logo{font-family:'Unbounded',sans-serif;font-size:.7rem;font-weight:900;letter-spacing:.05em}
+    .foot-logo em{color:var(--accent2);font-style:normal}
+    footer p{font-size:.72rem;color:var(--muted)}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.in{opacity:1;transform:none}
+    .reveal-d1{transition-delay:.08s}
+    .reveal-d2{transition-delay:.16s}
+    .reveal-d3{transition-delay:.24s}
+
+    @media(max-width:768px){
+      nav{padding:1rem 1.25rem}
+      .nav-links{display:none}
+      .blog-hero{padding:7rem 1.25rem 3rem}
+      .blog-filters{padding:1.25rem}
+      .blog-grid-wrap{padding:2rem 1.25rem}
+      .blog-grid{grid-template-columns:1fr}
+      .article-card.featured{grid-template-columns:1fr;min-height:auto}
+      .article-card.featured .article-thumb{aspect-ratio:16/9;min-height:auto}
+      .newsletter{margin:0 1.25rem 3rem;padding:2rem 1.5rem;flex-direction:column;align-items:flex-start}
+      .newsletter-r{flex-direction:column;width:100%}
+      .nl-input{width:100%}
+      footer{padding:1.5rem;flex-direction:column;gap:1rem;text-align:center}
+      img{max-width:100%}
+    }
+  </style>
+</head>
+<body>
+
+<div class="cur" id="cd"><div class="cur-dot"></div></div>
+<div class="cur" id="cr"><div class="cur-ring" id="crr"></div></div>
+
+<nav>
+  <a href="index.html" class="logo">EVAN <em>ROPARS</em></a>
+  <div class="nav-links">
+    <a href="index.html#work" class="nav-link">Projets</a>
+    <a href="index.html#about" class="nav-link">Histoire</a>
+    <a href="blog.html" class="nav-link active">Blog</a>
+    <a href="index.html#contact" class="nav-link">Contact</a>
+    <a href="mailto:evanropars63@gmail.com" class="nav-cta">Me recruter</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="blog-hero">
+  <div class="blog-label reveal">Blog</div>
+  <h1 class="blog-title reveal reveal-d1">Marketing,<br>Data &<br><em>Stratégie.</em></h1>
+  <p class="blog-sub reveal reveal-d2">Articles sur le marketing digital, la data, le SEO et tout ce que j'apprends — terrain et veille mêlés.</p>
+</section>
+
+<!-- FILTRES -->
+<div class="blog-filters reveal">
+  <span class="filter-label">Thème :</span>
+  <button class="filter-btn active" data-filter="all">Tous</button>
+  <button class="filter-btn" data-filter="seo">SEO</button>
+  <button class="filter-btn" data-filter="ads">Google Ads</button>
+  <button class="filter-btn" data-filter="data">Data</button>
+  <button class="filter-btn" data-filter="social">Réseaux sociaux</button>
+  <button class="filter-btn" data-filter="strategie">Stratégie</button>
+  <button class="filter-btn" data-filter="branding">Branding</button>
+</div>
+
+<!-- GRILLE -->
+<div class="blog-grid-wrap">
+  <div class="blog-grid" id="blogGrid">
+
+    <!-- ARTICLE FEATURED -->
+    <article class="article-card featured reveal" data-tags="seo strategie">
+      <div class="article-thumb">
+        <div class="article-thumb-placeholder">🔍</div>
+      </div>
+      <div class="article-body">
+        <div class="article-tags">
+          <span class="article-tag seo">SEO</span>
+          <span class="article-tag strategie">Stratégie</span>
+        </div>
+        <h2 class="article-title">Comment j'ai optimisé 40+ pages SEO pour Venandi — retour d'expérience</h2>
+        <p class="article-excerpt">Audit on-page, recherche de mots-clés, optimisation des balises et suivi des positions : tout ce que j'ai mis en place pour faire monter le site dans les résultats Google.</p>
+        <div class="article-meta">
+          <span class="article-date">Mars 2025</span>
+          <span class="article-read">5 min de lecture</span>
+          <a href="blog-article.html" class="article-link">Lire →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ARTICLE 2 -->
+    <article class="article-card reveal reveal-d1" data-tags="ads data">
+      <div class="article-thumb">
+        <div class="article-thumb-placeholder">📊</div>
+      </div>
+      <div class="article-body">
+        <div class="article-tags">
+          <span class="article-tag ads">Google Ads</span>
+          <span class="article-tag data">Data</span>
+        </div>
+        <h2 class="article-title">Google Ads en autonomie : ce que j'ai appris en gérant mes premières campagnes</h2>
+        <p class="article-excerpt">Structure de compte, enchères, Quality Score et lecture des KPIs — les erreurs que j'ai faites et ce qu'elles m'ont appris.</p>
+        <div class="article-meta">
+          <span class="article-date">Fév. 2025</span>
+          <span class="article-read">4 min</span>
+          <a href="blog-article.html" class="article-link">Lire →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ARTICLE 3 -->
+    <article class="article-card reveal reveal-d2" data-tags="social strategie">
+      <div class="article-thumb">
+        <div class="article-thumb-placeholder">📱</div>
+      </div>
+      <div class="article-body">
+        <div class="article-tags">
+          <span class="article-tag social">Réseaux sociaux</span>
+        </div>
+        <h2 class="article-title">+1 600 abonnés en 6 mois sur Instagram : ma méthode concrète</h2>
+        <p class="article-excerpt">Format de contenu, fréquence de publication, analyse des insights et ajustements — ce qui a vraiment fonctionné pour Venandi.</p>
+        <div class="article-meta">
+          <span class="article-date">Jan. 2025</span>
+          <span class="article-read">6 min</span>
+          <a href="blog-article.html" class="article-link">Lire →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ARTICLE 4 -->
+    <article class="article-card reveal reveal-d3" data-tags="data">
+      <div class="article-thumb">
+        <div class="article-thumb-placeholder">📈</div>
+      </div>
+      <div class="article-body">
+        <div class="article-tags">
+          <span class="article-tag data">Data</span>
+        </div>
+        <h2 class="article-title">Créer un dashboard Looker Studio utile — les indicateurs qui comptent vraiment</h2>
+        <p class="article-excerpt">Comment structurer un reporting qui donne envie d'agir plutôt que de noyer dans les chiffres.</p>
+        <div class="article-meta">
+          <span class="article-date">Déc. 2024</span>
+          <span class="article-read">3 min</span>
+          <a href="blog-article.html" class="article-link">Lire →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- JAGUAR -->
+    <article class="article-card featured reveal" data-tags="branding strategie">
+      <div class="article-thumb">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80&auto=format&fit=crop" alt="Jaguar rebrand 2024" loading="lazy">
+      </div>
+      <div class="article-body">
+        <div class="article-tags">
+          <span class="article-tag branding">Branding</span>
+          <span class="article-tag strategie">Stratégie</span>
+        </div>
+        <h2 class="article-title">Jaguar 2024 : le rebrand le plus controversé de l'année — analyse</h2>
+        <p class="article-excerpt">Nouveau logo, pub sans voiture, tagline "Copy Nothing" — Jaguar a tout misé sur une rupture totale avec son passé. Bonne stratégie ou erreur fatale ?</p>
+        <div class="article-meta">
+          <span class="article-date">Nov. 2024</span>
+          <span class="article-read">6 min</span>
+          <a href="blog-jaguar-rebrand.html" class="article-link">Lire →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- PEPSI -->
+    <article class="article-card reveal reveal-d1" data-tags="branding identite">
+      <div class="article-thumb">
+        <img src="https://images.unsplash.com/photo-1581636625402-29b2a704ef13?w=800&q=80&auto=format&fit=crop" alt="Pepsi rebrand 2023" loading="lazy">
+      </div>
+      <div class="article-body">
+        <div class="article-tags">
+          <span class="article-tag branding">Branding</span>
+        </div>
+        <h2 class="article-title">Pepsi 2023 : premier grand rebrand en 15 ans — ce qu'il faut retenir</h2>
+        <p class="article-excerpt">Nouveau logo plus bold, typographie maison, palette électrique — Pepsi réaffirme son identité après 15 ans d'immobilisme visuel.</p>
+        <div class="article-meta">
+          <span class="article-date">Mai 2023</span>
+          <span class="article-read">5 min</span>
+          <a href="blog-pepsi-rebrand.html" class="article-link">Lire →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- TWITTER X -->
+    <article class="article-card reveal reveal-d2" data-tags="branding strategie">
+      <div class="article-thumb">
+        <img src="https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?w=800&q=80&auto=format&fit=crop" alt="Twitter X rebrand 2023" loading="lazy">
+      </div>
+      <div class="article-body">
+        <div class="article-tags">
+          <span class="article-tag branding">Branding</span>
+          <span class="article-tag strategie">Stratégie</span>
+        </div>
+        <h2 class="article-title">Twitter devient X : le rebrand le plus brutal de la décennie</h2>
+        <p class="article-excerpt">Du jour au lendemain, Elon Musk a effacé 17 ans de brand equity. Une valeur estimée à 20 milliards — volatilisée en 72 heures.</p>
+        <div class="article-meta">
+          <span class="article-date">Juil. 2023</span>
+          <span class="article-read">7 min</span>
+          <a href="blog-twitter-x-rebrand.html" class="article-link">Lire →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- BURBERRY -->
+    <article class="article-card reveal reveal-d3" data-tags="branding identite">
+      <div class="article-thumb">
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80&auto=format&fit=crop" alt="Burberry rebrand 2023" loading="lazy">
+      </div>
+      <div class="article-body">
+        <div class="article-tags">
+          <span class="article-tag branding">Branding</span>
+        </div>
+        <h2 class="article-title">Burberry 2023 : retour aux sources et repositionnement luxe — décryptage</h2>
+        <p class="article-excerpt">Retour au chevalier, à la typographie serif historique — Daniel Lee enterre le sans-serif de Riccardo Tisci. Quand revenir en arrière est la meilleure décision.</p>
+        <div class="article-meta">
+          <span class="article-date">Fév. 2023</span>
+          <span class="article-read">5 min</span>
+          <a href="blog-burberry-rebrand.html" class="article-link">Lire →</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter reveal">
+  <div class="newsletter-l">
+    <div class="nl-label">Newsletter</div>
+    <h3>Un article par mois,<br>pas de spam.</h3>
+  </div>
+  <div class="newsletter-r">
+    <input class="nl-input" type="email" placeholder="ton@email.com" />
+    <button class="nl-btn">S'abonner</button>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-logo">EVAN <em>ROPARS</em></div>
+  <p>Blog — Marketing Digital & Data</p>
+</footer>
+
+<script>
+// Cursor
+const cd=document.getElementById('cd'),crr=document.getElementById('crr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.transform=`translate(${mx-6}px,${my-6}px)`});
+(function loop(){rx+=(mx-rx-22)*.1;ry+=(my-ry-22)*.1;document.getElementById('cr').style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>crr.classList.add('hover'));el.addEventListener('mouseleave',()=>crr.classList.remove('hover'))});
+
+// Reveal
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Filtres
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.article-card').forEach(card=>{
+      const tags=(card.dataset.tags||'').split(' ');
+      card.style.display=(f==='all'||tags.includes(f))?'flex':'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

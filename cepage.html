@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar à Cépage — Evan Ropars</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet">
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0
+      }
+
+      :root {
+        --bg: #f7f3ed;
+        --bg2: #efe9df;
+        --ink: #1c100a;
+        --ink2: #3d2d20;
+        --muted: #9a8070;
+        --accent: #8b2020;
+        --accent2: #c43030;
+        --gold: #c9a84c;
+        --gold2: #e8c870;
+        --border: rgba(28, 16, 10, 0.1);
+        --border2: rgba(28, 16, 10, 0.18)
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        overscroll-behavior-x: none
+      }
+
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        overflow-x: hidden;
+        max-width: 100%;
+        width: 100%;
+        position: relative;
+        overscroll-behavior-x: none;
+        cursor: none
+      }
+
+      .page-wrap {
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+        position: relative
+      }
+
+      .cur {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: multiply
+      }
+
+      .cur-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--gold)
+      }
+
+      .cur-ring {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1.5px solid var(--ink);
+        opacity: .25;
+        transition: width .25s, height .25s, opacity .25s
+      }
+
+      .cur-ring.hover {
+        width: 70px;
+        height: 70px;
+        opacity: .5
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 2.5rem;
+        background: rgba(247, 243, 237, 0.95);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border)
+      }
+
+      .logo {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        color: var(--ink);
+        text-decoration: none
+      }
+
+      .logo em {
+        color: var(--gold);
+        font-style: normal
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        font-size: .75rem;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color .2s;
+        cursor: none
+      }
+
+      .back-btn:hover {
+        color: var(--ink)
+      }
+
+      /* GRAND HERO CINÉMATIQUE */
+      .cinematic-hero {
+        min-height: 90vh;
+        background: var(--ink);
+        display: flex;
+        align-items: flex-end;
+        padding: 6rem 2.5rem 4rem;
+        position: relative;
+        overflow: hidden
+      }
+
+      .cinematic-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 20% 80%, rgba(139, 32, 32, 0.4) 0%, transparent 55%)
+      }
+
+      .cinematic-hero::after {
+        content: 'CÉPAGE';
+        position: absolute;
+        right: -2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: 'Instrument Serif', serif;
+        font-size: clamp(8rem, 20vw, 18rem);
+        font-style: italic;
+        color: rgba(255, 255, 255, .03);
+        line-height: 1;
+        pointer-events: none;
+        white-space: nowrap
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px
+      }
+
+      .hero-note {
+        display: inline-flex;
+        align-items: center;
+        gap: .75rem;
+        background: rgba(201, 168, 76, .15);
+        border: 1px solid rgba(201, 168, 76, .3);
+        border-radius: 100px;
+        padding: .5rem 1.1rem;
+        font-size: .68rem;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 2rem
+      }
+
+      .cinematic-hero h1 {
+        font-family: 'Instrument Serif', serif;
+        font-size: clamp(3rem, 8vw, 7rem);
+        font-style: italic;
+        line-height: 1;
+        color: white;
+        letter-spacing: -.02em;
+        margin-bottom: 1.5rem
+      }
+
+      .cinematic-hero h1 strong {
+        font-family: 'Unbounded', sans-serif;
+        font-style: normal;
+        font-size: 50%;
+        font-weight: 900;
+        display: block;
+        letter-spacing: -.02em;
+        color: var(--gold)
+      }
+
+      .hero-sub {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, .55);
+        line-height: 1.7;
+        max-width: 480px;
+        font-weight: 300
+      }
+
+      .hero-sub strong {
+        color: rgba(255, 255, 255, .85);
+        font-weight: 500
+      }
+
+      .grade-badge {
+        position: absolute;
+        top: 2rem;
+        right: 2.5rem;
+        text-align: center;
+        border: 1.5px solid rgba(201, 168, 76, .4);
+        border-radius: 16px;
+        padding: 1.5rem;
+        backdrop-filter: blur(8px);
+        background: rgba(201, 168, 76, .08)
+      }
+
+      .grade-n {
+        font-family: 'Unbounded', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--gold);
+        line-height: 1
+      }
+
+      .grade-l {
+        font-size: .6rem;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .4);
+        margin-top: .25rem
+      }
+
+      /* TIMELINE */
+      .timeline {
+        padding: 6rem 2.5rem;
+        border-bottom: 1.5px solid var(--border2)
+      }
+
+      .section-label {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .6rem;
+        font-weight: 700;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 1.25rem
+      }
+
+      .section-label.gold {
+        color: var(--gold)
+      }
+
+      /* ── TIMELINE HORIZONTALE ── */
+      .tl-items {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: 4rem;
+        position: relative
+      }
+
+      /* ligne centrale */
+      .tl-items::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--border2)
+      }
+
+      .tl-item {
+        padding: 0 2rem 0 0;
+        position: relative
+      }
+
+      .tl-item:last-child { padding-right: 0 }
+
+      /* point sur la ligne */
+      .tl-item::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent);
+        border: 2px solid var(--bg);
+        z-index: 1
+      }
+
+      /* supprime l'ancien ::after */
+      .tl-item::after { display: none }
+
+      .tl-date {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .55rem;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        margin-top: 1.5rem;
+        margin-bottom: .6rem
+      }
+
+      .tl-title {
+        font-size: .9rem;
+        font-weight: 600;
+        margin-bottom: .4rem;
+        color: var(--ink)
+      }
+
+      .tl-desc {
+        font-size: .78rem;
+        color: var(--ink2);
+        line-height: 1.65;
+        font-weight: 300
+      }
+
+      /* BUSINESS MODEL */
+      .bm-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 2rem
+      }
+
+      .bm-card {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: border-color .2s, transform .2s
+      }
+
+      .bm-card:hover {
+        border-color: var(--gold);
+        transform: translateY(-3px)
+      }
+
+      .bm-icon {
+        font-size: 1.5rem;
+        margin-bottom: .75rem
+      }
+
+      .bm-title {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .68rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        margin-bottom: .5rem
+      }
+
+      .bm-body {
+        font-size: .78rem;
+        color: var(--ink2);
+        line-height: 1.6;
+        font-weight: 300
+      }
+
+      .bm-highlight {
+        font-size: .72rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin-top: .5rem;
+        padding-top: .5rem;
+        border-top: 1px solid var(--border)
+      }
+
+      /* MENU MOCKUP */
+      .menu-mockup {
+        background: var(--ink);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, .12)
+      }
+
+      .menu-cover {
+        padding: 2.5rem 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, .07)
+      }
+
+      .menu-cover-title {
+        font-family: 'Instrument Serif', serif;
+        font-size: 2rem;
+        font-style: italic;
+        color: white;
+        margin-bottom: .25rem
+      }
+
+      .menu-cover-sub {
+        font-size: .62rem;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .35)
+      }
+
+      .menu-section {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, .06)
+      }
+
+      .menu-section-title {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .5rem;
+        font-weight: 700;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 1rem
+      }
+
+      .menu-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: .5rem 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, .07)
+      }
+
+      .menu-item:last-child {
+        border-bottom: none
+      }
+
+      .menu-item-name {
+        font-family: 'Instrument Serif', serif;
+        font-style: italic;
+        font-size: .9rem;
+        color: rgba(255, 255, 255, .85)
+      }
+
+      .menu-item-region {
+        font-size: .62rem;
+        color: rgba(255, 255, 255, .35);
+        margin-top: .1rem
+      }
+
+      .menu-item-price {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .75rem;
+        font-weight: 700;
+        color: var(--gold)
+      }
+
+      .menu-footer {
+        padding: 1.25rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+      }
+
+      .menu-footer-text {
+        font-size: .62rem;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .25)
+      }
+
+      /* AMBIANCE */
+      .ambiance {
+        padding: 6rem 2.5rem;
+        background: var(--bg2);
+        border-top: 1.5px solid var(--border2);
+        border-bottom: 1.5px solid var(--border2)
+      }
+
+      .ambiance-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center
+      }
+
+      .ambiance-visuals {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem
+      }
+
+      .ambiance-card {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1.5px solid var(--border)
+      }
+
+      .ambiance-img {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem
+      }
+
+      .ambiance-cap {
+        background: white;
+        padding: .75rem 1rem;
+        font-size: .7rem;
+        color: var(--muted);
+        font-style: italic
+      }
+
+      .back-section {
+        padding: 4rem 2.5rem;
+        border-top: 1.5px solid var(--border2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+      }
+
+      .next-proj {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        transition: gap .2s;
+        cursor: none
+      }
+
+      .next-proj:hover {
+        gap: 1.25rem
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(36px);
+        transition: opacity .85s cubic-bezier(.22, 1, .36, 1), transform .85s cubic-bezier(.22, 1, .36, 1)
+      }
+
+      .reveal.in {
+        opacity: 1;
+        transform: none
+      }
+
+      .reveal-d1 {
+        transition-delay: .08s
+      }
+
+      .reveal-d2 {
+        transition-delay: .18s
+      }
+
+      .reveal-d3 {
+        transition-delay: .28s
+      }
+
+      footer {
+        border-top: 1.5px solid var(--border2);
+        padding: 2rem 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+      }
+
+      .foot-logo {
+        font-family: 'Unbounded', sans-serif;
+        font-size: .7rem;
+        font-weight: 900;
+        letter-spacing: .05em
+      }
+
+      .foot-logo em {
+        color: var(--gold);
+        font-style: normal
+      }
+
+      footer p {
+        font-size: .72rem;
+        color: var(--muted)
+      }
+
+      @media (pointer: coarse) { .cur { display: none } }
+
+      /* ── MARCHÉ ── */
+      .marche-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2.5rem; }
+      .marche-card { background: white; border: 1.5px solid var(--border); border-radius: 16px; padding: 1.5rem 1.25rem; text-align: center; }
+      .marche-n { font-family: 'Unbounded', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.8rem); font-weight: 900; color: var(--accent); margin-bottom: .4rem; line-height: 1; }
+      .marche-l { font-size: .68rem; color: var(--muted); line-height: 1.5; }
+      .marche-insight { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+      .marche-insight-card { background: var(--bg2); border-radius: 14px; padding: 1.5rem; border: 1.5px solid var(--border); }
+      .marche-insight-title { font-weight: 600; font-size: .82rem; margin-bottom: .5rem; }
+      .marche-insight-body { font-size: .75rem; color: var(--ink2); line-height: 1.65; font-weight: 300; }
+
+      /* ── FINANCIER ── */
+      .finance-wrap { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+      .finance-table { width: 100%; border-collapse: collapse; }
+      .finance-table th { font-family: 'Unbounded', sans-serif; font-size: .55rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: .75rem 1rem; text-align: left; border-bottom: 1.5px solid var(--border2); }
+      .finance-table td { padding: .85rem 1rem; font-size: .82rem; border-bottom: 1px solid var(--border); }
+      .finance-table td:last-child { text-align: right; font-family: 'Unbounded', sans-serif; font-size: .75rem; font-weight: 700; color: var(--accent); }
+      .finance-table tr.highlight td { background: rgba(139,32,32,.04); font-weight: 500; }
+      .finance-kpis { display: flex; flex-direction: column; gap: 1rem; }
+      .finance-kpi { background: white; border: 1.5px solid var(--border); border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+      .finance-kpi-label { font-size: .75rem; color: var(--muted); }
+      .finance-kpi-val { font-family: 'Unbounded', sans-serif; font-size: .9rem; font-weight: 900; color: var(--accent); }
+      .finance-kpi.gold .finance-kpi-val { color: var(--gold); }
+
+      /* ── IDENTITÉ VISUELLE ── */
+      .identity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
+      .identity-logo-box { background: var(--ink); border-radius: 20px; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: .75rem; color: rgba(255,255,255,.3); font-size: .75rem; border: 1.5px dashed rgba(255,255,255,.1); }
+      .identity-logo-box img { max-width: 60%; max-height: 60%; object-fit: contain; }
+      .identity-palette { display: flex; flex-direction: column; gap: .75rem; }
+      .identity-color { display: flex; align-items: center; gap: 1rem; background: white; border: 1.5px solid var(--border); border-radius: 12px; padding: .75rem 1rem; overflow: hidden; }
+      .identity-swatch { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
+      .identity-color-name { font-weight: 600; font-size: .78rem; }
+      .identity-color-hex { font-size: .65rem; color: var(--muted); font-family: monospace; }
+      .identity-typo-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: .75rem; }
+      .identity-typo-card { background: white; border: 1.5px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+      .identity-typo-sample { font-size: 1.5rem; margin-bottom: .5rem; line-height: 1; }
+      .identity-typo-meta { font-size: .62rem; color: var(--muted); }
+      .identity-typo-meta strong { display: block; font-size: .6rem; color: var(--ink); font-family: 'Unbounded', sans-serif; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .15rem; }
+
+      /* ── COMPÉTENCES ── */
+      .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+      .skill-card { background: white; border: 1.5px solid var(--border); border-radius: 14px; padding: 1.25rem; }
+      .skill-icon { font-size: 1.25rem; margin-bottom: .6rem; }
+      .skill-title { font-weight: 600; font-size: .82rem; margin-bottom: .35rem; }
+      .skill-desc { font-size: .72rem; color: var(--muted); line-height: 1.6; font-weight: 300; }
+
+      /* ══════════════════════════════
+         RESPONSIVE — TABLETTE 768px
+      ══════════════════════════════ */
+      @media(max-width:768px) {
+        nav { padding: 1rem 1.25rem }
+        .cinematic-hero { padding: 5rem 1.25rem 3rem; min-height: 60vh; overflow: hidden }
+        .cinematic-hero::after { display: none }
+        .grade-badge { position: relative; top: auto; right: auto; display: inline-block; margin-top: 2rem }
+        .timeline, .ambiance { padding: 4rem 1.25rem }
+        .tl-items { grid-template-columns: 1fr 1fr; gap: 2.5rem 2rem }
+        .tl-items::after { display: none }
+        .marche-grid { grid-template-columns: 1fr 1fr }
+        .marche-insight { grid-template-columns: 1fr }
+        .bm-grid { grid-template-columns: 1fr }
+        .ambiance-grid { grid-template-columns: 1fr; gap: 2rem }
+        .finance-wrap { grid-template-columns: 1fr !important; gap: 2rem }
+        .identity-grid { grid-template-columns: 1fr !important }
+        .identity-typo-row { grid-template-columns: 1fr 1fr }
+        .skills-grid { grid-template-columns: 1fr 1fr }
+        .back-section { flex-direction: column; gap: 1.5rem; align-items: flex-start; padding: 2.5rem 1.25rem }
+      }
+
+      /* ══════════════════════════════════════
+         RESPONSIVE — MOBILE 480px
+      ══════════════════════════════════════ */
+      @media(max-width:480px) {
+
+        /* ── ANTI-OVERFLOW ── */
+        * { max-width: 100%; word-break: break-word; box-sizing: border-box }
+        section, .timeline, .ambiance, .page-wrap { overflow-x: hidden }
+        img, table, pre, iframe { max-width: 100% !important }
+
+        /* ── NAV ── */
+        nav { padding: .7rem 1.25rem }
+        .logo { font-size: .58rem }
+        .back-btn { font-size: .55rem; letter-spacing: .04em }
+
+        /* ── HERO ── */
+        .cinematic-hero {
+          padding: 5rem 1.25rem 2.25rem;
+          min-height: auto;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0;
+          overflow: hidden
+        }
+        .cinematic-hero::after { display: none }
+        /* badge en ligne compact, sous le titre */
+        .grade-badge {
+          position: static;
+          display: inline-flex;
+          align-items: center;
+          gap: .5rem;
+          padding: .5rem .9rem;
+          margin-top: 1.25rem;
+          border-radius: 10px;
+          order: 1
+        }
+        .grade-n { font-size: 1.3rem }
+        .grade-l { font-size: .5rem }
+        /* pill du hero-note : pleine largeur pour ne pas déborder */
+        .hero-note {
+          display: flex;
+          width: 100%;
+          max-width: 100%;
+          font-size: .5rem;
+          padding: .3rem .8rem;
+          margin-bottom: .9rem;
+          gap: .3rem;
+          overflow: hidden
+        }
+        .cinematic-hero h1 { font-size: 2.1rem; margin-bottom: .75rem; line-height: 1.05 }
+        .cinematic-hero h1 strong { font-size: 35% }
+        .hero-sub { font-size: .78rem; max-width: 100%; line-height: 1.6 }
+
+        .hero-content { width: 100%; max-width: 100% }
+
+        /* ── TITRES DE SECTION ── */
+        .section-label { font-size: .48rem; margin-bottom: .4rem }
+        /* override inline font-size sur les h2 */
+        section h2, .timeline h2, .ambiance h2 {
+          font-size: 1.45rem !important;
+          line-height: 1.15 !important;
+          margin-bottom: 1.25rem !important
+        }
+
+        /* ── PADDING SECTIONS ── */
+        .timeline { padding: 2.25rem 1.25rem !important }
+        .ambiance  { padding: 2.25rem 1.25rem !important }
+        .back-section { padding: 1.5rem 1.25rem !important; flex-direction: column; gap: .85rem; align-items: flex-start }
+        footer { padding: 1.1rem 1.25rem !important; flex-direction: column; gap: .3rem }
+        footer p { font-size: .58rem }
+        section[style] {
+          padding-left:  1.25rem !important;
+          padding-right: 1.25rem !important;
+          padding-top:    2.25rem !important;
+          padding-bottom: 2.25rem !important
+        }
+
+        /* ── TIMELINE verticale ── */
+        .tl-items { display: flex; flex-direction: column; gap: 0; margin-top: 1.25rem; position: relative }
+        .tl-items::after { display: none }
+        .tl-items::before { content: ''; display: block; position: absolute; left: 3px; top: 0; bottom: 0; width: 1px; background: var(--border) }
+        .tl-item { padding: 1.1rem 0 1.1rem 1.35rem; border-bottom: 1px solid var(--border); position: relative }
+        .tl-item:last-child { border-bottom: none }
+        .tl-item::before { display: block; content: ''; position: absolute; left: 0; top: 1.5rem; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); z-index: 1 }
+        .tl-item::after { display: none }
+        .tl-date { margin-bottom: .25rem; font-size: .5rem; color: var(--accent) }
+        .tl-title { font-size: .8rem; margin-bottom: .25rem }
+        .tl-desc  { font-size: .7rem; line-height: 1.5 }
+
+        /* ── MARCHÉ ── */
+        .marche-grid { grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: 1.25rem }
+        .marche-card { padding: .9rem .8rem }
+        .marche-n { font-size: 1.15rem }
+        .marche-l { font-size: .56rem }
+        .marche-insight { grid-template-columns: 1fr; gap: .5rem; margin-top: 1rem }
+        .marche-insight-card { padding: .85rem }
+        .marche-insight-title { font-size: .75rem }
+        .marche-insight-body { font-size: .68rem }
+
+        /* ── BM + CARTE : colonne unique ── */
+        section[style] > div[style*="grid"] { display: flex !important; flex-direction: column !important; gap: 1.5rem !important }
+        .bm-grid { gap: .45rem }
+        .bm-card { padding: .85rem }
+        .bm-icon { font-size: 1rem }
+        .bm-title { font-size: .6rem }
+        .bm-body { font-size: .7rem }
+        .bm-highlight { font-size: .6rem; padding: .3rem .5rem }
+
+        /* ── MENU ── */
+        .menu-mockup { border-radius: 12px }
+        .menu-cover { padding: 1rem .9rem }
+        .menu-cover-title { font-size: 1.1rem }
+        .menu-section { padding: .75rem .9rem }
+        .menu-item { gap: .12rem }
+        .menu-item-name { font-size: .75rem }
+        .menu-item-region { font-size: .54rem }
+        .menu-item-price { font-size: .65rem }
+        .menu-footer { flex-direction: column; gap: .25rem; padding: .7rem .9rem; font-size: .58rem }
+
+        /* ── FINANCE ── */
+        .finance-wrap { gap: .85rem }
+        .finance-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch }
+        .finance-table th { font-size: .46rem; padding: .45rem .5rem }
+        .finance-table td { font-size: .7rem; padding: .55rem .5rem }
+        .finance-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem }
+        .finance-kpi { padding: .75rem .8rem }
+        .finance-kpi-label { font-size: .56rem }
+        .finance-kpi-val { font-size: .75rem }
+
+        /* ── IDENTITÉ ── */
+        .identity-grid { gap: 1rem }
+        .identity-logo-box { aspect-ratio: 16/5; border-radius: 10px }
+        .identity-typo-row { grid-template-columns: 1fr 1fr; gap: .4rem; margin-top: .5rem }
+        .identity-typo-card { padding: .7rem }
+        .identity-typo-sample { font-size: .95rem; margin-bottom: .25rem }
+        .identity-typo-meta { font-size: .52rem }
+        .identity-color { padding: .45rem .65rem; gap: .55rem }
+        .identity-swatch { width: 22px; height: 22px; border-radius: 5px; flex-shrink: 0 }
+        .identity-color-name { font-size: .65rem }
+        .identity-color-hex { font-size: .52rem }
+
+        /* ── AMBIANCE ── */
+        .ambiance-grid { gap: 1.1rem }
+        .ambiance-visuals { gap: .4rem }
+        .ambiance-img { height: 65px; font-size: 1.4rem }
+        .ambiance-cap { font-size: .56rem; padding: .38rem .6rem }
+
+        /* ── COMPÉTENCES ── */
+        .skills-grid { grid-template-columns: 1fr !important; gap: .45rem }
+        .skill-card { padding: .8rem .95rem; display: flex; align-items: flex-start; gap: .7rem }
+        .skill-icon { font-size: .9rem; margin-bottom: 0; flex-shrink: 0; margin-top: .05rem }
+        .skill-title { font-size: .72rem; margin-bottom: .12rem }
+        .skill-desc { font-size: .62rem }
+
+        /* ── LIENS BAS DE PAGE ── */
+        .next-proj { font-size: .6rem; padding: .55rem .8rem }
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="cur" id="cd">
+      <div class="cur-dot"></div>
+    </div>
+    <div class="cur" id="cr">
+      <div class="cur-ring" id="crr"></div>
+    </div>
+    <div class="page-wrap">
+    <nav>
+      <a href="index.html" class="logo">EVAN <em>ROPARS</em></a>
+      <a href="index.html" class="back-btn">← Retour aux projets</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="cinematic-hero">
+      <div class="grade-badge reveal">
+        <div class="grade-n">16</div>
+        <div class="grade-l">/ 20 Note obtenue</div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-note reveal">🍷 Projet universitaire devenu passion</div>
+        <h1 class="reveal reveal-d1"><strong>Bar à Cépage</strong>L'art de vivre<br>autour du vin</h1>
+        <p class="hero-sub reveal reveal-d2">Un projet né en cours, noté <strong>16/20</strong>, présenté devant un jury simulant une banque. Depuis, je n'ai pas arrêté de l'améliorer sur mon temps libre — parce que l'idée mérite de vivre pour de vrai.</p>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="timeline">
+      <div class="section-label reveal">Histoire du projet</div>
+      <h2 class="reveal reveal-d1" style="font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,3rem);font-style:italic;line-height:1.1;margin-bottom:.5rem;">D'un exercice académique<br>à un projet réel</h2>
+      <div class="tl-items">
+        <div class="tl-item reveal">
+          <div class="tl-date">Année 1</div>
+          <div class="tl-title">Naissance du concept</div>
+          <div class="tl-desc">Projet universitaire, créer un business model complet à présenter devant un jury simulant une banque. L'objectif : convaincre d'investir dans un bar à vin.</div>
+        </div>
+        <div class="tl-item reveal reveal-d1">
+          <div class="tl-date">Jury</div>
+          <div class="tl-title">16/20 Jury convaincu</div>
+          <div class="tl-desc">Présentation du business plan complet : étude de marché terrain (122 réponses), positionnement, budget 500K€, identité de marque. Note : 16/20.</div>
+        </div>
+        <div class="tl-item reveal reveal-d2">
+          <div class="tl-date">Après</div>
+          <div class="tl-title">Le projet continue</div>
+          <div class="tl-desc">Impossible de le laisser dans un tiroir. Je continue à développer le Bar à Cépage, affiner le concept, enrichir l'identité, préparer une ouverture future.</div>
+        </div>
+        <div class="tl-item reveal reveal-d3">
+          <div class="tl-date">Demain</div>
+          <div class="tl-title">Une ambition réelle</div>
+          <div class="tl-desc">Ce projet illustre ma façon de travailler, je ne m'arrête pas à ce qu'on me demande. Je vais plus loin parce que j'y crois.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÉTUDE DE MARCHÉ -->
+    <section style="padding:6rem 2.5rem;border-bottom:1.5px solid var(--border2);background:var(--bg2);">
+      <div class="section-label reveal">Étude de marché</div>
+      <h2 class="reveal reveal-d1" style="font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,3rem);font-style:italic;line-height:1.1;margin-bottom:2rem;">Aix-en-Provence, <br>un terrain idéal</h2>
+      <div class="marche-grid reveal reveal-d2">
+        <div class="marche-card">
+          <div class="marche-n">150K</div>
+          <div class="marche-l">Habitants<br>(+ étudiants & touristes)</div>
+        </div>
+        <div class="marche-card">
+          <div class="marche-n">1,5M</div>
+          <div class="marche-l">Visiteurs par an<br>dans la ville</div>
+        </div>
+        <div class="marche-card">
+          <div class="marche-n">122</div>
+          <div class="marche-l">Réponses à notre<br>questionnaire terrain</div>
+        </div>
+        <div class="marche-card">
+          <div class="marche-n">86%</div>
+          <div class="marche-l">Intéressés ou très<br>intéressés par le concept</div>
+        </div>
+      </div>
+      <div class="marche-insight reveal reveal-d3">
+        <div class="marche-insight-card">
+          <div class="marche-insight-title">🎯 Opportunité identifiée</div>
+          <div class="marche-insight-body">Plus de 300 bars et restaurants à Aix-en-Provence, mais très peu spécialisés en bars à vin haut de gamme. L'emplacement quartier Mazarin, à deux pas de la Rotonde, offre une exposition maximale aux flux touristiques et locaux.</div>
+        </div>
+        <div class="marche-insight-card">
+          <div class="marche-insight-title">📈 Ce que dit l'enquête</div>
+          <div class="marche-insight-body">La sélection de vins (1er facteur de choix), l'ambiance et la localisation sont les critères décisifs. Les créneaux plébiscités : vendredi soir, samedi et en semaine après le travail. Le motif principal : découverte de nouveaux vins (36%) et sorties entre amis (27%).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUSINESS MODEL + CARTE -->
+    <section style="padding:6rem 2.5rem;border-bottom:1.5px solid var(--border2);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;">
+        <div>
+          <div class="section-label reveal">Business Model</div>
+          <h2 class="reveal reveal-d1" style="font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,3rem);font-style:italic;line-height:1.1;margin-bottom:2rem;">Le modèle<br>économique</h2>
+          <div class="bm-grid" style="grid-template-columns:1fr;gap:1rem;">
+            <div class="bm-card reveal">
+              <div class="bm-icon">🍷</div>
+              <div class="bm-title">Positionnement milieu de gamme</div>
+              <div class="bm-body">Bar à vins, planches & dégustations. Cadre authentique et raffiné pour passionnés et curieux. 90 places (intérieur + terrasse), fond de commerce 160 m² Quartier Mazarin, Aix-en-Provence.</div>
+              <div class="bm-highlight">Cible : 25–55 ans, CSP +</div>
+            </div>
+            <div class="bm-card reveal reveal-d1">
+              <div class="bm-icon">💡</div>
+              <div class="bm-title">Sources de revenus</div>
+              <div class="bm-body">Vins au verre (dès 5€), bouteilles, planches (7–36€), ateliers œnologiques, soirées thématiques, privatisations entreprise (B2B).</div>
+              <div class="bm-highlight">Ticket moyen : 28€ / client</div>
+            </div>
+            <div class="bm-card reveal reveal-d2">
+              <div class="bm-icon">📍</div>
+              <div class="bm-title">Fournisseurs locaux</div>
+              <div class="bm-body">Blend Wine & Spirits, La Cave du Cours Mirabeau, Cave du Félibrige, circuits courts et producteurs locaux provençaux. Valorisation du terroir régional.</div>
+              <div class="bm-highlight">49 vins · 5 planches · 7 tapas</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label reveal gold">Carte des vins</div>
+          <h2 class="reveal reveal-d1" style="font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,3rem);font-style:italic;line-height:1.1;margin-bottom:2rem;">La carte,<br>49 références</h2>
+          <div class="menu-mockup reveal reveal-d2">
+            <div class="menu-cover">
+              <div class="menu-cover-title">Le Bar à Cépage</div>
+              <div class="menu-cover-sub">Bar à vins, Planches & Dégustations · Aix-en-Provence</div>
+            </div>
+            <div class="menu-section">
+              <div class="menu-section-title">Vins rouges — Provence</div>
+              <div class="menu-item">
+                <div><div class="menu-item-name">Bandol Rouge "Seint Ferréol"</div><div class="menu-item-region">AOP Côtes de Provence · 2020</div></div>
+                <div class="menu-item-price">36€</div>
+              </div>
+              <div class="menu-item">
+                <div><div class="menu-item-name">Domaine Ott "By Ott"</div><div class="menu-item-region">AOP Côtes de Provence · 2023</div></div>
+                <div class="menu-item-price">27€</div>
+              </div>
+            </div>
+            <div class="menu-section">
+              <div class="menu-section-title">Vins blancs — Vallée du Rhône</div>
+              <div class="menu-item">
+                <div><div class="menu-item-name">La Petite Perrière VDF</div><div class="menu-item-region">Domaine Saget-Perrière · Bio</div></div>
+                <div class="menu-item-price">24€</div>
+              </div>
+              <div class="menu-item">
+                <div><div class="menu-item-name">Grand Vin Blanc</div><div class="menu-item-region">AOP Côtes de Provence · 2023</div></div>
+                <div class="menu-item-price">28€</div>
+              </div>
+            </div>
+            <div class="menu-section">
+              <div class="menu-section-title">Planches & Tapas</div>
+              <div class="menu-item">
+                <div><div class="menu-item-name">Planche Fromagère</div><div class="menu-item-region">Fromages affinés, pain campagne, confiture</div></div>
+                <div class="menu-item-price">16€</div>
+              </div>
+              <div class="menu-item">
+                <div><div class="menu-item-name">Grande Planche Mixte</div><div class="menu-item-region">Charcuteries, fromages & accompagnements</div></div>
+                <div class="menu-item-price">36€</div>
+              </div>
+            </div>
+            <div class="menu-footer">
+              <span class="menu-footer-text">Quartier Mazarin · Aix-en-Provence</span>
+              <span class="menu-footer-text">baracepage@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRÉVISIONS FINANCIÈRES -->
+    <section style="padding:6rem 2.5rem;border-bottom:1.5px solid var(--border2);background:var(--bg2);">
+      <div class="section-label reveal">Budget & Financement</div>
+      <h2 class="reveal reveal-d1" style="font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,3rem);font-style:italic;line-height:1.1;margin-bottom:2rem;">Les chiffres<br>du projet</h2>
+      <div class="finance-wrap reveal reveal-d2">
+        <table class="finance-table">
+          <thead>
+            <tr>
+              <th>Poste de charge</th>
+              <th>Montant prévisionnel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight">
+              <td>Fond de commerce (160 m²)</td>
+              <td>440 000€</td>
+            </tr>
+            <tr>
+              <td>Communication</td>
+              <td>12 000€</td>
+            </tr>
+            <tr>
+              <td>Mobilier & équipements</td>
+              <td>13 500€</td>
+            </tr>
+            <tr>
+              <td>Assurances (Allianz)</td>
+              <td>4 205€</td>
+            </tr>
+            <tr>
+              <td>Dépôt de garantie</td>
+              <td>9 000€</td>
+            </tr>
+            <tr>
+              <td>Stock initial</td>
+              <td>8 500€</td>
+            </tr>
+            <tr>
+              <td>Autres charges & RCS</td>
+              <td>8 698€</td>
+            </tr>
+            <tr class="highlight">
+              <td>Total charges prévisionnelles</td>
+              <td>495 903€</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="finance-kpis">
+          <div class="finance-kpi">
+            <span class="finance-kpi-label">Apports personnels</span>
+            <span class="finance-kpi-val">240 000€</span>
+          </div>
+          <div class="finance-kpi">
+            <span class="finance-kpi-label">Emprunts bancaires</span>
+            <span class="finance-kpi-val">240 000€</span>
+          </div>
+          <div class="finance-kpi gold">
+            <span class="finance-kpi-label">Aides & subventions</span>
+            <span class="finance-kpi-val">20 000€</span>
+          </div>
+          <div class="finance-kpi">
+            <span class="finance-kpi-label">Ticket moyen / client</span>
+            <span class="finance-kpi-val">28€</span>
+          </div>
+          <div class="finance-kpi">
+            <span class="finance-kpi-label">Loyer mensuel</span>
+            <span class="finance-kpi-val">5 500€</span>
+          </div>
+          <div class="finance-kpi gold">
+            <span class="finance-kpi-label">Total financement</span>
+            <span class="finance-kpi-val">500 000€</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IDENTITÉ VISUELLE -->
+    <section class="ambiance">
+      <div class="section-label reveal">Identité visuelle</div>
+      <h2 class="reveal reveal-d1" style="font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,3rem);font-style:italic;line-height:1.1;margin-bottom:2rem;">Une charte graphique<br>cohérente & raffinée</h2>
+      <div class="identity-grid reveal reveal-d2">
+        <div>
+          <div class="identity-logo-box" style="background:#f5f0e8;">
+            <span style="font-size:3rem;">🍷</span>
+            <span style="color:#8b2020;font-family:'Instrument Serif',serif;font-size:1.1rem;font-style:italic;">Le Bar à Cépage.</span>
+            <span style="color:#9a8070;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;">Bar à vins, Planches & dégustations</span>
+          </div>
+          <div class="identity-typo-row" style="margin-top:1rem;">
+            <div class="identity-typo-card">
+              <div class="identity-typo-sample" style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent);">Aa</div>
+              <div class="identity-typo-meta"><strong>Serif italique</strong>Titres · Carte des vins</div>
+            </div>
+            <div class="identity-typo-card">
+              <div class="identity-typo-sample" style="font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;">Aa</div>
+              <div class="identity-typo-meta"><strong>Unbounded</strong>Labels · Prix · Tags</div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.1rem;">
+            <div style="font-family:'Unbounded',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;">Valeurs de la marque</div>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+              <span style="background:rgba(139,32,32,.07);color:var(--accent);border-radius:100px;padding:.3rem .75rem;font-size:.68rem;font-weight:500;">Authenticité</span>
+              <span style="background:rgba(139,32,32,.07);color:var(--accent);border-radius:100px;padding:.3rem .75rem;font-size:.68rem;font-weight:500;">Convivialité</span>
+              <span style="background:rgba(139,32,32,.07);color:var(--accent);border-radius:100px;padding:.3rem .75rem;font-size:.68rem;font-weight:500;">Transmission</span>
+              <span style="background:rgba(201,168,76,.1);color:var(--gold);border-radius:100px;padding:.3rem .75rem;font-size:.68rem;font-weight:500;">Élégance</span>
+              <span style="background:rgba(201,168,76,.1);color:var(--gold);border-radius:100px;padding:.3rem .75rem;font-size:.68rem;font-weight:500;">Excellence</span>
+              <span style="background:rgba(201,168,76,.1);color:var(--gold);border-radius:100px;padding:.3rem .75rem;font-size:.68rem;font-weight:500;">Engagement responsable</span>
+            </div>
+          </div>
+        </div>
+        <div class="identity-palette">
+          <div style="font-family:'Unbounded',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;">Palette chromatique</div>
+          <div class="identity-color">
+            <div class="identity-swatch" style="background:#6b1a2a;"></div>
+            <div><div class="identity-color-name">Bordeaux Profond</div><div class="identity-color-hex">#6B1A2A · Couleur principale</div></div>
+          </div>
+          <div class="identity-color">
+            <div class="identity-swatch" style="background:#f5f0e8;border:1px solid var(--border);"></div>
+            <div><div class="identity-color-name">Parchemin Crème</div><div class="identity-color-hex">#F5F0E8 · Fond & logo</div></div>
+          </div>
+          <div class="identity-color">
+            <div class="identity-swatch" style="background:#b8963a;"></div>
+            <div><div class="identity-color-name">Or Moutarde</div><div class="identity-color-hex">#B8963A · Accent</div></div>
+          </div>
+          <div class="identity-color">
+            <div class="identity-swatch" style="background:#4a6741;"></div>
+            <div><div class="identity-color-name">Vert Vigne</div><div class="identity-color-hex">#4A6741 · Accent secondaire</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AMBIANCE -->
+    <section style="padding:6rem 2.5rem;border-top:1.5px solid var(--border2);border-bottom:1.5px solid var(--border2);">
+      <div class="ambiance-grid">
+        <div>
+          <div class="section-label reveal">Concept & Stratégie</div>
+          <h2 class="reveal reveal-d1" style="font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,3rem);font-style:italic;line-height:1.1;margin-bottom:1.5rem;">Un lieu autant<br>qu'une expérience</h2>
+          <p class="reveal reveal-d2" style="font-size:.95rem;color:var(--ink2);line-height:1.8;font-weight:300;margin-bottom:1rem;">Le Bar à Cépage est une <strong>invitation à la découverte</strong>, un espace où passionnés et curieux se retrouvent pour partager des moments uniques autour d'une sélection exigeante de 49 vins.</p>
+          <p class="reveal reveal-d3" style="font-size:.95rem;color:var(--ink2);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Situé quartier Mazarin à Aix-en-Provence — à deux pas de la Rotonde — le lieu conjugue <strong>terrasse privée chauffée</strong> (rare à Aix), ambiance immersive et ateliers œnologiques.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;" class="reveal">
+            <div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:1rem;">
+              <div style="font-weight:600;font-size:.82rem;margin-bottom:.25rem;">📅 Horaires</div>
+              <div style="font-size:.72rem;color:var(--muted);line-height:1.6;">Mar–Ven : 17h–23h30<br>Samedi : 11h–23h30<br>Fermé lundi & dimanche</div>
+            </div>
+            <div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:1rem;">
+              <div style="font-weight:600;font-size:.82rem;margin-bottom:.25rem;">📍 Emplacement</div>
+              <div style="font-size:.72rem;color:var(--muted);line-height:1.6;">Quartier Mazarin<br>Aix-en-Provence 13100<br>160 m² · 90 places</div>
+            </div>
+          </div>
+        </div>
+        <div class="ambiance-visuals reveal reveal-d1">
+          <div class="ambiance-card">
+            <div class="ambiance-img" style="background:linear-gradient(135deg,#2a0a0a,#6b1a1a);">🍷</div>
+            <div class="ambiance-cap">49 vins — toutes régions françaises</div>
+          </div>
+          <div class="ambiance-card">
+            <div class="ambiance-img" style="background:linear-gradient(135deg,#1c100a,#3d2d20);">🧀</div>
+            <div class="ambiance-cap">Planches & tapas maison</div>
+          </div>
+          <div class="ambiance-card">
+            <div class="ambiance-img" style="background:linear-gradient(135deg,#4a3010,#8b5e2a);">🌿</div>
+            <div class="ambiance-cap">Terrasse privée chauffée</div>
+          </div>
+          <div class="ambiance-card">
+            <div class="ambiance-img" style="background:linear-gradient(135deg,#1a2a1a,#2a5a2a);">🎓</div>
+            <div class="ambiance-cap">Ateliers & dégustations</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPÉTENCES MOBILISÉES -->
+    <section style="padding:6rem 2.5rem;border-bottom:1.5px solid var(--border2);background:var(--bg2);">
+      <div class="section-label reveal">Ce que ce projet m'a appris</div>
+      <h2 class="reveal reveal-d1" style="font-family:'Instrument Serif',serif;font-size:clamp(1.8rem,4vw,3rem);font-style:italic;line-height:1.1;margin-bottom:2rem;">Compétences<br>mobilisées</h2>
+      <div class="skills-grid reveal reveal-d2">
+        <div class="skill-card">
+          <div class="skill-icon">📊</div>
+          <div class="skill-title">Étude de marché terrain</div>
+          <div class="skill-desc">122 réponses collectées, analyse concurrentielle (Le Barav'Aix, Le Vieux Tonneau, El Primo, Comptoir Gueuleton), segmentation et SWOT.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">💼</div>
+          <div class="skill-title">Stratégie marketing (4P)</div>
+          <div class="skill-desc">Produit, Prix, Place et Promotion développés, positionnement milieu de gamme, communication digitale et médias locaux.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">📈</div>
+          <div class="skill-title">Plan financier complet</div>
+          <div class="skill-desc">Budget de 500 000€ (apports + emprunts + aides), structure de charges détaillée, loyer, assurances et stock initial.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🎨</div>
+          <div class="skill-title">Identité de marque</div>
+          <div class="skill-desc">Charte graphique, logo, palette 4 couleurs, carte des vins (49 références), flyers et publications Instagram/Facebook.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">⚖️</div>
+          <div class="skill-title">Cadre juridique & réglementaire</div>
+          <div class="skill-desc">SARL, immatriculation RCS (37,45€), licence Petite Restauration, SACEM (1 000€), normes ERP, assurances Allianz.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon">🎤</div>
+          <div class="skill-title">Pitch devant jury</div>
+          <div class="skill-desc">Présentation orale complète devant un jury simulant une banque 16/20 obtenu. Projet continué après les cours par conviction personnelle.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="back-section">
+      <a href="index.html" class="next-proj">← Tous les projets</a>
+      <a href="venandi.html" class="next-proj">Voir Venandi →</a>
+    </div>
+    <footer>
+      <div class="foot-logo">EVAN <em>ROPARS</em></div>
+      <p>Bar à Cépage · Concept de bar à vin · En développement</p>
+    </footer>
+    </div><!-- /page-wrap -->
+    <script>
+const cd=document.getElementById('cd'),crr=document.getElementById('crr');
+let mx=0,my=0,rx=0,ry=0;
+const isMobileDevice=window.matchMedia('(pointer: coarse)').matches;
+if(!isMobileDevice){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.transform=`translate(${mx-6}px,${my-6}px)`});
+  (function loop(){rx+=(mx-rx-22)*.1;ry+=(my-ry-22)*.1;document.getElementById('cr').style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+  document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>crr.classList.add('hover'));el.addEventListener('mouseleave',()=>crr.classList.remove('hover'))});
+}
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+  </body>
+</html>

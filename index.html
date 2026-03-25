@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evan Ropars — Data Marketing</title>
+  <meta name="description" content="Evan Ropars — étudiant en Data Marketing à Sup de Pub Lyon. +1 600 abonnés, 40 pages SEO, Google Ads, Shopify. Disponible en alternance dès septembre 2026.">
+  <meta property="og:title" content="Evan Ropars — Portfolio Data Marketing">
+  <meta property="og:description" content="+1 600 abonnés, 40 pages SEO, 13 personnes managées. Étudiant en Data Marketing à Lyon, disponible en alternance sept. 2026.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if(sessionStorage.getItem('ev_intro_done')){
+      document.documentElement.classList.add('no-loader');
+    } else {
+      sessionStorage.setItem('ev_intro_done', '1');
+    }
+  </script>
+  <style>.no-loader #loader{display:none!important}</style>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='sans-serif' font-weight='900'>E</text></svg>">
+  <style>
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+    /* ── BACK TO TOP ── */
+    .back-top{position:fixed;bottom:2rem;right:2rem;z-index:150;width:44px;height:44px;border-radius:50%;background:var(--ink);color:white;border:none;font-size:1rem;cursor:none;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(12px);transition:opacity .3s,transform .3s,background .2s;pointer-events:none}
+    .back-top.visible{opacity:1;transform:none;pointer-events:auto}
+    .back-top:hover{background:var(--accent)}
+    @media(pointer:coarse){.back-top{cursor:pointer}}
+    /* ── PROJ DESC ── */
+    .proj-desc{font-size:.72rem;color:rgba(255,255,255,.5);line-height:1.6;margin-top:.4rem;font-weight:300;max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .35s ease}
+    .proj-card:hover .proj-desc{max-height:2.5rem;opacity:1}
+    .proj-card:nth-child(2) .proj-desc,.proj-card:nth-child(3) .proj-desc{color:rgba(13,12,10,.45)}
+    /* ── PREUVE SOCIALE ── */
+    .proof-strip{padding:4rem 2.5rem;background:var(--ink);display:flex;align-items:center;gap:3rem;border-bottom:1.5px solid rgba(255,255,255,.06)}
+    .proof-quote{font-family:'Instrument Serif',serif;font-size:clamp(1.05rem,2vw,1.5rem);font-style:italic;color:white;line-height:1.45;flex:1}
+    .proof-sep{width:1px;height:60px;background:rgba(255,255,255,.1);flex-shrink:0}
+    .proof-attr{font-size:.65rem;color:rgba(255,255,255,.35);line-height:1.6;white-space:nowrap}
+    .proof-attr strong{color:rgba(255,255,255,.6);font-weight:500}
+    @media(max-width:768px){.proof-strip{flex-direction:column;gap:1.5rem;padding:3rem 1.25rem}.proof-sep{display:none}.proof-attr{white-space:normal}}
+    /* ── PROCESS ── */
+    .process-section{padding:6rem 2.5rem;border-bottom:1.5px solid var(--border2)}
+    .process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem;position:relative}
+    .process-step{padding:1.75rem;background:white;border:1.5px solid var(--border);border-radius:18px;position:relative;transition:border-color .2s,transform .2s}
+    .process-step:hover{border-color:var(--accent);transform:translateY(-3px)}
+    .process-connector{position:absolute;top:50%;right:-1.5rem;width:1.5rem;height:1px;background:var(--border2)}
+    .process-step:last-child .process-connector{display:none}
+    .step-num{font-family:'Unbounded',sans-serif;font-size:.5rem;font-weight:700;letter-spacing:.1em;color:var(--accent);margin-bottom:1rem}
+    .step-title{font-size:.92rem;font-weight:700;margin-bottom:.55rem}
+    .step-desc{font-size:.76rem;color:var(--ink2);line-height:1.65;font-weight:300}
+    @media(max-width:768px){.process-steps{grid-template-columns:1fr 1fr}.process-connector{display:none}}
+    @media(max-width:480px){.process-section{padding:2.5rem 1.25rem}.process-steps{grid-template-columns:1fr}}
+  </style>
+</head>
+
+<body>
+  <!-- ── LOADER BOMBE ── -->
+<div id="loader">
+  <div class="ldr-rays">
+    <div class="ldr-ray"></div>
+    <div class="ldr-ray"></div>
+    <div class="ldr-ray"></div>
+    <div class="ldr-ray"></div>
+    <div class="ldr-ray"></div>
+  </div>
+  <div class="ldr-content">
+    <div class="ldr-eyebrow">Portfolio · 2026</div>
+    <div class="ldr-bomb-wrap">
+      <div class="ldr-bomb" id="ldrBomb">
+        <div class="ldr-fuse" id="ldrFuse">
+          <div class="ldr-spark"></div>
+        </div>
+        <div class="ldr-bomb-body">
+          <div class="ldr-bomb-shine"></div>
+        </div>
+      </div>
+      <div class="ldr-explosion" id="ldrExplosion">
+        <div class="ldr-exp-ring r1"></div>
+        <div class="ldr-exp-ring r2"></div>
+        <div class="ldr-exp-ring r3"></div>
+        <div class="ldr-exp-ring r4"></div>
+        <div class="ldr-exp-particles" id="ldrParticles"></div>
+        <div class="ldr-exp-core"></div>
+        <div class="ldr-exp-flash" id="ldrFlash"></div>
+      </div>
+    </div>
+    <div class="ldr-name">EVAN ROPARS</div>
+    <div class="ldr-bar-wrap">
+      <div class="ldr-bar" id="ldrBar"></div>
+    </div>
+    <div class="ldr-sub" id="ldrSub">Chargement...</div>
+  </div>
+</div>
+
+<style>
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #131110;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: none;
+}
+
+/* ── RAYONS ── */
+.ldr-rays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.ldr-ray {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform-origin: top center;
+  opacity: 0;
+  animation: ldrRayIn .8s ease forwards;
+}
+.ldr-ray:nth-child(1){width:180px;height:160%;background:linear-gradient(to bottom,rgba(245,212,64,.15),transparent);transform:rotate(-55deg);animation-delay:.1s}
+.ldr-ray:nth-child(2){width:120px;height:160%;background:linear-gradient(to bottom,rgba(245,212,64,.1),transparent);transform:rotate(-35deg);animation-delay:.15s}
+.ldr-ray:nth-child(3){width:200px;height:160%;background:linear-gradient(to bottom,rgba(245,212,64,.12),transparent);transform:rotate(-18deg);animation-delay:.05s}
+.ldr-ray:nth-child(4){width:160px;height:160%;background:linear-gradient(to bottom,rgba(232,64,28,.08),transparent);transform:rotate(-5deg);animation-delay:.2s}
+.ldr-ray:nth-child(5){width:100px;height:160%;background:linear-gradient(to bottom,rgba(245,212,64,.1),transparent);transform:rotate(-68deg);animation-delay:.08s}
+@keyframes ldrRayIn{from{opacity:0}to{opacity:1}}
+
+/* ── CONTENU ── */
+.ldr-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.ldr-eyebrow {
+  font-family:'DM Sans',sans-serif;
+  font-size:.65rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+  opacity:0;
+  animation:ldrUp .5s .2s ease forwards;
+}
+
+/* ── BOMBE ── */
+.ldr-bomb-wrap {
+  position:relative;
+  width:120px;
+  height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.ldr-bomb {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  opacity:0;
+  animation:ldrUp .5s .3s ease forwards;
+}
+.ldr-bomb.shaking { animation:ldrShake .07s linear infinite !important; }
+@keyframes ldrShake{0%,100%{transform:rotate(-4deg) scale(1.06)}50%{transform:rotate(4deg) scale(1.06)}}
+.ldr-fuse {
+  width:4px;
+  height:40px;
+  background:linear-gradient(to bottom,#8B5E3C,#5a3a1a);
+  border-radius:2px;
+  position:relative;
+  transform:rotate(20deg);
+  margin-bottom:-4px;
+}
+.ldr-spark {
+  position:absolute;
+  top:0;left:50%;
+  transform:translateX(-50%);
+  width:10px;height:10px;
+  border-radius:50%;
+  box-shadow:0 0 8px #f5d440,0 0 20px #ff6b45;
+  animation:ldrSpark .12s linear infinite;
+}
+@keyframes ldrSpark{
+  0%{background:#fff;transform:translateX(-50%) scale(1)}
+  50%{background:#f5d440;transform:translateX(-50%) scale(1.4) translateY(-2px)}
+  100%{background:#e8401c;transform:translateX(-50%) scale(.8) translateY(1px)}
+}
+.ldr-bomb-body {
+  width:80px;height:80px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#444,#111 60%,#000);
+  box-shadow:0 8px 24px rgba(0,0,0,.8),inset 0 2px 4px rgba(255,255,255,.08);
+  position:relative;overflow:hidden;
+}
+.ldr-bomb-shine {
+  position:absolute;
+  top:12px;left:16px;
+  width:22px;height:14px;
+  background:rgba(255,255,255,.12);
+  border-radius:50%;
+  transform:rotate(-30deg);
+}
+
+/* ── EXPLOSION ── */
+.ldr-explosion {
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+}
+.ldr-explosion.boom { opacity:1; }
+
+.ldr-exp-core {
+  position:absolute;
+  width:60px;height:60px;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,#f5d440 30%,#e8401c 60%,transparent 80%);
+  opacity:0;
+  transform:scale(0);
+}
+.ldr-explosion.boom .ldr-exp-core {
+  animation:ldrCore .4s ease-out forwards;
+}
+@keyframes ldrCore{
+  0%{transform:scale(0);opacity:1}
+  50%{transform:scale(3);opacity:.8}
+  100%{transform:scale(6);opacity:0}
+}
+
+.ldr-exp-ring {
+  position:absolute;
+  border-radius:50%;
+  opacity:0;
+}
+.ldr-explosion.boom .r1{animation:ldrRing .6s .0s ease-out forwards;width:60px;height:60px;border:4px solid #fff}
+.ldr-explosion.boom .r2{animation:ldrRing .7s .06s ease-out forwards;width:60px;height:60px;border:3px solid #f5d440}
+.ldr-explosion.boom .r3{animation:ldrRing .8s .12s ease-out forwards;width:60px;height:60px;border:2px solid #e8401c}
+.ldr-explosion.boom .r4{animation:ldrRing .9s .2s ease-out forwards;width:60px;height:60px;border:1.5px solid rgba(255,107,69,.5)}
+@keyframes ldrRing{
+  0%{transform:scale(0);opacity:1}
+  100%{transform:scale(10);opacity:0}
+}
+
+.ldr-exp-flash {
+  position:fixed;
+  inset:-50vw;
+  background:white;
+  opacity:0;
+  z-index:99;
+  pointer-events:none;
+}
+.ldr-exp-flash.flash {
+  animation:ldrBigFlash .4s ease-out forwards;
+}
+@keyframes ldrBigFlash{
+  0%{opacity:1}
+  100%{opacity:0}
+}
+
+.ldr-exp-particles{position:absolute;width:0;height:0}
+
+/* ── NOM ── */
+.ldr-name {
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(1.8rem,7vw,5rem);
+  font-weight:900;
+  letter-spacing:-.04em;
+  color:white;
+  opacity:0;
+  animation:ldrUp .5s .5s ease forwards;
+}
+
+/* ── BARRE ── */
+.ldr-bar-wrap {
+  width:220px;height:2px;
+  background:rgba(255,255,255,.1);
+  border-radius:2px;overflow:hidden;
+  opacity:0;
+  animation:ldrUp .4s .65s ease forwards;
+}
+.ldr-bar {
+  height:100%;width:0%;
+  background:#e8401c;
+  border-radius:2px;
+}
+.ldr-sub {
+  font-family:'DM Sans',sans-serif;
+  font-size:.62rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+  opacity:0;
+  animation:ldrUp .4s .75s ease forwards;
+}
+
+@keyframes ldrUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SORTIE — le loader se déchire vers l'extérieur ── */
+#loader.exit {
+  animation:ldrExplodeOut .6s ease-in forwards;
+  transform-origin:center center;
+}
+@keyframes ldrExplodeOut{
+  0%  {clip-path:circle(150% at 50% 50%);opacity:1}
+  40% {clip-path:circle(150% at 50% 50%);opacity:1}
+  100%{clip-path:circle(0% at 50% 50%);opacity:0}
+}
+</style>
+
+<script>
+(function(){
+  const loader = document.getElementById('loader');
+
+  // Si déjà visité : loader caché, hero visible immédiatement
+  if(document.documentElement.classList.contains('no-loader')){
+    const hw = document.querySelector('.hero-name-wrap');
+    if(hw){ hw.style.opacity='1'; hw.style.animation='none'; }
+    return;
+  }
+
+  const bomb      = document.getElementById('ldrBomb');
+  const fuse      = document.getElementById('ldrFuse');
+  const explosion = document.getElementById('ldrExplosion');
+  const flash     = document.getElementById('ldrFlash');
+  const bar       = document.getElementById('ldrBar');
+  const sub       = document.getElementById('ldrSub');
+  const particles = document.getElementById('ldrParticles');
+  let progress = 0;
+
+  const iv = setInterval(()=>{
+    progress += 1.8;
+    bar.style.width = Math.min(progress,100)+'%';
+    fuse.style.height = Math.max(4, 40*(1-progress/100))+'px';
+
+    if(progress>=50) sub.textContent='Presque prêt...';
+    if(progress>=80){ bomb.classList.add('shaking'); sub.textContent='Attention... 💣'; }
+    if(progress>=100){ clearInterval(iv); boom(); }
+  }, 22);
+
+  function boom(){
+    bomb.style.opacity='0';
+    explosion.classList.add('boom');
+    flash.classList.add('flash');
+
+    // Particules
+    const colors=['#f5d440','#e8401c','#ff6b45','#ffffff','#ff9900','#fbbf24'];
+    for(let i=0;i<36;i++){
+      const angle=(i/36)*360;
+      const dist=80+Math.random()*120;
+      const color=colors[Math.floor(Math.random()*colors.length)];
+      const size=3+Math.random()*10;
+      const rad=(angle*Math.PI)/180;
+      const dx=Math.cos(rad)*dist;
+      const dy=Math.sin(rad)*dist;
+      const p=document.createElement('div');
+      p.style.cssText=`position:absolute;width:${size}px;height:${size}px;border-radius:${Math.random()>.4?'50%':'2px'};background:${color};box-shadow:0 0 8px ${color};`;
+      const s=document.createElement('style');
+      s.textContent=`@keyframes lp${i}{0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1}100%{transform:translate(${dx}px,${dy}px) scale(0) rotate(${Math.random()*360}deg);opacity:0}}`;
+      document.head.appendChild(s);
+      p.style.animation=`lp${i} .8s ease-out forwards`;
+      particles.appendChild(p);
+    }
+
+    sub.textContent='💥 BOOM !';
+    sub.style.color='#e8401c';
+    sub.style.opacity='1';
+
+    // Le nom du loader vole vers le nom géant de la hero
+    setTimeout(()=>{
+      const ldrName  = document.querySelector('.ldr-name');
+      const heroName = document.getElementById('heroName');
+      const heroWrap = document.querySelector('.hero-name-wrap');
+
+      if(ldrName && heroName && heroWrap){
+        // Gèle le nom hero (déjà animé en arrière-plan sous le loader)
+        heroWrap.style.animation='none';
+        heroWrap.style.opacity='0';
+
+        const fr = ldrName.getBoundingClientRect();
+        const to = heroName.getBoundingClientRect();
+
+        // Couleur et taille réelles du hero name
+        const heroStyle = getComputedStyle(heroName);
+        const heroColor = heroStyle.color;
+        const heroFs    = parseFloat(heroStyle.fontSize);
+        const fs        = parseFloat(getComputedStyle(ldrName).fontSize);
+
+        // Clone flottant fixed — sans width contrainte, positionné à 0,0
+        const clone = document.createElement('div');
+        clone.textContent='EVAN ROPARS';
+        clone.style.cssText=[
+          'position:fixed','left:0','top:0',
+          `font-family:'Unbounded',sans-serif`,
+          `font-size:${fs}px`,
+          'font-weight:900',
+          'letter-spacing:-.04em',
+          'color:white',
+          'z-index:9999999',
+          'margin:0','padding:0',
+          'pointer-events:none',
+          'white-space:nowrap',
+          'will-change:transform'
+        ].join(';');
+        document.body.appendChild(clone);
+
+        // Mesure la taille naturelle du clone (force reflow)
+        const cr  = clone.getBoundingClientRect();
+
+        // Bords réels du texte hero (lettres, pas le flex container)
+        const letters       = heroName.querySelectorAll('.letter-wrap');
+        const firstR        = letters[0].getBoundingClientRect();
+        const lastR         = letters[letters.length-1].getBoundingClientRect();
+        const heroTextLeft  = firstR.left;
+        const heroTextWidth = lastR.right - firstR.left;
+        const heroTextCY    = (firstR.top + lastR.bottom) / 2;
+
+        // Clone positionné à l'identique du loader name (bord gauche aligné)
+        const frLeft = fr.left + fr.width/2 - cr.width/2; // bord gauche du loader name
+        const frCY   = fr.top  + fr.height/2;
+        clone.style.left = frLeft + 'px';
+        clone.style.top  = (frCY - cr.height/2) + 'px';
+
+        // Cache le nom du loader et fait fondre le loader
+        ldrName.style.opacity='0';
+        loader.style.transition='opacity .35s ease';
+        loader.style.opacity='0';
+        setTimeout(()=>{ loader.style.display='none'; },380);
+
+        // Scale basé sur les largeurs réelles mesurées
+        const sc = heroTextWidth / cr.width;
+        // translate : bord gauche clone → bord gauche du texte hero
+        //             centre Y clone → centre Y du texte hero
+        const dx = heroTextLeft - frLeft;
+        const dy = heroTextCY   - frCY;
+
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{
+          // transform-origin left center : le scale s'étend vers la droite
+          // → bord gauche reste fixé sur heroTextLeft après translate ✓
+          clone.style.transition='transform .65s cubic-bezier(.22,1,.36,1), color .45s .1s, opacity .18s .5s';
+          clone.style.transformOrigin='left center';
+          clone.style.transform=`translate(${dx}px,${dy}px) scale(${sc})`;
+          clone.style.color=heroColor;
+
+          // Cross-fade : le clone s'efface, le vrai nom apparaît
+          setTimeout(()=>{
+            heroWrap.style.transition='opacity .18s';
+            heroWrap.style.opacity='1';
+          }, 500);
+          setTimeout(()=>{ clone.remove(); }, 700);
+        }));
+
+      } else {
+        loader.classList.add('exit');
+        setTimeout(()=>{ loader.style.display='none'; },650);
+      }
+    },600);
+  }
+})();
+</script>
+
+  <h1 class="sr-only">Evan Ropars — Étudiant en Data Marketing, alternance Lyon sept. 2026</h1>
+  <button class="back-top" id="backTop" aria-label="Retour en haut">↑</button>
+
+  <div class="cur" id="cd">
+    <div class="cur-dot"></div>
+  </div>
+  <div class="cur" id="cr">
+    <div class="cur-ring" id="crr"></div>
+  </div>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo"><span class="nav-logo-e">E</span><span class="nav-logo-r">R</span></a>
+      <a href="#work" class="nav-link">Projets</a>
+      <a href="#about" class="nav-link">Histoire</a>
+      <a href="#data" class="nav-link">Compétences</a>
+      <a href="#contact" class="nav-link nav-link-active">Contact</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="mailto:evanropars63@gmail.com" class="nav-cta-pill">Me recruter</a>
+      <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-mobile-menu" id="navMobileMenu" aria-hidden="true">
+    <button class="nav-mobile-close" id="navMobileClose" aria-label="Fermer" onclick="document.getElementById('navMobileMenu').classList.remove('open');document.getElementById('navBurger').classList.remove('open');document.body.style.overflow='';">&#10005;</button>
+    <a href="#work" class="nav-mobile-link">Projets</a>
+    <a href="#about" class="nav-mobile-link">Histoire</a>
+    <a href="#data" class="nav-mobile-link">Compétences</a>
+    <a href="#contact" class="nav-mobile-link">Contact</a>
+    <a href="blog.html" class="nav-mobile-link">Blog</a>
+    <a href="mailto:evanropars63@gmail.com" class="nav-mobile-link nav-mobile-cta">Me recruter</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+
+    <!-- RAYONS DE LUMIERE -->
+    <div class="hero-rays" id="heroRays">
+      <div class="ray ray-1"></div>
+      <div class="ray ray-2"></div>
+      <div class="ray ray-3"></div>
+      <div class="ray ray-4"></div>
+      <div class="ray ray-5"></div>
+      <div class="ray ray-6"></div>
+    </div>
+
+    <!-- STICKERS FIXES (parallax) -->
+    <div class="sticker" style="top:12%;right:6%;transform:rotate(6deg);" data-depth="4">
+      <div class="sticker-round">DATA<br>DRIVEN<br>✦</div>
+    </div>
+    <div class="sticker" style="top:20%;right:24%;transform:rotate(-4deg);" data-depth="6">
+      <div class="sticker-chart">
+        <div id="stickerAbonnesLabel" style="font-size:.62rem;letter-spacing:.08em;opacity:.7;margin-bottom:.2rem;">ABONNÉS</div>
+        <div style="font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;color:var(--yellow);">+1 600
+        </div>
+        <div class="mini-bars">
+          <div class="mini-bar" style="height:8px;opacity:.4;"></div>
+          <div class="mini-bar" style="height:14px;opacity:.5;"></div>
+          <div class="mini-bar" style="height:20px;opacity:.7;"></div>
+          <div class="mini-bar" style="height:16px;opacity:.6;"></div>
+          <div class="mini-bar" style="height:26px;"></div>
+          <div class="mini-bar" style="height:28px;background:var(--accent2);"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sticker" style="top:58%;right:4%;transform:rotate(3deg);" data-depth="3">
+      <div class="sticker-inner"><span>📍</span> Lyon, France</div>
+    </div>
+    <div class="sticker" style="top:72%;right:18%;transform:rotate(-5deg);" data-depth="5">
+      <div class="sticker-badge">Dispo sept. 2026</div>
+    </div>
+    <div class="sticker" style="top:35%;right:12%;transform:rotate(8deg);" data-depth="4">
+      <div class="sticker-tag">Sup de Pub Lyon</div>
+    </div>
+    <div class="sticker" style="top:10%;right:38%;transform:rotate(-3deg);" data-depth="3">
+      <div class="sticker-inner"><span>🎯</span> e-Business & Data</div>
+    </div>
+
+    <!-- CONTENU HERO -->
+    <div class="hero-content">
+      <div class="hero-eyebrow" id="heroEyebrow">
+        <span class="dot-pulse"></span><span id="heroEyebrowTxt">Disponible en alternance · Data Marketing · Lyon</span>
+      </div>
+
+      <div class="hero-intro" id="heroIntro">
+        Je ne cherche pas à être prêt avant de commencer.<br>Je <strong>deviens capable</strong> en faisant.
+      </div>
+
+      <!-- COUNTDOWN DISPO -->
+      <div class="countdown-pill">
+        <span class="countdown-dot"></span>
+        <span id="countdownNum" class="countdown-num"></span>
+        <span id="countdownLabel" class="countdown-label">jours pour me recruter</span>
+      </div>
+
+      <!-- NOM GÉANT INTERACTIF -->
+      <div class="hero-name-wrap">
+        <div class="hero-name" id="heroName">
+          <span class="letter-wrap" data-letter="E"><span class="letter">E</span></span><span class="letter-wrap"
+            data-letter="V"><span class="letter">V</span></span><span class="letter-wrap" data-letter="A"><span
+              class="letter">A</span></span><span class="letter-wrap" data-letter="N"><span
+              class="letter">N</span></span><span class="letter-space"> </span><span class="letter-wrap"
+            data-letter="R1"><span class="letter">R</span></span><span class="letter-wrap" data-letter="O"><span
+              class="letter">O</span></span><span class="letter-wrap" data-letter="P"><span
+              class="letter">P</span></span><span class="letter-wrap" data-letter="A2"><span
+              class="letter">A</span></span><span class="letter-wrap" data-letter="R"><span
+              class="letter">R</span></span><span class="letter-wrap" data-letter="S"><span
+              class="letter">S</span></span>
+        </div>
+      </div>
+
+      <!-- IMAGE STICKERS sur les lettres -->
+      <!-- E = graphique/analytics -->
+      <div class="letter-sticker" id="ls-E" style="--ls-rot:-6deg;width:56px;height:56px;">
+        <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+          <rect width="56" height="56" rx="10" fill="#131110" />
+          <rect x="8" y="38" width="6" height="10" rx="2" fill="#f5d440" opacity=".5" />
+          <rect x="17" y="30" width="6" height="18" rx="2" fill="#f5d440" opacity=".7" />
+          <rect x="26" y="22" width="6" height="26" rx="2" fill="#f5d440" />
+          <rect x="35" y="14" width="6" height="34" rx="2" fill="#e8401c" />
+          <polyline points="11,38 20,30 29,22 38,14" stroke="#fff" stroke-width="1.5" fill="none"
+            stroke-linecap="round" />
+        </svg>
+      </div>
+      <!-- V = Venandi / forêt -->
+      <div class="letter-sticker" id="ls-V" style="--ls-rot:5deg;width:54px;height:54px;">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="54" rx="10" fill="#1a5c38" />
+          <polygon points="27,8 38,28 16,28" fill="#2dba72" />
+          <polygon points="27,18 40,38 14,38" fill="#7ab84e" />
+          <rect x="23" y="38" width="8" height="10" rx="2" fill="#73543C" />
+        </svg>
+      </div>
+      <!-- A = Alternance / calendar -->
+      <div class="letter-sticker" id="ls-A" style="--ls-rot:-8deg;width:54px;height:54px;">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="54" rx="10" fill="#e8401c" />
+          <rect x="9" y="15" width="36" height="30" rx="4" fill="white" opacity=".15" />
+          <rect x="9" y="15" width="36" height="9" rx="4" fill="white" opacity=".3" />
+          <text x="27" y="38" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700"
+            fill="white">2026</text>
+          <rect x="17" y="10" width="4" height="9" rx="2" fill="white" />
+          <rect x="33" y="10" width="4" height="9" rx="2" fill="white" />
+        </svg>
+      </div>
+      <!-- N = Likèn / nature leaf -->
+      <div class="letter-sticker" id="ls-N" style="--ls-rot:7deg;width:54px;height:54px;">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="54" rx="10" fill="#EEE0CC" />
+          <path d="M27 44 Q10 30 14 14 Q28 10 40 22 Q48 36 27 44Z" fill="#5D866C" />
+          <line x1="27" y1="44" x2="27" y2="18" stroke="#EEE0CC" stroke-width="1.5" />
+          <line x1="27" y1="32" x2="20" y2="26" stroke="#EEE0CC" stroke-width="1" />
+          <line x1="27" y1="26" x2="34" y2="21" stroke="#EEE0CC" stroke-width="1" />
+        </svg>
+      </div>
+      <!-- R = Google Ads / target -->
+      <div class="letter-sticker" id="ls-R" style="--ls-rot:-5deg;width:54px;height:54px;">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="54" rx="10" fill="#f5f2eb" />
+          <circle cx="27" cy="27" r="18" stroke="#e8401c" stroke-width="2.5" fill="none" />
+          <circle cx="27" cy="27" r="11" stroke="#e8401c" stroke-width="2" fill="none" opacity=".6" />
+          <circle cx="27" cy="27" r="5" fill="#e8401c" />
+          <line x1="27" y1="4" x2="27" y2="12" stroke="#131110" stroke-width="2" stroke-linecap="round" />
+          <line x1="27" y1="42" x2="27" y2="50" stroke="#131110" stroke-width="2" stroke-linecap="round" />
+          <line x1="4" y1="27" x2="12" y2="27" stroke="#131110" stroke-width="2" stroke-linecap="round" />
+          <line x1="42" y1="27" x2="50" y2="27" stroke="#131110" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <!-- O = Bar à Cépage / wine -->
+      <div class="letter-sticker" id="ls-O" style="--ls-rot:9deg;width:54px;height:54px;">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="54" rx="10" fill="#1c100a" />
+          <path d="M22 10 L22 26 Q22 36 27 36 Q32 36 32 26 L32 10 Z" fill="#8b2020" opacity=".9" />
+          <path d="M22 18 Q27 22 32 18" fill="#c43030" />
+          <rect x="25" y="36" width="4" height="10" rx="2" fill="#73543C" />
+          <rect x="19" y="45" width="16" height="3" rx="1.5" fill="#73543C" />
+          <path d="M20 10 L34 10" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </div>
+      <!-- P = Shopify / ecommerce -->
+      <div class="letter-sticker" id="ls-P" style="--ls-rot:-7deg;width:54px;height:54px;">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="54" rx="10" fill="#96bf48" />
+          <rect x="12" y="16" width="30" height="22" rx="3" fill="white" opacity=".2" />
+          <path d="M12 20 L42 20 L38 38 L16 38Z" fill="white" opacity=".15" />
+          <text x="27" y="33" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="800"
+            fill="white">S</text>
+          <circle cx="20" cy="42" r="3" fill="white" opacity=".8" />
+          <circle cx="34" cy="42" r="3" fill="white" opacity=".8" />
+        </svg>
+      </div>
+      <!-- A2 = prépa militaire -->
+      <div class="letter-sticker" id="ls-A2" style="--ls-rot:6deg;width:54px;height:54px;">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="54" rx="10" fill="#2a3a1a" />
+          <polygon points="27,8 34,20 48,20 37,29 41,43 27,34 13,43 17,29 6,20 20,20" fill="#7ab84e" opacity=".9" />
+          <polygon points="27,14 32,23 42,23 34,29 37,39 27,33 17,39 20,29 12,23 22,23" fill="#f5d440" opacity=".7" />
+        </svg>
+      </div>
+      <!-- S = Sup de Pub / diplôme -->
+      <div class="letter-sticker" id="ls-S" style="--ls-rot:-4deg;width:54px;height:54px;">
+        <svg viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="54" rx="10" fill="#131110" />
+          <polygon points="27,10 30,20 41,20 32,27 35,38 27,31 19,38 22,27 13,20 24,20" fill="#e8401c" />
+          <rect x="14" y="40" width="26" height="3" rx="1.5" fill="white" opacity=".3" />
+          <rect x="19" y="44" width="16" height="3" rx="1.5" fill="white" opacity=".2" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-track">
+        <div class="scroll-fill"></div>
+      </div>Scroll
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <div class="ticker-item">Data Marketing <span class="sep">◆</span></div>
+      <div class="ticker-item">Google Ads <span class="sep">◆</span></div>
+      <div class="ticker-item">Looker Studio <span class="sep">◆</span></div>
+      <div class="ticker-item">+1 600 abonnés Instagram <span class="sep">◆</span></div>
+      <div class="ticker-item">40 pages optimisées SEO <span class="sep">◆</span></div>
+      <div class="ticker-item">Branding & Identité de marque <span class="sep">◆</span></div>
+      <div class="ticker-item">Shopify <span class="sep">◆</span></div>
+      <div class="ticker-item">13 étudiants managés <span class="sep">◆</span></div>
+      <div class="ticker-item">Budget +800€ excédent <span class="sep">◆</span></div>
+      <div class="ticker-item">Sup de Pub Lyon <span class="sep">◆</span></div>
+      <div class="ticker-item">Data Marketing <span class="sep">◆</span></div>
+      <div class="ticker-item">Google Ads <span class="sep">◆</span></div>
+      <div class="ticker-item">Looker Studio <span class="sep">◆</span></div>
+      <div class="ticker-item">+1 600 abonnés Instagram <span class="sep">◆</span></div>
+      <div class="ticker-item">40 pages optimisées SEO <span class="sep">◆</span></div>
+      <div class="ticker-item">Branding & Identité de marque <span class="sep">◆</span></div>
+      <div class="ticker-item">Shopify <span class="sep">◆</span></div>
+      <div class="ticker-item">13 étudiants managés <span class="sep">◆</span></div>
+      <div class="ticker-item">Budget +800€ excédent <span class="sep">◆</span></div>
+      <div class="ticker-item">Sup de Pub Lyon <span class="sep">◆</span></div>
+    </div>
+  </div>
+
+  <!-- PROJETS — GRILLE BEHANCE -->
+  <section class="work" id="work">
+
+    <div class="work-header reveal">
+      <div>
+        <h2>Mes <em>projets</em></h2>
+      </div>
+      <span class="work-sub">04 réalisations</span>
+    </div>
+
+    <div class="proj-grid reveal">
+
+      <!-- ── CARTE 1 — VENANDI (grande, gauche) ── -->
+      <a href="venandi.html" class="proj-card">
+        <div class="proj-card-inner">
+          <div class="proj-bg proj-bg-1"></div>
+          <div class="proj-stat">
+            <span class="proj-stat-val">+1 600</span>
+            <span class="proj-stat-label">abonnés en 6 mois</span>
+          </div>
+          <div class="proj-content">
+            <div class="proj-top">
+              <span class="proj-num" style="color:rgba(255,255,255,.4);">01</span>
+              <div class="proj-arrow" style="color:white;">↗</div>
+            </div>
+            <div class="proj-bottom">
+              <div class="proj-tags">
+                <span class="proj-tag">Google Ads</span>
+                <span class="proj-tag">SEO</span>
+                <span class="proj-tag">Shopify</span>
+                <span class="proj-tag">WordPress</span>
+                <span class="proj-tag">Gestion de contenu</span>
+              </div>
+              <div class="proj-title">Venandi</div>
+              <div class="proj-subtitle">Responsable Marketing & Communication · Alternance</div>
+              <div class="proj-desc">Marketing 360° en autonomie, SEO, Google Ads, Shopify, réseaux sociaux</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- ── CARTE 2 — LIKÈN (petite, haut droite) ── -->
+      <a href="liken.html" class="proj-card">
+        <div class="proj-card-inner">
+          <div class="proj-bg proj-bg-2"></div>
+          <div class="proj-stat">
+            <span class="proj-stat-val">Brandbook</span>
+            <span class="proj-stat-label">complet</span>
+          </div>
+          <div class="proj-content">
+            <div class="proj-top">
+              <span class="proj-num" style="color:rgba(19,17,16,.35);">02</span>
+              <div class="proj-arrow" style="color:var(--ink);">↗</div>
+            </div>
+            <div class="proj-bottom">
+              <div class="proj-tags">
+                <span class="proj-tag">Branding</span>
+                <span class="proj-tag">Gestion de contenu</span>
+              </div>
+              <div class="proj-title">Likèn</div>
+              <div class="proj-subtitle">Brand Identity complète, nature sauvage</div>
+              <div class="proj-desc">Identité de marque de A à Z, logo, charte, ton éditorial</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- ── CARTE 3 — BAR À CÉPAGE (petite, bas droite) ── -->
+      <a href="cepage.html" class="proj-card">
+        <div class="proj-card-inner">
+          <div class="proj-bg proj-bg-3"></div>
+          <div class="proj-stat">
+            <span class="proj-stat-val">16 / 20</span>
+            <span class="proj-stat-label">jury simulé banque</span>
+          </div>
+          <div class="proj-content">
+            <div class="proj-top">
+              <span class="proj-num" style="color:rgb(255, 255, 255);">03</span>
+              <div class="proj-arrow" style="color:rgb(255, 255, 255);">↗</div>
+            </div>
+            <div class="proj-bottom">
+              <div class="proj-tags">
+                <span class="proj-tag">Branding</span>
+                <span class="proj-tag">Budget</span>
+                <span class="proj-tag">Étude de marché</span>
+              </div>
+              <div class="proj-title">Bar à Cépage</div>
+              <div class="proj-subtitle">Concept bar à vin fictif</div>
+              <div class="proj-desc">Business plan complet, étude de marché, identité, budget prévisionnel</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- ── CARTE 4 — SERVICE TIC (pleine largeur) ── -->
+      <a href="tic.html" class="proj-card">
+        <div class="proj-card-inner">
+          <div class="proj-bg proj-bg-4"></div>
+          <div class="proj-stat">
+            <span class="proj-stat-val">13 étudiants</span>
+            <span class="proj-stat-label">managés</span>
+          </div>
+          <div class="proj-content">
+            <div class="proj-top">
+              <span class="proj-num" style="color:rgba(255,255,255,.4);">04</span>
+              <div class="proj-arrow" style="color:white;">↗</div>
+            </div>
+            <div class="proj-bottom">
+              <div class="proj-tags">
+                <span class="proj-tag">Management</span>
+                <span class="proj-tag">Vidéo</span>
+                <span class="proj-tag">Newsletter</span>
+                <span class="proj-tag">Gestion budgétaire</span>
+              </div>
+              <div class="proj-title">Service TIC</div>
+              <div class="proj-subtitle">Chef d'une agence digitale étudiante · 1 an 7 mois</div>
+              <div class="proj-desc">Chef de service à 19 ans, management, budget, newsletter, vidéo client</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- PREUVE SOCIALE -->
+  <div class="proof-strip reveal">
+    <blockquote class="proof-quote">
+      "Tes compétences, ton autonomie et ton savoir être ont été précieux. Tu seras un bon atout pour les entreprises qui t'acceuilleront par la suite."
+    </blockquote>
+    <div class="proof-sep"></div>
+    <div class="proof-attr"><strong>Directeur Général</strong><br>Beelive · Stage 2025<br><em style="font-style:italic;opacity:.6;"></em></div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-inner" style="grid-template-columns: 1fr auto 1fr; gap: 3rem 2.5rem; align-items: start;">
+      <div class="about-l">
+        <div class="about-label reveal">Mon histoire</div>
+        <h2 class="reveal reveal-d1">Le travail n'a jamais<br>été une option.</h2>
+        <p class="about-body reveal reveal-d2">
+          C'est une conviction que j'ai depuis longtemps. Pas parce qu'on me l'a imposé, mais parce que j'ai compris
+          très tôt que rien ne tombe du ciel. Avant même d'arriver en marketing, j'ai enchaîné les expériences :
+          commercial en agence de communication, hôte d'accueil, chef de pôle dans une association étudiante,
+          préparation militaire. <strong>J'ai toujours cherché à me confronter au terrain, pas juste à apprendre en
+            cours.</strong>
+        </p>
+        <p class="about-body reveal reveal-d2">
+          Ce qui m'a progressivement attiré, c'est la jonction entre <strong>la créativité et la mesure</strong>.
+          Créer une belle campagne c'est bien, mais comprendre pourquoi elle performe, analyser les données,
+          optimiser en temps réel, c'est ce qui me fascine vraiment. Mon objectif est clair : <strong>un master en
+            e-Business et Data Marketing</strong>.
+        </p>
+        <p class="about-body reveal reveal-d3">
+          Chez <strong>Venandi</strong>, j'ai eu la chance de tout piloter en autonomie, Google Ads, site Shopify,
+          SEO, réseaux. Avant ça, chez <strong>Beelive Community</strong>, j'ai géré des actions marketing complètes.
+          Ce n'est pas un hasard si on me fait confiance sur des missions larges aussi tôt. C'est le résultat de
+          plusieurs années à toujours mettre un peu plus que ce qu'on attendait de moi.
+        </p>
+        <p class="about-body reveal reveal-d3">
+          Basé à <strong>Lyon</strong>, disponible en <strong>alternance dès septembre 2026</strong>. Je cherche une
+          équipe ambitieuse, un environnement où la data et le marketing se parlent vraiment.
+        </p>
+      </div>
+
+      <!-- STICKER PHOTO -->
+      <div class="about-photo-sticker">
+        <img src="evan_sticker_cutout.png" alt="Evan Ropars" />
+      </div>
+
+      <div class="about-r reveal reveal-d1">
+        <!-- BOUTON CV -->
+      <a href="CV Evan Ropars 2026.docx.pdf" class="cv-download-btn reveal reveal-d3" download>
+        <span class="cv-btn-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </span>
+        <span>Télécharger mon CV</span>
+        <span class="cv-btn-tag">PDF</span>
+      </a>
+
+      <!-- CV COMPLET -->
+        <div class="cv-card">
+          <div class="cv-header">
+            <div class="cv-header-top">
+              <div>
+                <div class="cv-name">Evan Ropars</div>
+                <div class="cv-role">evanropars63@gmail.com · 07 62 09 29 45</div>
+              </div>
+              <div class="cv-badges">
+                <span class="cv-badge g">Dispo 09/26</span>
+                <span class="cv-badge o">Lyon</span>
+              </div>
+            </div>
+          </div>
+          <div class="cv-body">
+
+            <div class="cv-sec">
+              <div class="cv-sec-title">Formation</div>
+              <div class="cv-item">
+                <div class="cv-row"><span class="cv-item-title">Bachelor Stratégie de Marque</span><span
+                    class="cv-item-date">2025–2026</span></div>
+                <div class="cv-item-sub">Sup de Pub · Lyon</div>
+              </div>
+              <div class="cv-item">
+                <div class="cv-row"><span class="cv-item-title">BUT Techniques de Commercialisation</span><span
+                    class="cv-item-date">2023–2025</span></div>
+                <div class="cv-item-sub">IUT Auvergne · Montluçon</div>
+              </div>
+              <div class="cv-item">
+                <div class="cv-row"><span class="cv-item-title">BAC STMG — Mention Assez Bien</span><span
+                    class="cv-item-date">2023</span></div>
+                <div class="cv-item-sub">Lycée Godefroy de Bouillon · Clermont-Ferrand</div>
+              </div>
+            </div>
+
+            <div class="cv-sec">
+              <div class="cv-sec-title">Expériences</div>
+              <div class="cv-item">
+                <div class="cv-row"><span class="cv-item-title">Responsable Mktg & Com — Venandi</span><span
+                    class="cv-item-date">Depuis sept. 2025</span></div>
+                <div class="cv-item-sub">Alternance · Lyon</div>
+                <div class="cv-item-desc">SEO · Google Ads · Shopify · Google Analytics · +1 600 abonnés en 6 mois</div>
+              </div>
+              <div class="cv-item">
+                <div class="cv-row"><span class="cv-item-title">Resp. Com. & Développement — Beelive</span><span
+                    class="cv-item-date">Avr–Juin 2025</span></div>
+                <div class="cv-item-sub">Beelive Community</div>
+                <div class="cv-item-desc">Marketing, événements, digital, prospection, partenariats</div>
+              </div>
+              <div class="cv-item">
+                <div class="cv-row"><span class="cv-item-title">Chef Pôle Communication — ProTeCo</span><span
+                    class="cv-item-date">Oct. 2023–Avr. 2025</span></div>
+                <div class="cv-item-sub">Association étudiante · Management de 13 étudiants</div>
+                <div class="cv-item-desc">Vidéos, réseaux sociaux, newsletter, événements, gestion de projets</div>
+              </div>
+              <div class="cv-item">
+                <div class="cv-row"><span class="cv-item-title">Commercial — Octopus Communication</span><span
+                    class="cv-item-date">Mai–Juin 2024</span></div>
+                <div class="cv-item-desc">Campagne publicitaire, fiches produits, prospection, Instagram</div>
+              </div>
+              <div class="cv-item">
+                <div class="cv-row"><span class="cv-item-title">Hôte d'accueil — Vulcania</span><span
+                    class="cv-item-date">Étés 2023, 2024, 2025</span></div>
+                <div class="cv-item-desc">Accueil, billetterie, gestion de la clientèle</div>
+              </div>
+            </div>
+
+            <div class="cv-sec">
+              <div class="cv-sec-title">Compétences</div>
+              <div class="cv-skills">
+                <span class="cv-skill">Google Ads</span><span class="cv-skill">GA4</span>
+                <span class="cv-skill">Looker Studio</span><span class="cv-skill">SEO</span>
+                <span class="cv-skill">WordPress</span><span class="cv-skill">Shopify</span>
+                <span class="cv-skill">SEMrush</span><span class="cv-skill">Photoshop</span>
+                <span class="cv-skill">Canva</span><span class="cv-skill">Pack Office</span>
+                <span class="cv-skill">ChatGPT</span>
+              </div>
+            </div>
+
+            <div class="cv-sec">
+              <div class="cv-sec-title">Langues</div>
+              <div class="cv-langs">
+                <span class="cv-lang">🇫🇷 Français — natif</span>
+                <span class="cv-lang">🇬🇧 Anglais — B2</span>
+                <span class="cv-lang">🇪🇸 Espagnol — B1</span>
+              </div>
+            </div>
+
+            <div class="cv-sec" style="margin-bottom:0">
+              <div class="cv-sec-title">Centres d'intérêt</div>
+              <div class="cv-interests">
+                <span class="cv-interest">🎬 Cinéma</span>
+                <span class="cv-interest">🍷 Vins</span>
+                <span class="cv-interest">💪 Sport</span>
+                <span class="cv-interest">🎖️ Prépa militaire</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION PERSONNELLE -->
+<section class="personal-section" id="personal">
+
+  <!-- MINI BIO -->
+  <div class="personal-header reveal">
+    <div class="about-label">Qui je suis vraiment</div>
+    <h2 class="personal-title">Au-delà<br><em>du CV.</em></h2>
+  </div>
+
+  <div class="personal-grid">
+
+    <!-- CITATION -->
+    <div class="personal-card card-quote reveal">
+      <div class="quote-label">Citation préférée</div>
+      <blockquote class="quote-text">
+        « Il fait toute chose bonne en son temps; même il a mis dans leur coeur la pensée de l'éternité... »
+      </blockquote>
+      <div class="quote-ref">Ecclésiaste 3:11</div>
+    </div>
+
+    <!-- MINI BIO -->
+    <div class="personal-card card-bio reveal reveal-d1">
+      <div class="quote-label">À propos</div>
+      <p class="bio-text">Evan, 20 ans, Clermontois exilé à Lyon, je suis parti chercher la mer et j'ai trouvé la Saône, on fait avec.<br><br>
+Je suis quelqu'un qui fédère naturellement. Mettez-moi dans une pièce avec des inconnus, une heure après tout le monde se parle.<br><br>
+Je me fixe des objectifs qui me font un peu peur, mon prochain c'est un semi-marathon, en partant de zéro.<br><br>
+Ce qui me définit : une fois que j'ai décidé quelque chose, c'est décidé. Je ne cherche pas à être prêt avant de commencer, je deviens capable en faisant.</p>
+    </div>
+
+    <!-- widget musique -->
+    <div class="personal-card card-music reveal reveal-d2" style="grid-column: 1 / 2;">
+  <div class="am-player">
+    <img src="Marvin room cover.jpeg" class="am-cover" alt="Marvins Room" />
+    <div class="am-info">
+      <div class="am-titles">
+        <div class="am-title">Marvins Room</div>
+        <div class="am-artist">Drake</div>
+      </div>
+      <div class="am-bar" id="amBar">
+        <div class="am-fill" id="amFill"></div>
+      </div>
+      <div class="am-bottom">
+        <span id="amCurrent">0:00</span>
+        <div class="am-controls">
+          <button class="am-skip" id="amBack">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+          </button>
+          <button class="am-play" id="amPlay">
+            <svg id="amPlayIcon" width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="am-skip" id="amForward">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 4.96 3.5L8 16.14V9.86zM16 6h2v12h-2z"/></svg>
+          </button>
+        </div>
+        <span id="amDuration">0:00</span>
+      </div>
+    </div>
+  </div>
+  <audio id="amAudio" src="Drake - Marvins Room.mp3" preload="metadata"></audio>
+</div>
+    <!-- WIDGET PODCAST -->
+    <div class="personal-card card-podcast reveal reveal-d1">
+      <div class="podcast-widget">
+        <div class="podcast-cover">
+          <img src="le-super-daily-podcast-supernatifs-social-media-s.jpg" alt="Le Super Daily" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;">
+        </div>
+        <div class="podcast-info">
+          <div class="podcast-badge">
+            <svg width="10" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            Le Super Daily
+          </div>
+          <div class="podcast-title">Spotify veut croquer YouTube</div>
+          <div class="podcast-ep">Épisode #1430 · 9 fév. 2026</div>
+          <div class="podcast-desc">Comment Spotify intègre la vidéo partout pour concurrencer YouTube et TikTok.</div>
+          <div class="podcast-controls">
+            <div class="podcast-play">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="podcast-bar">
+              <div class="podcast-fill" style="width:42%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- DATA -->
+  <section class="data-section" id="data">
+    <div class="data-label reveal">Mon expertise cible</div>
+    <h2 class="reveal reveal-d1">La data au service<br>du <strong>marketing</strong></h2>
+    <div class="tools-grid">
+      <div class="tool-card reveal">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">Analytics</div>
+        <div class="tool-desc">GA4, Looker Studio, dashboards de performance, transformer les données en décisions
+          concrètes.</div>
+      </div>
+      <div class="tool-card reveal reveal-d1">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-name">IA & Automatisation</div>
+        <div class="tool-desc">Prompting avancé, ChatGPT, Midjourney, automatisation de workflows, utiliser l'IA comme levier de productivité marketing.
+        </div>
+      </div>
+      <div class="tool-card reveal reveal-d2">
+        <div class="tool-icon">🔍</div>
+        <div class="tool-name">SEO / SEMrush</div>
+        <div class="tool-desc">Optimisation on-page sur 40+ pages, stratégie de contenu et suivi de la visibilité
+          organique.</div>
+      </div>
+      <div class="tool-card reveal reveal-d3">
+        <div class="tool-icon">🛍️</div>
+        <div class="tool-name">Shopify / WordPress</div>
+        <div class="tool-desc">Architecture, UX, intégration contenus et mise en ligne, de la conception à la
+          publication.</div>
+      </div>
+      <div class="tool-card reveal">
+        <div class="tool-icon">✦</div>
+        <div class="tool-name">Branding & Stratégie</div>
+        <div class="tool-desc">Identité de marque, positionnement, proposition de valeur, le fond derrière la forme.
+        </div>
+      </div>
+      <div class="tool-card reveal reveal-d1">
+        <div class="tool-icon">📱</div>
+        <div class="tool-name">Social & Contenu</div>
+        <div class="tool-desc">Vidéo, posts, stories, +1 600 abonnés en 6 mois avec analyse et optimisation des
+          formats.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-l">
+      <h2 class="reveal">Travaillons<br><em>ensemble.</em></h2>
+      <p class="reveal reveal-d1">Je cherche une alternance en data marketing ou e-business à Lyon dès septembre 2026.
+        Si vous construisez quelque chose d'ambitieux et que vous voulez quelqu'un qui s'investit à fond, on a des
+        choses à se dire.</p>
+
+      <!-- Infos contact simples -->
+      <div class="contact-infos reveal reveal-d2">
+        <a href="https://www.linkedin.com/in/evan-ropars-900147292/" target="_blank" class="contact-info-btn btn-li">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="tel:0762092945" class="contact-info-btn btn-tel">
+         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5.06 2 2 0 0 1 3.6 2.87h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5a16 16 0 0 0 6 6l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 18l.47-1.08z"/></svg>
+          07 62 09 29 45
+        </a>
+    </div>
+    </div>
+
+            <div class="contact-r reveal reveal-d1">
+      <p class="contact-hint">Une opportunité, une question, réponse sous 24h</p>
+      <a href="mailto:evanropars63@gmail.com" class="big-3d-btn" id="bigBtn">
+        <span class="big-3d-btn-face">Me contacter</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-logo">EVAN <em>ROPARS</em></div>
+    <p>Data Marketing · Sup de Pub Lyon · Disponible sept. 2026</p>
+    <div style="display:flex;align-items:center;gap:1.25rem;">
+      <a href="https://www.linkedin.com/in/evan-ropars-900147292/" target="_blank" style="font-size:.68rem;color:var(--muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">LinkedIn ↗</a>
+      <a href="mailto:evanropars63@gmail.com" style="font-size:.68rem;color:var(--muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">evanropars63@gmail.com</a>
+      <p style="margin:0;">© 2026</p>
+    </div>
+    <a href="merci.html" style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;font-weight:500;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Merci →</a>
+    <a href="https://www.youtube.com/watch?v=AACOcpA8i-U&list=RDAACOcpA8i-U&start_radio=1" target="_blank" class="lien-danse" aria-label="Un secret bien gardé">
+        🕺
+    </a>
+  </footer>
+
+  <script>
+    // Back to top
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => {
+      backTop.classList.toggle('visible', window.scrollY > 600);
+    }, { passive: true });
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+  <script src="script.js"></script>
+<a href="snake.html" style="position:fixed;bottom:45vh;right:1.5rem;font-size:2.4rem;text-decoration:none;z-index:50;cursor:none;opacity:.2;transition:opacity .3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.2'">🤫</a>
+</body>
+</html>

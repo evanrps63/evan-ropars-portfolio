@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter devient X : le rebrand le plus brutal de la décennie</title>
+  <meta name="description" content="En juillet 2023, Elon Musk a effacé Twitter pour le remplacer par X. Un logo, un nom, une identité — tout a changé du jour au lendemain. Analyse.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f5f2eb;--bg2:#edeae0;--ink:#131110;--ink2:#3a3630;--muted:#9a9080;--accent:#e8401c;--accent2:#ff6b45;--border:rgba(19,17,16,.1);--border2:rgba(19,17,16,.18)}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;cursor:none}
+    .cur{position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:multiply}
+    .cur-dot{width:12px;height:12px;border-radius:50%;background:var(--accent2)}
+    .cur-ring{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ink);opacity:.25;transition:width .25s,height .25s,opacity .25s}
+    .cur-ring.hover{width:70px;height:70px;opacity:.5}
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;background:rgba(245,242,235,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .logo{font-family:'Unbounded',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--ink);text-decoration:none}
+    .logo em{color:var(--accent2);font-style:normal}
+    .nav-links{display:flex;align-items:center;gap:1.5rem}
+    .nav-link{font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;cursor:none}
+    .nav-link:hover{color:var(--ink)}
+    .nav-cta{font-family:'Unbounded',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:white;background:var(--ink);border-radius:100px;padding:.55rem 1.1rem;text-decoration:none;transition:background .2s;cursor:none}
+    .nav-cta:hover{background:var(--accent)}
+    .art-hero{padding:9rem 2.5rem 4rem;max-width:860px;margin:0 auto;border-bottom:1.5px solid var(--border2)}
+    .art-tags{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem}
+    .art-tag{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .8rem;border-radius:100px;border:1.5px solid var(--border2);color:var(--muted)}
+    .art-tag.branding,.art-tag.strategie{background:#fff8e0;color:#b07d10;border-color:#f0dfa0}
+    .art-tag.identite{background:#e8f0ff;color:#1a3cff;border-color:#b4c8f5}
+    .art-hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(1.6rem,4vw,3rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.25rem}
+    .art-hero-sub{font-size:1.05rem;color:var(--ink2);line-height:1.7;font-weight:300;margin-bottom:1.75rem}
+    .art-meta{display:flex;align-items:center;gap:1.5rem;font-size:.72rem;color:var(--muted)}
+    .art-meta-sep{opacity:.3}
+    .art-cover{max-width:860px;margin:0 auto;padding:2.5rem 2.5rem 0}
+    .art-cover img{width:100%;border-radius:16px;display:block;max-height:440px;object-fit:cover}
+    .art-body{max-width:680px;margin:0 auto;padding:3.5rem 2.5rem 5rem}
+    .art-body h2{font-family:'Unbounded',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:-.02em;margin:2.5rem 0 .9rem;line-height:1.3}
+    .art-body h3{font-family:'Unbounded',sans-serif;font-size:.9rem;font-weight:700;margin:2rem 0 .7rem;color:var(--ink2)}
+    .art-body p{font-size:.95rem;line-height:1.85;color:var(--ink2);font-weight:300;margin-bottom:1.25rem}
+    .art-body p strong{color:var(--ink);font-weight:600}
+    .art-body ul,.art-body ol{padding-left:1.4rem;margin-bottom:1.25rem}
+    .art-body li{font-size:.95rem;line-height:1.8;color:var(--ink2);font-weight:300;margin-bottom:.35rem}
+    .art-body blockquote{border-left:3px solid var(--accent2);padding:.75rem 0 .75rem 1.5rem;margin:2rem 0;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.15rem;color:var(--ink);line-height:1.6}
+    .art-body hr{border:none;border-top:1.5px solid var(--border2);margin:2.5rem 0}
+    .art-body a{color:var(--accent);text-underline-offset:3px}
+    .art-takeaway{background:var(--ink);border-radius:16px;padding:2rem;margin:2.5rem 0}
+    .art-takeaway-label{font-family:'Unbounded',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent2);margin-bottom:.75rem}
+    .art-takeaway p{color:rgba(255,255,255,.8);margin:0;font-size:.9rem;line-height:1.7}
+    .art-author{display:flex;align-items:center;gap:1.25rem;padding:2rem;background:white;border:1.5px solid var(--border);border-radius:16px;margin-top:3rem}
+    .art-author-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg2)}
+    .art-author-name{font-family:'Unbounded',sans-serif;font-size:.72rem;font-weight:700;margin-bottom:.2rem}
+    .art-author-bio{font-size:.78rem;color:var(--ink2);font-weight:300;line-height:1.6}
+    .art-nav{max-width:860px;margin:0 auto;padding:2.5rem 2.5rem 5rem;display:flex;justify-content:space-between;gap:2rem;border-top:1.5px solid var(--border2)}
+    .art-nav-btn{font-family:'Unbounded',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:gap .2s;cursor:none}
+    .art-nav-btn:hover{gap:.85rem}
+    footer{border-top:1.5px solid var(--border2);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center}
+    .foot-logo{font-family:'Unbounded',sans-serif;font-size:.7rem;font-weight:900;letter-spacing:.05em}
+    .foot-logo em{color:var(--accent2);font-style:normal}
+    footer p{font-size:.72rem;color:var(--muted)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+    .reveal.in{opacity:1;transform:none}
+    @media(max-width:768px){
+      nav{padding:1rem 1.25rem}
+      .nav-links{display:none}
+      .art-hero{padding:6rem 1.25rem 2.5rem}
+      .art-cover{padding:1.5rem 1.25rem 0}
+      .art-body{padding:2.5rem 1.25rem 4rem}
+      .art-nav{padding:2rem 1.25rem 4rem}
+      .art-author{flex-direction:column;align-items:flex-start}
+      footer{flex-direction:column;gap:1rem;text-align:center;padding:1.5rem}
+      img{max-width:100%}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cur" id="cd"><div class="cur-dot"></div></div>
+  <div class="cur" id="cr"><div class="cur-ring" id="crr"></div></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="logo">EVAN <em>ROPARS</em></a>
+    <div class="nav-links">
+      <a href="index.html#work" class="nav-link">Projets</a>
+      <a href="index.html#about" class="nav-link">Histoire</a>
+      <a href="index.html#data" class="nav-link">Compétences</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="mailto:evanropars63@gmail.com" class="nav-cta">Me recruter</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="art-hero reveal">
+    <div class="art-tags">
+      <span class="art-tag branding">Branding</span>
+      <span class="art-tag strategie">Stratégie</span>
+    </div>
+    <h1>Twitter devient X : le rebrand le plus brutal de la décennie</h1>
+    <p class="art-hero-sub">En juillet 2023, Elon Musk a effacé en quelques jours l'une des marques les plus reconnues d'internet. L'oiseau bleu a disparu, remplacé par un X minimaliste. Une décision aussi spectaculaire que controversée.</p>
+    <div class="art-meta">
+      <span>Evan Ropars</span>
+      <span class="art-meta-sep">—</span>
+      <span>Juillet 2023</span>
+      <span class="art-meta-sep">—</span>
+      <span>7 min de lecture</span>
+    </div>
+  </header>
+
+  <!-- Cover -->
+  <div class="art-cover reveal">
+    <img src="https://images.unsplash.com/photo-1579869847514-7c1a19d2d2ad?w=1200&q=80&auto=format&fit=crop" alt="Twitter X rebrand 2023" loading="lazy">
+  </div>
+
+  <!-- Body -->
+  <article class="art-body">
+
+    <p class="reveal">Le 23 juillet 2023, Elon Musk annonce sur Twitter — avec une ironie que la plateforme elle-même semblait savourer — que Twitter allait cesser d'exister. En moins de 72 heures, le logo de l'oiseau bleu est retiré du siège social de San Francisco à la grue, les app stores voient l'icône changer, et "tweeter" devient officiellement "poster". Un siècle de valeur de marque, liquidé en un week-end.</p>
+
+    <h2 class="reveal">La vision derrière le X</h2>
+
+    <p class="reveal">Pour comprendre ce rebrand, il faut comprendre ce qu'Elon Musk voulait construire. Sa vision n'était pas de simplement renommer Twitter. Son ambition, clairement exprimée depuis le rachat en octobre 2022, était de créer une <strong>"everything app"</strong> — une super-application à l'occidentale inspirée directement de WeChat en Chine.</p>
+
+    <p class="reveal">WeChat, c'est l'application qui fait tout : messagerie, paiements, commerce, transport, services gouvernementaux. Un milliard d'utilisateurs en Chine l'utilisent pour pratiquement chaque aspect de leur vie numérique. Musk rêvait d'une version américaine et mondiale de ce modèle. Et dans cette vision, le nom "Twitter" — avec ses connotations de bavardage, de gazouillis, de réseau social limité — était un obstacle.</p>
+
+    <p class="reveal">Le "X" est lui-même chargé de sens dans l'univers de Musk. X.com était le nom de sa première start-up, une fintech fondée en 1999, qui fusionnera plus tard avec Confinity pour devenir PayPal. Musk a racheté le domaine X.com à PayPal en 2017, comme on garde précieusement un objet symbolique. Le X n'est pas un choix arbitraire : c'est une obsession de vingt ans.</p>
+
+    <h2 class="reveal">La valeur de marque détruite</h2>
+
+    <p class="reveal">Les experts en branding ont rapidement sorti leurs calculatrices. Selon une estimation de Brand Finance publiée au lendemain du rebrand, <strong>Twitter représentait une valeur de marque d'environ 20 milliards de dollars</strong>. Une valeur construite sur 17 ans de présence culturelle, de langage partagé (tweet, retweet, hashtag), d'associations avec l'information en temps réel, les révolutions politiques, les célébrités et le débat public mondial.</p>
+
+    <blockquote class="reveal">"Twitter était l'une des rares marques dont le nom était devenu un verbe dans le langage courant. Détruire ça délibérément est sans précédent dans l'histoire du marketing moderne." — Mark Ritson, marketing professor & columnist</blockquote>
+
+    <p class="reveal">Cette destruction d'equity de marque n'est pas seulement symbolique. Elle a des conséquences concrètes : les utilisateurs ne savent plus comment appeler l'action de "poster sur X", les journalistes continuent d'écrire "Twitter (désormais X)", et les annonceurs, déjà frileux après les controverses autour de la modération de contenu, ont une raison supplémentaire de retarder leurs investissements publicitaires.</p>
+
+    <h3 class="reveal">La vitesse : arme ou faiblesse ?</h3>
+
+    <p class="reveal">Ce qui distingue le rebrand Twitter/X de tous les autres cas étudiés ici est sa <strong>vitesse d'exécution</strong>. Un rebrand de cette ampleur prend normalement entre 18 mois et 3 ans chez une grande organisation. Tests utilisateurs, études de marché, déploiement progressif, communication interne, adaptation des systèmes. Twitter X a été exécuté en quelques jours, sans aucune de ces étapes.</p>
+
+    <p class="reveal">Pour Musk, c'est une feature, pas un bug. Sa philosophie d'entreprise — "move fast and break things" poussée à l'extrême — part du principe que la rapidité de décision est un avantage compétitif absolu. Attendre signifie analyser, analyser signifie tergiverser, tergiverser signifie rater.</p>
+
+    <ul class="reveal">
+      <li>Annonce et déploiement du rebrand en moins de 72 heures</li>
+      <li>Retrait physique de l'enseigne du siège social en direct sur les réseaux</li>
+      <li>Aucune étude préalable de reconnaissance de marque rendue publique</li>
+      <li>Le domaine x.com déjà possédé par Musk depuis 2017</li>
+      <li>Des centaines de millions de dollars d'identité visuelle effacés sans transition</li>
+    </ul>
+
+    <hr>
+
+    <h2 class="reveal">Le modèle WeChat : réalité ou illusion ?</h2>
+
+    <p class="reveal">La question centrale reste : la vision d'une "everything app" occidentale est-elle réaliste ? Les analystes sont sceptiques. WeChat a réussi en Chine dans un contexte très particulier : absence de concurrents occidentaux, soutien implicite de l'État, marché unifié linguistiquement et culturellement. En Occident, le paysage est fragmenté entre des acteurs ultra-dominants dans leurs niches respectives — Venmo pour les paiements entre amis, WhatsApp pour la messagerie, Instagram pour le visuel.</p>
+
+    <p class="reveal">Pour que X devienne une everything app, il faudrait convaincre des centaines de millions d'utilisateurs d'y intégrer leur vie financière — un saut de confiance considérable, surtout dans un contexte où la plateforme est associée à des controverses régulières sur la désinformation et la modération.</p>
+
+    <h2 class="reveal">Les leçons pour le branding</h2>
+
+    <p class="reveal"><strong>Première leçon :</strong> la valeur d'une marque n'est pas sur votre bilan, mais dans la tête de vos utilisateurs. Twitter n'était pas juste un nom — c'était un verbe, une culture, un comportement. Vous ne pouvez pas racheter ça par décret.</p>
+
+    <p class="reveal"><strong>Deuxième leçon :</strong> un rebrand sans transition détruit de la confiance. Les utilisateurs fidèles qui avaient construit leur identité en ligne autour de Twitter se sont sentis dépossédés. Ce sentiment d'expropriation est réel et durable.</p>
+
+    <p class="reveal"><strong>Troisième leçon :</strong> un nom générique ("X") sans histoire ni différenciation est un handicap, pas une force. Dans un monde saturé d'informations, une identité mémorable vaut de l'or.</p>
+
+    <div class="art-takeaway reveal">
+      <div class="art-takeaway-label">À retenir</div>
+      <p>Détruire l'equity d'une marque peut se justifier — si et seulement si la nouvelle identité porte une vision produit radicalement différente, et si le produit lui-même se transforme dans le même mouvement. Twitter/X a changé le nom sans (encore) changer fondamentalement le produit. C'est l'inverse de la bonne méthode : on change le fond, puis l'emballage suit. Pas l'inverse.</p>
+    </div>
+
+    <p class="reveal">Deux ans après le rebrand, le débat est toujours ouvert. Les utilisateurs continuent massivement d'appeler la plateforme "Twitter". Le X résiste dans les consciences sans vraiment s'imposer. L'histoire dira si cette brutalité stratégique était du génie incompris — ou simplement de la destruction de valeur à grande échelle.</p>
+
+    <!-- Author card -->
+    <div class="art-author reveal">
+      <div class="art-author-avatar"></div>
+      <div>
+        <div class="art-author-name">Evan Ropars</div>
+        <p class="art-author-bio">Designer & stratège de marque. Passionné par les identités visuelles qui racontent une histoire et les rebrands qui font réfléchir.</p>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- Article nav -->
+  <nav class="art-nav">
+    <a href="blog-pepsi-rebrand.html" class="art-nav-btn">← Article précédent</a>
+    <a href="blog-burberry-rebrand.html" class="art-nav-btn">Article suivant →</a>
+  </nav>
+
+  <!-- Footer -->
+  <footer>
+    <div class="foot-logo">Evan<em>.</em></div>
+    <p>© 2024 Evan Ropars — Design & Stratégie</p>
+  </footer>
+
+  <script>
+    const cd=document.getElementById('cd'),crr=document.getElementById('crr');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cd.style.transform=`translate(${mx-6}px,${my-6}px)`});
+    (function loop(){rx+=(mx-rx-22)*.1;ry+=(my-ry-22)*.1;document.getElementById('cr').style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>crr.classList.add('hover'));el.addEventListener('mouseleave',()=>crr.classList.remove('hover'))});
+    const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+
+</body>
+</html>
