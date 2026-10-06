@@ -4,123 +4,152 @@
 <meta charset="utf-8">
 <title>Relais by AXA — Motion</title>
 <style>
-  :root {
-    --axa: #00008F;
-    --red: #FF1721;
-    --ink: #0B0B3B;
-    --paper: #F3F4FA;
-  }
+  :root { --axa: #00008F; --red: #FF1721; --paper: #F2F3F9; --ink: #0E0E1A; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
-  body { font-family: "Inter", system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
-  #stage { position: absolute; inset: 0; overflow: hidden; background: var(--paper); }
-  .abs { position: absolute; will-change: transform, opacity; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--axa); }
+  body { font-family: "Inter Display", "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  #stage { position: absolute; inset: 0; overflow: hidden; perspective: 2600px; perspective-origin: 960px 540px; }
+  .abs { position: absolute; }
+  .layer { position: absolute; inset: 0; overflow: hidden; }
+  .dots { position: absolute; inset: -60px; background-size: 40px 40px; }
+  .blue  { background: var(--axa); }
+  .blue .dots, .red .dots { background-image: radial-gradient(rgba(255,255,255,.10) 1.7px, transparent 1.7px); }
+  .paper { background: var(--paper); }
+  .paper .dots { background-image: radial-gradient(rgba(0,0,143,.11) 1.7px, transparent 1.7px); }
+  .red { background: var(--red); }
 
-  /* light background decor */
-  #grid { inset: 0; background-image: radial-gradient(rgba(0,0,143,.10) 1.6px, transparent 1.6px); background-size: 36px 36px; }
-  #blob { width: 1100px; height: 1100px; border-radius: 50%; background: radial-gradient(circle, rgba(0,0,143,.10), rgba(0,0,143,0) 65%); left: 0; top: 0; }
-  #bignum { font-weight: 900; font-size: 560px; line-height: 1; color: rgba(0,0,143,.045); letter-spacing: -30px; top: 230px; }
+  /* giant type */
+  .big { position: absolute; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; font-weight: 900; letter-spacing: -0.045em; line-height: .9; text-transform: uppercase; }
+  .big .m { overflow: hidden; padding: 0 .04em .06em; }
+  .big .m > span { display: inline-block; white-space: nowrap; }
+  .big.left { left: 110px; align-items: flex-start; }
+  .big.right { right: 110px; align-items: flex-end; text-align: right; }
+  .paper .big { color: var(--axa); }  .paper .big i { color: var(--red); }
+  .blue .big { color: #fff; }         .blue .big i { color: var(--red); }
+  .red .big { color: #fff; }          .red .big i { color: var(--axa); }
+  .big i { font-style: normal; }
 
-  /* blue layer */
-  #blue { inset: 0; background: var(--axa); z-index: 10; }
-  #blue .sky { position: absolute; left: 0; right: 0; bottom: 0; height: 330px; opacity: .55; }
-  #slash { z-index: 11; width: 260px; height: 2400px; background: var(--red); left: 0; top: -660px; }
-
-  .word { font-weight: 800; color: #fff; font-size: 140px; letter-spacing: -4px; white-space: nowrap; }
-  .mask { overflow: hidden; position: absolute; left: 0; right: 0; text-align: center; }
-  .mask > div { display: inline-block; }
-  .tagline { font-weight: 800; color: #fff; font-size: 110px; letter-spacing: -3px; line-height: 1.05; }
+  /* intro */
+  .full { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; letter-spacing: -0.05em; white-space: nowrap; text-transform: uppercase; }
+  #cut { width: 10px; height: 1500px; background: var(--red); left: 955px; top: -210px; transform-origin: 50% 100%; }
+  #picker { position: absolute; inset: 0; perspective: 1400px; }
+  .row { position: absolute; left: 0; right: 0; top: 440px; height: 200px; text-align: center; color: #fff; font-weight: 900; font-size: 150px; letter-spacing: -0.045em; line-height: 200px; text-transform: uppercase; white-space: nowrap; }
+  #aussi { color: var(--red); }
 
   /* logo */
-  .logo { color: #fff; }
-  .logo .name { font-weight: 800; font-size: 200px; letter-spacing: -7px; line-height: 1; display: inline-block; vertical-align: top; }
-  .logo .bar { display: inline-block; width: 44px; height: 168px; background: var(--red); transform: skewX(-18deg); margin-left: 34px; margin-top: 22px; vertical-align: top; transform-origin: bottom; }
-  .logo .by { font-weight: 800; font-size: 64px; letter-spacing: -1px; margin-top: 4px; }
+  .logo { position: absolute; color: #fff; white-space: nowrap; }
+  .logo .name { font-weight: 900; font-size: 230px; letter-spacing: -0.04em; line-height: 1; display: inline-block; vertical-align: top; }
+  .logo .bar { display: inline-block; width: 50px; height: 190px; background: var(--red); margin-left: 40px; margin-top: 26px; vertical-align: top; transform-origin: 50% 100%; }
+  .logo .by { font-weight: 800; font-size: 72px; letter-spacing: -0.02em; margin-top: 2px; }
+  #tagline { color: #fff; font-weight: 800; font-size: 60px; letter-spacing: -0.03em; }
+  #tagline .m { overflow: hidden; display: inline-block; vertical-align: top; padding-bottom: 8px; }
+  #tagline .m > span { display: inline-block; }
 
-  /* phone */
-  .phone { width: 408px; height: 852px; border-radius: 64px; background: #0E0E1A; padding: 14px;
-           box-shadow: 0 60px 120px -30px rgba(0,0,80,.45), 0 30px 60px -30px rgba(0,0,0,.35), inset 0 0 0 2px #2A2A3A; }
-  .phone .scr { position: relative; width: 380px; height: 824px; border-radius: 50px; overflow: hidden; background: #fff; }
-  .phone .scr img { position: absolute; left: 0; top: 0; width: 380px; height: 824px; }
-  .phone .island { position: absolute; left: 50%; top: 24px; width: 112px; height: 32px; margin-left: -56px; background: #0E0E1A; border-radius: 20px; z-index: 5; }
-  .tap { width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: rgba(255,23,33,.28); border: 3px solid rgba(255,23,33,.9); z-index: 6; }
+  /* wipe band + morph */
+  #band { inset: 0; pointer-events: none; }
+  #morph { left: 0; top: 0; background: var(--red); }
 
-  /* feature copy: number + key notion only */
-  .copy { width: 820px; top: 400px; }
-  .copy .num { font-size: 30px; font-weight: 800; color: var(--red); letter-spacing: 1px; display: flex; align-items: center; gap: 18px; }
-  .copy .num b { display: inline-block; width: 16px; height: 42px; background: var(--red); transform: skewX(-18deg); }
-  .copy h2 { font-size: 104px; line-height: 1.02; font-weight: 800; letter-spacing: -4px; color: var(--axa); margin-top: 26px; }
-  .copy .line { display: block; white-space: nowrap; }
-
-  /* progress dots */
-  #dots { left: 50%; bottom: 52px; transform: translateX(-50%); display: flex; gap: 12px; }
-  #dots i { display: block; height: 8px; width: 8px; border-radius: 4px; background: rgba(0,0,143,.18); }
-
-  /* outro */
-  .outro-copy { color: #fff; }
-  .outro-copy .tag { font-size: 72px; font-weight: 800; letter-spacing: -2px; line-height: 1.1; }
+  /* phone in 3D */
+  #phone { left: 0; top: 0; width: 408px; height: 852px; transform-origin: 0 0; transform-style: preserve-3d; }
+  .front, .back { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .front > *, .back { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .body { position: absolute; inset: 0; border-radius: 64px; background: var(--ink); box-shadow: inset 0 0 0 2px #2C2C40; }
+  .scr { position: absolute; left: 14px; top: 14px; width: 380px; height: 824px; border-radius: 50px; overflow: hidden; background: #fff; }
+  .scr img { position: absolute; left: 0; top: 0; width: 380px; height: 824px; }
+  .island { position: absolute; left: 148px; top: 38px; width: 112px; height: 32px; background: var(--ink); border-radius: 20px; }
+  #dim { position: absolute; inset: 0; background: #06063A; opacity: 0; }
+  .ring { position: absolute; width: 60px; height: 60px; margin: -30px 0 0 -30px; border-radius: 50%; border: 4px solid; opacity: 0; }
+  .pop { position: absolute; border-radius: 16px; overflow: hidden; opacity: 0; }
+  .pop img { display: block; width: 100%; height: 100%; }
+  .back { transform: rotateY(180deg); border-radius: 64px; background: linear-gradient(150deg, #1D1D33, #0B0B16); box-shadow: inset 0 0 0 2px #2C2C40; }
+  .back .cam { position: absolute; left: 30px; top: 30px; width: 130px; height: 130px; border-radius: 38px; background: #15152A; box-shadow: inset 0 0 0 2px #2C2C40; }
+  .back .cam i { position: absolute; width: 44px; height: 44px; border-radius: 50%; background: #05050C; box-shadow: inset 0 0 0 5px #23233A; }
+  .back .mark { position: absolute; left: 0; right: 0; top: 380px; text-align: center; color: #fff; font-weight: 900; font-size: 64px; letter-spacing: -0.04em; }
+  .back .mark b { display: inline-block; width: 14px; height: 52px; background: var(--red); transform: skewX(-18deg); margin-left: 12px; vertical-align: -4px; }
+  .shadow { position: absolute; left: 0; top: 0; width: 420px; height: 70px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,40,.35), rgba(0,0,40,0)); }
+  .tgl { position: absolute; width: 46px; height: 28px; border-radius: 14px; }
+  .tgl b { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+  .bar2 { position: absolute; height: 6px; border-radius: 3px; background: #E4E6F2; overflow: hidden; }
+  .bar2 b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--axa); border-radius: 3px; }
 </style>
 </head>
 <body>
 <div id="stage">
-  <div id="grid" class="abs"></div>
-  <div id="blob" class="abs"></div>
-  <div id="bignum" class="abs">01</div>
 
-  <div class="copy abs" id="c1">
-    <div class="num"><b></b>01</div>
-    <h2><span class="line">Avance</span><span class="line">étape par étape.</span></h2>
-  </div>
-  <div class="copy abs" id="c2">
-    <div class="num"><b></b>02</div>
-    <h2><span class="line">Ton bouclier</span><span class="line">cyber.</span></h2>
-  </div>
-  <div class="copy abs" id="c3">
-    <div class="num"><b></b>03</div>
-    <h2><span class="line">Un pépin ?</span><span class="line">On gère.</span></h2>
-  </div>
-  <div class="copy abs" id="c4">
-    <div class="num"><b></b>04</div>
-    <h2><span class="line">Tes parents</span><span class="line">en relais.</span></h2>
-  </div>
-
-  <!-- outro side phones -->
-  <div class="phone abs" id="phoneL"><div class="scr"><img src="screens/s05.png"></div><div class="island"></div></div>
-  <div class="phone abs" id="phoneR"><div class="scr"><img src="screens/s15.png"></div><div class="island"></div></div>
-
-  <!-- main phone -->
-  <div class="phone abs" id="phone">
-    <div class="scr" id="scr">
-      <img id="s02" src="screens/s02.png"><img id="s04" src="screens/s04.png"><img id="s06" src="screens/s06.png">
-      <img id="s09" src="screens/s09.png"><img id="s10" src="screens/s10.png">
-      <img id="s11" src="screens/s11.png"><img id="s12" src="screens/s12.png">
-      <img id="s13" src="screens/s13.png">
-      <div class="tap abs" id="tap"></div>
-    </div>
-    <div class="island"></div>
-  </div>
-
-  <div id="dots" class="abs"><i></i><i></i><i></i><i></i></div>
-
-  <!-- blue layer: intro + outro -->
-  <div id="blue" class="abs">
-    <svg class="sky" viewBox="0 0 1920 330" preserveAspectRatio="none">
-      <path fill="#2B2BC9" d="M0 330V210h70v-60h50v60h40V120h60v90h50v-40h70v160h40V90h20V40h10v50h20v100h60v-70h80v210h50V150h90v180h40V200h70v130h60V60h30v-30h10v30h30v300h50V170h80v160h60V110h90v220h40V190h60v140h70V140h40v-30h10v30h40v190h60V200h90v130h60V160h70v170z"/>
-    </svg>
-    <div class="mask abs" id="w1" style="top:400px"><div class="word">Premier appart.</div></div>
-    <div class="mask abs" id="w2" style="top:400px"><div class="word">Premier job.</div></div>
-    <div class="mask abs" id="w3" style="top:400px"><div class="word">Permis.</div></div>
-    <div class="mask abs" id="t1" style="top:355px"><div class="tagline">Ta vie change,</div></div>
-    <div class="mask abs" id="t2" style="top:480px"><div class="tagline">ta protection aussi.</div></div>
-    <div class="abs logo" id="logo" style="left:0;top:0">
-      <div><span class="name">Relais</span><span class="bar" id="logobar"></span></div>
-      <div class="by">by AXA</div>
-    </div>
-    <div class="abs outro-copy" id="outro" style="left:170px;top:520px">
-      <div class="tag">À toi de jouer.<br>On reste là.</div>
+  <!-- ===== INTRO ===== -->
+  <div class="layer blue" id="Lintro">
+    <div class="dots"></div>
+    <div class="full" id="tv1" style="font-size:380px">Ta vie</div>
+    <div class="full" id="tv2" style="font-size:380px">Ta vie</div>
+    <div class="abs" id="cut"></div>
+    <div class="full" id="change" style="font-size:330px">Change<span style="color:var(--red)">.</span></div>
+    <div id="picker">
+      <div class="row">Premier appart</div><div class="row">Premier job</div><div class="row">Alternance</div>
+      <div class="row">Permis</div><div class="row">L'étranger</div><div class="row">Ta protection</div>
+      <div class="row" id="aussi">aussi.</div>
     </div>
   </div>
-  <div id="slash" class="abs"></div>
+
+  <!-- ===== LOGO ===== -->
+  <div class="layer blue" id="Llogo">
+    <div class="dots"></div>
+    <div class="logo" id="logo1"><div><span class="name">Relais</span><span class="bar" id="bar1"></span></div><div class="by">by AXA</div></div>
+  </div>
+
+  <!-- ===== FEATURES ===== -->
+  <div class="layer paper" id="L1"><div class="dots"></div>
+    <div class="big left"><div class="m"><span>Étape par</span></div><div class="m"><span>étape<i>.</i></span></div></div></div>
+  <div class="layer blue" id="L2"><div class="dots"></div>
+    <div class="big right"><div class="m"><span>Bouclier</span></div><div class="m"><span>cyber<i>.</i></span></div></div></div>
+  <div class="layer red" id="L3"><div class="dots"></div>
+    <div class="big left"><div class="m"><span>Un pépin ?</span></div><div class="m"><span>On gère<i>.</i></span></div></div></div>
+  <div class="layer paper" id="L4"><div class="dots"></div>
+    <div class="big right"><div class="m"><span>Tes parents</span></div><div class="m"><span>en relais<i>.</i></span></div></div></div>
+
+  <!-- ===== OUTRO ===== -->
+  <div class="layer blue" id="Lout"><div class="dots"></div>
+    <div class="logo" id="logo2" style="left:0;right:0;top:300px;text-align:center">
+      <div style="display:inline-block;white-space:nowrap"><span class="m" style="overflow:hidden;display:inline-block;vertical-align:top"><span class="name" id="name2">Relais</span></span><span class="bar" id="bar2"></span></div>
+      <div class="by" id="by2">by AXA</div>
+    </div>
+    <div class="abs" id="tagline" style="left:0;right:0;top:700px;text-align:center">
+      <span class="m"><span>À toi de jouer.</span></span>&nbsp;<span class="m"><span>On reste là.</span></span>
+    </div>
+  </div>
+
+  <div class="abs" id="band"></div>
+  <div class="abs shadow" id="pshadow"></div>
+
+  <!-- phone -->
+  <div class="abs" id="phone">
+    <div class="front">
+      <div class="body"></div>
+      <div class="scr" id="scr">
+        <img id="s04" src="screens/s04.png"><img id="s09" src="screens/s09.png">
+        <img id="s11" src="screens/s11.png"><img id="s12" src="screens/s12.png"><img id="s13" src="screens/s13.png">
+        <div id="dim"></div>
+        <div class="ring" id="rg1"></div><div class="ring" id="rg2"></div><div class="ring" id="rg3"></div>
+        <div class="ring" id="rgOk"></div>
+      </div>
+      <div class="island"></div>
+      <div class="pop" id="p_card"><img src="screens/pop_card.png"><div class="bar2" id="cardbar"><b></b></div></div>
+      <div class="pop" id="p_alertA"><img src="screens/pop_alertA.png"></div>
+      <div class="pop" id="p_alertB"><img src="screens/pop_alertB.png"></div>
+      <div class="pop" id="p_t1"><img src="screens/pop_t1.png"></div>
+      <div class="pop" id="p_t2"><img src="screens/pop_t2.png"></div>
+      <div class="pop" id="p_t3"><img src="screens/pop_t3.png"></div>
+      <div class="pop" id="p_t4"><img src="screens/pop_t4.png"></div>
+      <div class="pop" id="p_r1"><img src="screens/pop_r1.png"></div>
+      <div class="pop" id="p_r2"><img src="screens/pop_r2.png"><div class="tgl" id="tgl"><b></b></div></div>
+      <div class="pop" id="p_r3"><img src="screens/pop_r3.png"></div>
+    </div>
+    <div class="back">
+      <div class="cam"><i style="left:14px;top:14px"></i><i style="left:72px;top:14px"></i><i style="left:14px;top:72px"></i></div>
+      <div class="mark">Relais<b></b></div>
+    </div>
+  </div>
+
+  <div class="abs" id="morph"></div>
 </div>
 
 <script>
@@ -131,198 +160,312 @@ const lerp = (a, b, p) => a + (b - a) * p;
 const eOut = p => 1 - Math.pow(1 - p, 3);
 const eIn = p => p * p * p;
 const eIO = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-const eBack = p => { const c = 1.4, c3 = c + 1; return 1 + c3 * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
-const set = (el, tf, op) => { el.style.transform = tf; if (op !== undefined) el.style.opacity = op; };
+const xOut = p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p);
+const xIn = p => p <= 0 ? 0 : Math.pow(2, 10 * p - 10);
+const xIO = p => p <= 0 ? 0 : p >= 1 ? 1 : p < .5 ? Math.pow(2, 20 * p - 10) / 2 : (2 - Math.pow(2, -20 * p + 10)) / 2;
+const back = (p, c = 1.6) => 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2);
+const tf = (el, s, o) => { el.style.transform = s; if (o !== undefined) el.style.opacity = o; };
+const show = (el, v) => el.style.visibility = v ? 'visible' : 'hidden';
 
-const DURATION = 30;
-const PX = 380 / 285; // screen-sheet px -> phone px
+const DURATION = 22;
+const K = 380 / 285;            // sheet px -> phone screen px
+const SX = 14, SY = 14;          // screen offset inside phone
 
-// ---------- timing ----------
-const WORD = 0.95;                 // each life-moment word
-const TAG_IN = 3.15, TAG_OUT = 5.3; // "Ta vie change, ta protection aussi."
-const LOGO_IN = 5.45;              // logo build
-const WIPE = 7.1;                  // blue wipes out to the app scenes
-const S = 1.2;                     // scene start offset after wipe
-// [start, end, phone side, copy id]
-const scenes = [
-  [7.4, 12.6, 'R', 'c1'],
-  [12.6, 17.2, 'L', 'c2'],
-  [17.2, 21.8, 'R', 'c3'],
-  [21.8, 25.9, 'L', 'c4'],
+// ---------------- key times ----------------
+const T = {
+  cut: 1.0, change: 1.45, pick: 2.3, pickEnd: 3.45, aussi: 3.5,
+  logoWipe: 4.3, slam: 4.72, morph: 5.7, reveal1: 6.1,
+  B1: 9.6, B2: 12.6, B3: 15.6, out: 18.0, zoom: 18.55, cutOut: 19.2,
+};
+const scenes = [ // [start, side of phone]
+  [T.reveal1, 'R'], [T.B1, 'L'], [T.B2, 'R'], [T.B3, 'L'],
 ];
-const OUTRO = 25.9;
+const PX = { R: 1390, L: 530 }, RY = { R: -24, L: 24 };
+const PSCALE = 0.94;
 
-// ---------- phone screen timeline ----------
-// [time the slide starts, screen id, tap {x,y} in sheet px or null]
-const flow = [
-  [0,     's02', null],
-  [9.3,   's04', [142, 192]],
-  [11.0,  's06', [144, 155]],
-  [12.7,  's09', null],
-  [14.9,  's10', [144, 305]],
-  [17.3,  's11', null],
-  [19.5,  's12', [208, 184]],
-  [21.9,  's13', null],
-];
-const SLIDE = 0.7, TAP = 0.6;
-const allScreens = flow.map(f => f[1]);
+// ---------------- init: fit giant type, place pops ----------------
+document.querySelectorAll('.big').forEach(b => {
+  let fs = 210; b.style.fontSize = fs + 'px';
+  const w = () => Math.max(...[...b.querySelectorAll('.m > span')].map(s => s.getBoundingClientRect().width));
+  while (w() > 1000 && fs > 80) { fs -= 4; b.style.fontSize = fs + 'px'; }
+});
+const pops = {
+  p_card: [14, 128, 272, 210], p_alertA: [14, 284, 271, 337], p_alertB: [14, 345, 271, 397],
+  p_t1: [14, 129, 139, 218], p_t2: [145, 129, 272, 218], p_t3: [14, 223, 139, 301], p_t4: [145, 223, 272, 301],
+  p_r1: [14, 214, 272, 251], p_r2: [14, 257, 272, 296], p_r3: [14, 302, 272, 340],
+};
+for (const [id, [x0, y0, x1, y1]] of Object.entries(pops)) {
+  const el = $(id);
+  el.style.left = SX + x0 * K + 'px'; el.style.top = SY + y0 * K + 'px';
+  el.style.width = (x1 - x0) * K + 'px'; el.style.height = (y1 - y0) * K + 'px';
+}
+// progress bar overlay on the "Premier appart" card (local 25..260, y 177..181)
+Object.assign($('cardbar').style, { left: (24.5 - 14) * K + 'px', top: (176.6 - 128) * K + 'px', width: (260 - 24.5) * K + 'px' });
+// toggle overlay on the "Cyber" row (local 226..260, y 266..287)
+Object.assign($('tgl').style, { left: (225.5 - 14) * K + 'px', top: (265.5 - 257) * K + 'px' });
+// ring anchors
+const anchor = (id, x, y, color) => { const r = $(id); r.style.left = x * K + 'px'; r.style.top = y * K + 'px'; r.style.borderColor = color; };
+['rg1', 'rg2', 'rg3'].forEach(id => anchor(id, 142.5, 105, '#FF8A00'));
+anchor('rgOk', 143, 126, '#1DB954');
+// logo slash geometry (for the morph)
+const bar1 = $('bar1');
+const logo1 = $('logo1');
+logo1.style.left = (960 - logo1.offsetWidth / 2) + 'px';
+logo1.style.top = (540 - logo1.offsetHeight / 2) + 'px';
+const BR = bar1.getBoundingClientRect();
 
-function renderScreens(t) {
-  let cur = 0;
-  for (let i = 0; i < flow.length; i++) if (t >= flow[i][0]) cur = i;
-  allScreens.forEach((id, i) => {
-    const el = $(id);
-    if (i === cur) {
-      const p = i === 0 ? 1 : eIO(seg(t, flow[i][0], flow[i][0] + SLIDE));
-      set(el, `translateX(${(1 - p) * 380}px)`, 1);
-      el.style.zIndex = 2;
-    } else if (i === cur - 1) {
-      const p = eIO(seg(t, flow[cur][0], flow[cur][0] + SLIDE));
-      set(el, `translateX(${-p * 120}px)`, 1 - p * 0.5);
-      el.style.zIndex = 1;
-    } else { el.style.opacity = 0; el.style.zIndex = 0; }
+// ---------------- helpers ----------------
+// diagonal wipe: revealed region is left of a "/" edge at x = X (top) .. X-420 (bottom)
+const SLANT = 420;
+function wipeX(p) { return lerp(-40, 1920 + SLANT + 40, p); }
+function wipeClip(p) {
+  if (p <= 0) return 'polygon(0 0,0 0,0 0)';
+  if (p >= 1) return 'none';
+  const X = wipeX(p);
+  return `polygon(-10px -10px, ${X}px -10px, ${X - SLANT}px 1090px, -10px 1090px)`;
+}
+function bandFor(p, color, w = 200) {
+  const b = $('band');
+  if (p <= 0 || p >= 1) { b.style.opacity = 0; return; }
+  const X = wipeX(p);
+  b.style.opacity = 1; b.style.background = color;
+  b.style.clipPath = `polygon(${X}px -10px, ${X + w}px -10px, ${X + w - SLANT}px 1090px, ${X - SLANT}px 1090px)`;
+}
+function lines(container, t0, stagger = 0.11, dur = 0.7) {
+  container.querySelectorAll('.m > span').forEach((s, i) => {
+    const p = xOut(seg(t, t0 + i * stagger, t0 + i * stagger + dur));
+    s.style.transform = `translateY(${(1 - p) * 110}%)`;
   });
-  const tap = $('tap'); tap.style.opacity = 0;
-  for (const [time, , pos] of flow) {
-    if (!pos) continue;
-    const p = seg(t, time - TAP, time + 0.15);
-    if (p > 0 && p < 1) {
-      tap.style.left = pos[0] * PX + 'px'; tap.style.top = pos[1] * PX + 'px';
-      const s = p < .4 ? lerp(1.4, .8, eOut(p / .4)) : lerp(.8, 1.6, (p - .4) / .6);
-      set(tap, `scale(${s})`, p < .4 ? eOut(p / .4) : 1 - (p - .4) / .6);
+}
+let t = 0;
+
+function popAmt(tIn, tOut, d = 0.55) {
+  return back(seg(t, tIn, tIn + d), 1.3) * (1 - eIn(seg(t, tOut, tOut + 0.3)));
+}
+function setPop(id, p, z = 150, extra = '') {
+  z = z * 1.7;
+  const el = $(id);
+  el.style.opacity = p > 0.002 ? 1 : 0;
+  const side = t < T.B1 || (t >= T.B2 && t < T.B3) ? 1 : -1;
+  el.style.transform = `translateX(${side * p * 34}px) translateZ(${p * z}px) scale(${1 + 0.2 * p}) ${extra}`;
+  el.style.boxShadow = `0 ${p * 40}px ${p * 70}px -${p * 10}px rgba(0,0,60,${0.45 * clamp(p)})`;
+}
+function ring(id, t0, dur, maxS) {
+  const p = seg(t, t0, t0 + dur), el = $(id);
+  el.style.opacity = p > 0 && p < 1 ? (1 - p) : 0;
+  el.style.transform = `scale(${lerp(0.6, maxS, xOut(p))})`;
+}
+
+// ---------------- render ----------------
+function render(time) {
+  t = time;
+  // drifting dot grids
+  document.querySelectorAll('.dots').forEach((d, i) => d.style.transform = `translate(${(t * 14 + i * 7) % 40}px, ${(t * 6) % 40}px)`);
+
+  // ===== INTRO: TA VIE -> cut -> CHANGE. =====
+  const slam = xOut(seg(t, 0, 0.45));
+  const split = xIO(seg(t, T.cut + 0.18, T.cut + 0.75));
+  const dx = 0.31, dy = -0.95, d = split * 900;
+  const tv1 = $('tv1'), tv2 = $('tv2');
+  tv1.style.clipPath = 'polygon(-2000px -100px, 1169px -100px, 751px 1180px, -2000px 1180px)';
+  tv2.style.clipPath = 'polygon(1169px -100px, 4000px -100px, 4000px 1180px, 751px 1180px)';
+  const base = `scale(${lerp(1.6, 1, slam)})`;
+  tf(tv1, `translate(${-dx * d}px, ${-dy * d}px) ${base}`, t < 0.02 ? 0 : clamp(slam * 3) * (1 - split));
+  tf(tv2, `translate(${dx * d}px, ${dy * d}px) ${base}`, t < 0.02 ? 0 : clamp(slam * 3) * (1 - split));
+  const cutIn = xOut(seg(t, T.cut, T.cut + 0.2)), cutOut = seg(t, T.cut + 0.35, T.cut + 0.6);
+  tf($('cut'), `rotate(18deg) scaleY(${cutIn})`, cutIn > 0 ? 1 - cutOut : 0);
+  const ch = xOut(seg(t, T.change, T.change + 0.7));
+  const chOut = xIn(seg(t, T.pick, T.pick + 0.3));
+  tf($('change'), `translateY(${-chOut * 300}px) scale(${lerp(.7, 1, ch)}) scaleY(${1 - chOut * .7})`, t > T.change ? clamp(ch * 2) * (1 - chOut) : 0);
+
+  // picker wheel
+  const rows = [...document.querySelectorAll('#picker .row')];
+  const pp = xOut(seg(t, T.pick + 0.1, T.pickEnd));
+  const pos = lerp(-2.5, 5, pp);
+  const settle = xOut(seg(t, T.aussi, T.aussi + 0.5));
+  rows.forEach((r, i) => {
+    if (r.id === 'aussi') {
+      const a = back(seg(t, T.aussi, T.aussi + 0.45), 2);
+      tf(r, `translateY(${lerp(120, 95, settle)}px) scale(${lerp(1.8, 1, clamp(a))})`, t > T.aussi ? clamp(seg(t, T.aussi, T.aussi + 0.12)) : 0);
+      return;
     }
-  }
-}
+    const k = i - pos;
+    let op = clamp(1 - Math.abs(k) * 0.55) ;
+    if (i !== 5) op *= 1 - settle; else op = Math.max(op, 0);
+    const y = k * 200 - (i === 5 ? settle * 95 : 0);
+    tf(r, `translateY(${y}px) rotateX(${-k * 32}deg)`, t > T.pick + 0.1 && t < T.logoWipe + 0.6 ? op : 0);
+  });
 
-// ---------- feature scenes ----------
-const RIGHT = 1350, LEFT = 570, CY = 540, MOVE = 1.0;
+  // ===== LOGO =====
+  const Llogo = $('Llogo');
+  const lw = xIO(seg(t, T.logoWipe, T.logoWipe + 0.5));
+  Llogo.style.clipPath = wipeClip(lw);
+  show(Llogo, t >= T.logoWipe && t < T.reveal1 + 0.8);
+  const sl = back(seg(t, T.slam, T.slam + 0.4), 2.2);
+  const mo = seg(t, T.morph, T.morph + 0.85);
+  bar1.style.transform = `skewX(-18deg) scaleY(${clamp(sl, 0, 1.3)})`;
+  bar1.style.opacity = t < T.morph ? 1 : 0;
+  const lgOut = xIn(seg(t, T.morph - 0.05, T.morph + 0.3));
+  logo1.querySelector('.name').style.transform = `translateX(${-lgOut * 260}px)`;
+  logo1.querySelector('.name').style.opacity = 1 - lgOut;
+  logo1.querySelector('.by').style.transform = `translateX(${-lgOut * 200}px)`;
+  logo1.querySelector('.by').style.opacity = 1 - lgOut;
+  logo1.style.transform = `scale(${lerp(1.04, 1, xOut(seg(t, T.slam, T.slam + 0.6)))})`;
 
-function phoneX(t) {
-  let x = scenes[0][2] === 'R' ? RIGHT : LEFT;
-  for (let i = 1; i < scenes.length; i++) {
-    const b = scenes[i][0];
-    const from = scenes[i - 1][2] === 'R' ? RIGHT : LEFT;
-    const to = scenes[i][2] === 'R' ? RIGHT : LEFT;
-    if (t >= b - MOVE / 2) x = lerp(from, to, eIO(seg(t, b - MOVE / 2, b + MOVE / 2)));
-  }
-  return x;
-}
-
-function renderCopy(t) {
-  scenes.forEach(([a, b, side, id], i) => {
-    const el = $(id);
-    el.style.left = (side === 'R' ? 200 : 1010) + 'px';
-    const last = i === scenes.length - 1;
-    const outP = last ? 0 : eIn(seg(t, b - 0.55, b - 0.05));
-    el.querySelectorAll('.num, .line').forEach((ln, j) => {
-      const p = eOut(seg(t, a + 0.35 + j * 0.12, a + 1.15 + j * 0.12));
-      set(ln, `translateY(${(1 - p) * 60}px)`, p * (1 - outP));
+  // ===== MORPH: logo slash -> phone =====
+  const morph = $('morph');
+  const mp = xIO(mo);
+  if (t >= T.morph && t < T.morph + 0.9) {
+    const W = 408 * PSCALE, H = 852 * PSCALE;
+    const cx = lerp(BR.left + BR.width / 2, PX.R, mp), cy = lerp(BR.top + BR.height / 2, 540, mp);
+    const w = lerp(50, W, mp), h = lerp(190, H, mp);
+    Object.assign(morph.style, {
+      left: cx - w / 2 + 'px', top: cy - h / 2 + 'px', width: w + 'px', height: h + 'px',
+      borderRadius: lerp(0, 60, mp) + 'px', opacity: 1 - seg(t, T.morph + 0.7, T.morph + 0.9),
+      background: `rgb(${Math.round(lerp(255, 14, seg(mp, 0.3, 1)))},${Math.round(lerp(23, 14, seg(mp, 0.3, 1)))},${Math.round(lerp(33, 26, seg(mp, 0.3, 1)))})`,
     });
-    el.style.transform = `translateX(${(side === 'R' ? -1 : 1) * outP * 60}px)`;
-    el.style.opacity = (t > a - 0.1 && t < b + 0.1) || (last && t < OUTRO + 0.8) ? 1 : 0;
-  });
-  let idx = 0; scenes.forEach((s, i) => { if (t >= s[0]) idx = i; });
-  const s = scenes[idx];
-  const p = eOut(seg(t, s[0], s[0] + 1.2));
-  const bn = $('bignum');
-  bn.textContent = '0' + (idx + 1);
-  bn.style.left = (s[2] === 'R' ? 1000 : 120) + 'px';
-  set(bn, `translateY(${(1 - p) * 80}px)`, t > WIPE && t < OUTRO + 0.6 ? p : 0);
-  [...$('dots').children].forEach((d, i) => {
-    const on = i === idx;
-    d.style.width = on ? '44px' : '8px';
-    d.style.background = on ? 'var(--axa)' : 'rgba(0,0,143,.18)';
-  });
-}
+    morph.style.transform = `skewX(${lerp(-18, 0, mp)}deg) rotate(${Math.sin(mp * Math.PI) * -8}deg)`;
+  } else morph.style.opacity = 0;
 
-// ---------- master render ----------
-function render(t) {
-  // ===== INTRO (blue) =====
-  ['w1', 'w2', 'w3'].forEach((id, i) => {
-    const a = 0.3 + i * WORD, inner = $(id).firstElementChild;
-    const pin = eOut(seg(t, a, a + 0.4));
-    const pout = eIn(seg(t, a + WORD - 0.25, a + WORD));
-    set(inner, `translateY(${(1 - pin) * 170 - pout * 170}px)`, 1);
-    $(id).style.height = '180px';
-    $(id).style.opacity = t >= a && t < a + WORD ? 1 : 0;
-  });
-  ['t1', 't2'].forEach((id, i) => {
-    const a = TAG_IN + i * 0.25, inner = $(id).firstElementChild;
-    const p = eOut(seg(t, a, a + 0.6));
-    const out = eIn(seg(t, TAG_OUT - 0.3, TAG_OUT));
-    set(inner, `translateY(${(1 - p) * 135 - out * 135}px)`, 1);
-    $(id).style.height = '130px';
-    $(id).style.opacity = t > a && t < TAG_OUT ? 1 : 0;
-  });
+  // ===== FEATURE LAYERS =====
+  const L1 = $('L1');
+  const r1 = xIO(seg(t, T.reveal1, T.reveal1 + 0.75));
+  show(L1, t >= T.reveal1 && t < T.B1 + 0.6);
+  L1.style.clipPath = r1 >= 1 ? 'none' : `circle(${r1 * 2300}px at ${PX.R}px 540px)`;
+  lines(L1, T.reveal1 + 0.45);
 
-  const logo = $('logo');
-  const inIntro = t < WIPE + 0.5;
-  const lp = eOut(seg(t, LOGO_IN, LOGO_IN + 0.6));
-  const lo = eOut(seg(t, OUTRO + 1.0, OUTRO + 1.7));
-  if (inIntro) {
-    logo.style.left = '0px'; logo.style.right = '0px'; logo.style.top = '390px'; logo.style.textAlign = 'center';
-    logo.style.transformOrigin = 'center';
-    set(logo, `translateY(${(1 - lp) * 60}px) scale(${lerp(.92, 1, lp)})`, lp);
-  } else {
-    logo.style.left = '170px'; logo.style.right = 'auto'; logo.style.top = '220px'; logo.style.textAlign = 'left';
-    logo.style.transformOrigin = 'left top';
-    set(logo, `translateY(${(1 - lo) * 50}px) scale(.9)`, lo);
+  const wipes = [['L2', T.B1, 'var(--red)'], ['L3', T.B2, '#FFFFFF'], ['L4', T.B3, 'var(--axa)']];
+  let bandShown = false;
+  wipes.forEach(([id, B, col], i) => {
+    const L = $(id);
+    const p = xIO(seg(t, B - 0.35, B + 0.3));
+    L.style.clipPath = wipeClip(p);
+    show(L, t >= B - 0.35 && t < (wipes[i + 1] ? wipes[i + 1][1] + 0.6 : T.cutOut + 0.1));
+    lines(L, B + 0.12);
+    if (p > 0 && p < 1) { bandFor(p, col); bandShown = true; }
+  });
+  if (!bandShown) {
+    const p = xIO(seg(t, T.logoWipe, T.logoWipe + 0.5));
+    if (p > 0 && p < 1) bandFor(p, 'var(--red)', 260); else $('band').style.opacity = 0;
   }
-  const bp = inIntro ? eBack(seg(t, LOGO_IN + 0.25, LOGO_IN + 0.75)) : eBack(seg(t, OUTRO + 1.3, OUTRO + 1.8));
-  $('logobar').style.transform = `skewX(-18deg) scaleY(${bp})`;
-
-  // blue layer wipes
-  const blue = $('blue'), slash = $('slash');
-  const wipeOut = eIO(seg(t, WIPE, WIPE + 0.8));
-  const wipeIn = eIO(seg(t, OUTRO - 0.1, OUTRO + 0.8));
-  if (t < WIPE + 1) {
-    blue.style.clipPath = `polygon(${wipeOut * 2600 - 400}px 0, 1920px 0, 1920px 1080px, ${wipeOut * 2600 - 750}px 1080px)`;
-    slash.style.opacity = wipeOut > 0 && wipeOut < 1 ? 1 : 0;
-    set(slash, `translateX(${wipeOut * 2600 - 560}px) skewX(-18deg)`);
-  } else if (t >= OUTRO - 0.1) {
-    const x = 2350 - wipeIn * 2700;
-    blue.style.clipPath = `polygon(${x + 350}px 0, 1920px 0, 1920px 1080px, ${x}px 1080px)`;
-    slash.style.opacity = wipeIn > 0 && wipeIn < 1 ? 1 : 0;
-    set(slash, `translateX(${x - 30}px) skewX(-18deg)`);
-  } else {
-    blue.style.clipPath = 'polygon(2000px 0, 2000px 0, 2000px 1080px, 2000px 1080px)';
-    slash.style.opacity = 0;
-  }
-  blue.querySelector('.sky').style.opacity = t < WIPE + 1 ? .55 : .35;
-  const op = eOut(seg(t, OUTRO + 1.6, OUTRO + 2.3));
-  set($('outro'), `translateY(${(1 - op) * 40}px)`, t > OUTRO ? op : 0);
+  // gentle parallax of giant type
+  ['L1', 'L2', 'L3', 'L4'].forEach((id, i) => {
+    const B = scenes[i][0];
+    $(id).querySelector('.big').style.transform = `translateX(${(scenes[i][1] === 'R' ? -1 : 1) * (t - B) * 9}px)`;
+  });
 
   // ===== PHONE =====
-  const fly = eOut(seg(t, WIPE + 0.1, WIPE + 1.2));
-  let px = phoneX(t), py = CY + (1 - fly) * 900;
-  const rot = (1 - fly) * 12;
-  const o = eIO(seg(t, OUTRO + 0.2, OUTRO + 1.2));
-  const OX = 1330;
-  px = lerp(px, OX, o);
+  renderPhone();
+
+  // ===== OUTRO =====
+  const Lout = $('Lout');
+  show(Lout, t >= T.cutOut);
+  const o1 = t - T.cutOut;
+  const nm = xOut(seg(o1, 0.05, 0.75));
+  $('name2').style.transform = `translateY(${(1 - nm) * 105}%)`;
+  $('name2').style.display = 'inline-block';
+  const b2 = back(seg(o1, 0.3, 0.7), 2.2);
+  tf($('bar2'), `skewX(-18deg) scaleY(${clamp(b2, 0, 1.3)})`);
+  const by = xOut(seg(o1, 0.45, 1.0));
+  tf($('by2'), `translateY(${(1 - by) * 30}px)`, by);
+  $('tagline').querySelectorAll('.m > span').forEach((s, i) => {
+    const p = xOut(seg(o1, 0.85 + i * 0.25, 1.6 + i * 0.25));
+    s.style.transform = `translateY(${(1 - p) * 110}%)`;
+  });
+  const lg2 = xOut(seg(o1, 0, 2.5));
+  $('logo2').style.transform = `scale(${lerp(1.08, 1, lg2)})`;
+}
+
+function screenAt() {
+  if (t < T.B1) return 's04';
+  if (t < T.B2) return 's09';
+  if (t < T.B3) return t < 14.35 ? 's11' : 's12';
+  if (t < T.out + 0.3) return 's13';
+  return 's04';
+}
+
+function renderPhone() {
   const ph = $('phone');
-  ph.style.left = (px - 204) + 'px'; ph.style.top = (py - 426) + 'px';
-  let tf = `rotate(${rot}deg) scale(${lerp(1, .9, o)})`;
-  if (t > OUTRO + 2) tf += ` translateY(${Math.sin((t - OUTRO - 2) * 1.4) * 8}px)`;
-  set(ph, tf, 1);
-  ph.style.zIndex = t > OUTRO + 0.1 ? 30 : 3;
-  if (t > OUTRO + 0.5) {
-    allScreens.forEach(id => { const on = id === 's04'; $(id).style.opacity = on ? 1 : 0; $(id).style.transform = 'none'; $(id).style.zIndex = on ? 3 : 0; });
-    $('tap').style.opacity = 0;
-  } else renderScreens(t);
-  const sp = eOut(seg(t, OUTRO + 0.9, OUTRO + 1.9));
-  [['phoneL', -1], ['phoneR', 1]].forEach(([id, s]) => {
+  const visible = t >= T.morph + 0.7 && t < T.cutOut;
+  ph.style.visibility = visible ? 'visible' : 'hidden';
+  $('pshadow').style.opacity = 0;
+  if (!visible) return;
+
+  // ---- base pose by scene, with swings at boundaries ----
+  let x = PX.R, ry = RY.R, rx = 8, rz = 0, s = PSCALE, y = 540, lift = 0;
+  // arrival from the morph: flat -> tilted
+  const arr = xOut(seg(t, T.morph + 0.7, T.morph + 1.6));
+  ry = lerp(0, RY.R, arr); rx = lerp(0, 8, arr);
+  const swings = [[T.B1, 'R', 'L'], [T.B2, 'L', 'R'], [T.B3, 'R', 'L']];
+  for (const [B, a, b] of swings) {
+    if (t >= B - 0.45) {
+      const p = xIO(seg(t, B - 0.45, B + 0.5));
+      x = lerp(PX[a], PX[b], p);
+      ry = lerp(RY[a], RY[b], p) + (a === 'R' ? 1 : -1) * 360 * p;
+      s = PSCALE * (1 - 0.14 * Math.sin(p * Math.PI));
+      lift = -Math.sin(p * Math.PI) * 40;
+      rz = Math.sin(p * Math.PI) * (a === 'R' ? -6 : 6);
+    }
+  }
+  // idle float
+  ry += Math.sin(t * 0.9) * 3; rx += Math.sin(t * 0.7 + 1) * 2.5; y += Math.sin(t * 1.1) * 8;
+
+  // ---- outro: spin to front, then dive into the blue header ----
+  let pivX = 204, pivY = 426;
+  if (t >= T.out) {
+    const p = xIO(seg(t, T.out, T.zoom + 0.05));
+    x = lerp(PX.L, 960, p); y = lerp(540, 540, p);
+    ry = lerp(RY.L, 0, p) - 360 * p; rx = lerp(8, 0, p); rz = 0;
+    s = PSCALE; lift = -Math.sin(p * Math.PI) * 30;
+    const fx = SX + 215 * K, fy = SY + 62 * K;
+    const zp = seg(t, T.zoom, T.cutOut);
+    const pv = xIO(seg(t, T.zoom - 0.1, T.zoom + 0.35));
+    pivX = lerp(204, fx, pv); pivY = lerp(426, fy, pv);
+    s = PSCALE * Math.pow(48 / PSCALE, xIn(zp) * 0.35 + zp * zp * 0.65);
+  }
+  ph.style.transform = `translate(${x}px, ${y + lift}px) rotateZ(${rz}deg) rotateY(${ry}deg) rotateX(${rx}deg) scale(${s}) translate(${-pivX}px, ${-pivY}px)`;
+
+  // floor shadow
+  const sh = $('pshadow');
+  if (t < T.out) {
+    sh.style.opacity = 0.9 - Math.abs(lift) / 80;
+    sh.style.transform = `translate(${x - 210}px, ${y + 390}px) scale(${s})`;
+  }
+
+  // ---- screens ----
+  const cur = screenAt();
+  ['s04', 's09', 's11', 's12', 's13'].forEach(id => {
     const el = $(id);
-    el.style.left = (OX - 204) + 'px'; el.style.top = (CY - 426) + 'px';
-    el.style.zIndex = 29;
-    set(el, `translateX(${s * sp * 300}px) translateY(${sp * 40}px) rotate(${s * sp * 9}deg) scale(.8)`, t > OUTRO + 0.7 ? clamp(sp * 2) : 0);
+    if (id === 's12' && t >= 14.35 && t < T.B3) {
+      const p = xIO(seg(t, 14.35, 14.9));
+      tf(el, `translateX(${(1 - p) * 380}px)`, 1); el.style.zIndex = 2; return;
+    }
+    if (id === 's11' && t >= 14.35 && t < T.B3) {
+      const p = xIO(seg(t, 14.35, 14.9));
+      tf(el, `translateX(${-p * 140}px)`, 1 - p * 0.4); el.style.zIndex = 1; return;
+    }
+    tf(el, 'none', id === cur ? 1 : 0); el.style.zIndex = id === cur ? 2 : 0;
   });
 
-  renderCopy(t);
-  const featVis = t > WIPE && t < OUTRO + 0.8;
-  scenes.forEach(s => { if (!featVis) $(s[3]).style.opacity = 0; });
-  $('dots').style.opacity = clamp(seg(t, WIPE + 0.6, WIPE + 1.1)) * (1 - seg(t, OUTRO - 0.3, OUTRO));
-  const bl = $('blob');
-  bl.style.left = (px - 550) + 'px'; bl.style.top = (CY - 550) + 'px';
+  // ---- pops ----
+  const pc = popAmt(7.25, 9.05);
+  setPop('p_card', pc, 170);
+  $('cardbar').firstElementChild.style.width = 40 * xOut(seg(t, 7.6, 8.6)) + '%';
+  const a1 = popAmt(10.45, 12.0), a2 = popAmt(10.62, 12.05);
+  setPop('p_alertA', a1, 170); setPop('p_alertB', a2, 110);
+  const tiles = ['p_t1', 'p_t2', 'p_t3', 'p_t4'].map((id, i) => popAmt(13.0 + i * 0.09, 14.05 + (i === 1 ? 0.1 : 0)));
+  const press = Math.sin(seg(t, 13.75, 14.0) * Math.PI);
+  tiles.forEach((p, i) => setPop(['p_t1', 'p_t2', 'p_t3', 'p_t4'][i], p, i === 1 ? 190 - press * 80 : 120));
+  const rr = [popAmt(16.0, 17.65), popAmt(16.09, 17.7), popAmt(16.18, 17.75)];
+  rr.forEach((p, i) => setPop('p_r' + (i + 1), p, i === 1 ? 200 : 120));
+  const tg = xIO(seg(t, 16.75, 17.05));
+  $('tgl').style.background = `rgb(${Math.round(lerp(226, 0, tg))},${Math.round(lerp(228, 0, tg))},${Math.round(lerp(238, 143, tg))})`;
+  $('tgl').firstElementChild.style.transform = `translateX(${tg * 18}px)`;
+  $('dim').style.opacity = 0.55 * Math.max(pc, a1, ...tiles, ...rr, 0);
+
+  // ---- rings ----
+  ring('rg1', 9.95, 1.2, 4.5); ring('rg2', 10.35, 1.2, 4.5); ring('rg3', 10.75, 1.2, 4.5);
+  ring('rgOk', 14.85, 0.8, 3.2);
 }
 
 window.render = render;

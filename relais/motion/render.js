@@ -1,4 +1,4 @@
-// Usage: node render.js out.mp4 [fps]      -> full video
+// Usage: node render.js out.mp4 [fps] [subframes] -> full video with motion blur
 //        node render.js --stills dir t1 t2 -> PNG stills for review
 const { chromium } = require('/opt/node22/lib/node_modules/playwright');
 const { spawn } = require('child_process');
@@ -21,14 +21,19 @@ const path = require('path');
   } else {
     const out = args[0], fps = parseInt(args[1] || '30');
     const dur = await page.evaluate(() => DURATION);
-    const ff = spawn('ffmpeg', ['-y', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-',
+    const SUB = parseInt(args[2] || '4'), SHUTTER = 0.5;
+    const ff = spawn('ffmpeg', ['-y', '-f', 'image2pipe', '-framerate', String(fps * SUB), '-i', '-',
+      '-vf', `tmix=frames=${SUB},select='eq(mod(n,${SUB}),${SUB - 1})',setpts=N/${fps}/TB`, '-r', String(fps),
       '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out],
       { stdio: ['pipe', 'inherit', 'inherit'] });
+    // motion blur: SUB sub-frames per frame over a 180° shutter, averaged by ffmpeg (tmix)
     const n = Math.round(dur * fps);
     for (let i = 0; i < n; i++) {
-      await page.evaluate(t => render(t), i / fps);
-      const buf = await page.screenshot({ type: 'png' });
-      if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
+      for (let k = 0; k < SUB; k++) {
+        await page.evaluate(t => render(t), (i + k * SHUTTER / SUB) / fps);
+        const buf = await page.screenshot({ type: 'png' });
+        if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
+      }
       if (i % 60 === 0) process.stderr.write(`frame ${i}/${n}\n`);
     }
     ff.stdin.end();
