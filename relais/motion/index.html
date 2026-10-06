@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Relais by AXA — Motion</title>
+<style>
+  :root {
+    --axa: #00008F;
+    --axa-deep: #00005B;
+    --red: #FF1721;
+    --ink: #0B0B3B;
+    --muted: #5B5F7A;
+    --paper: #F3F4FA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+  body { font-family: "Inter", system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #stage { position: absolute; inset: 0; overflow: hidden; background: var(--paper); }
+  .abs { position: absolute; will-change: transform, opacity; }
+
+  /* light background decor */
+  #grid { inset: 0; background-image: radial-gradient(rgba(0,0,143,.10) 1.6px, transparent 1.6px); background-size: 36px 36px; }
+  #blob { width: 1100px; height: 1100px; border-radius: 50%; background: radial-gradient(circle, rgba(0,0,143,.10), rgba(0,0,143,0) 65%); left: 0; top: 0; }
+  #bignum { font-weight: 900; font-size: 560px; line-height: 1; color: rgba(0,0,143,.045); letter-spacing: -30px; top: 230px; }
+
+  /* blue layer */
+  #blue { inset: 0; background: var(--axa); z-index: 10; }
+  #blue .sky { position: absolute; left: 0; right: 0; bottom: 0; height: 330px; opacity: .55; }
+  #slash { z-index: 11; width: 260px; height: 2400px; background: var(--red); left: 0; top: -660px; }
+  #slash2 { width: 2400px; height: 2400px; background: var(--axa); left: 0; top: -660px; }
+
+  .word { font-weight: 800; color: #fff; font-size: 132px; letter-spacing: -4px; white-space: nowrap; }
+  .mask { overflow: hidden; position: absolute; left: 0; right: 0; text-align: center; }
+  .mask > div { display: inline-block; }
+  .tagline { font-weight: 800; color: #fff; font-size: 104px; letter-spacing: -3px; line-height: 1.05; }
+  .tagline em { font-style: normal; color: #fff; position: relative; }
+
+  /* logo */
+  .logo { color: #fff; }
+  .logo .name { font-weight: 800; font-size: 200px; letter-spacing: -7px; line-height: 1; display: inline-block; vertical-align: top; }
+  .logo .bar { display: inline-block; width: 44px; height: 168px; background: var(--red); transform: skewX(-18deg); margin-left: 34px; margin-top: 22px; vertical-align: top; transform-origin: bottom; }
+  .logo .by { font-weight: 800; font-size: 64px; letter-spacing: -1px; margin-top: 4px; }
+
+  /* phone */
+  .phone { width: 408px; height: 852px; border-radius: 64px; background: #0E0E1A; padding: 14px;
+           box-shadow: 0 60px 120px -30px rgba(0,0,80,.45), 0 30px 60px -30px rgba(0,0,0,.35), inset 0 0 0 2px #2A2A3A; }
+  .phone .scr { position: relative; width: 380px; height: 824px; border-radius: 50px; overflow: hidden; background: #fff; }
+  .phone .scr img { position: absolute; left: 0; top: 0; width: 380px; height: 824px; }
+  .phone .island { position: absolute; left: 50%; top: 24px; width: 112px; height: 32px; margin-left: -56px; background: #0E0E1A; border-radius: 20px; z-index: 5; }
+  .tap { width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: rgba(255,23,33,.28); border: 3px solid rgba(255,23,33,.9); z-index: 6; }
+
+  /* feature copy */
+  .copy { width: 820px; top: 330px; }
+  .copy .line { white-space: nowrap; }
+  .copy .kicker { font-size: 26px; font-weight: 700; color: var(--red); letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; gap: 18px; }
+  .copy .kicker b { display: inline-block; width: 16px; height: 40px; background: var(--red); transform: skewX(-18deg); }
+  .copy h2 { font-size: 74px; line-height: 1.02; font-weight: 800; letter-spacing: -3px; color: var(--axa); margin-top: 26px; }
+  .copy p { font-size: 32px; line-height: 1.4; color: var(--muted); margin-top: 30px; font-weight: 500; }
+  .line { display: block; }
+
+  /* callouts */
+  .callout { z-index: 5; background: #fff; border-radius: 26px; padding: 22px 28px; box-shadow: 0 30px 60px -20px rgba(0,0,90,.30); display: flex; gap: 18px; align-items: center; white-space: nowrap; }
+  .callout .ic { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; font-size: 30px; font-weight: 800; color: #fff; flex: none; }
+  .callout .t1 { font-size: 30px; font-weight: 800; color: var(--axa); letter-spacing: -.5px; }
+  .callout .t2 { font-size: 20px; font-weight: 500; color: var(--muted); margin-top: 3px; }
+
+  /* progress dots */
+  #dots { left: 50%; bottom: 52px; transform: translateX(-50%); display: flex; gap: 12px; }
+  #dots i { display: block; height: 8px; width: 8px; border-radius: 4px; background: rgba(0,0,143,.18); }
+
+  /* outro */
+  .outro-copy { color: #fff; }
+  .outro-copy .tag { font-size: 60px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.12; }
+  .outro-copy .sub { font-size: 28px; font-weight: 500; opacity: .75; margin-top: 22px; }
+  .pill { display: inline-block; margin-top: 46px; background: #fff; color: var(--axa); font-weight: 800; font-size: 28px; padding: 22px 44px; border-radius: 60px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- light scene background -->
+  <div id="grid" class="abs"></div>
+  <div id="blob" class="abs"></div>
+  <div id="bignum" class="abs">01</div>
+
+  <!-- feature copy blocks -->
+  <div class="copy abs" id="c1">
+    <div class="kicker"><b></b>01 · Ton moment de vie</div>
+    <h2><span class="line">Une app qui</span><span class="line">s'adapte à toi.</span></h2>
+    <p><span class="line">Premier appart, premier job, alternance,</span><span class="line">permis… Relais te propose la bonne</span><span class="line">protection au bon moment.</span></p>
+  </div>
+  <div class="copy abs" id="c2">
+    <div class="kicker"><b></b>02 · Étape par étape</div>
+    <h2><span class="line">Une étape à la fois.</span><span class="line">On s'occupe du reste.</span></h2>
+    <p><span class="line">Tu vois ce qui est couvert, ce qu'il reste</span><span class="line">à faire, et tu souscris en un geste,</span><span class="line">seul·e ou à deux avec tes parents.</span></p>
+  </div>
+  <div class="copy abs" id="c3">
+    <div class="kicker"><b></b>03 · Bouclier cyber</div>
+    <h2><span class="line">Ta vie en ligne,</span><span class="line">sous surveillance.</span></h2>
+    <p><span class="line">Fuite de données, mot de passe faible :</span><span class="line">Relais t'alerte et te dit quoi faire,</span><span class="line">dans l'ordre.</span></p>
+  </div>
+  <div class="copy abs" id="c4">
+    <div class="kicker"><b></b>04 · J'ai un pépin</div>
+    <h2><span class="line">Un problème ?</span><span class="line">C'est déclaré.</span></h2>
+    <p><span class="line">Piratage, arnaque, dégât des eaux,</span><span class="line">accident : tu déclares en quelques taps</span><span class="line">et ta conseillère te rappelle.</span></p>
+  </div>
+  <div class="copy abs" id="c5">
+    <div class="kicker"><b></b>05 · Espace famille</div>
+    <h2><span class="line">Tes parents en relais.</span><span class="line">Toi aux commandes.</span></h2>
+    <p><span class="line">Tu choisis ce qu'ils voient et qui paie</span><span class="line">quoi. Ton niveau d'autonomie grandit</span><span class="line">avec toi.</span></p>
+  </div>
+
+  <!-- outro side phones -->
+  <div class="phone abs" id="phoneL"><div class="scr"><img src="screens/s05.png"></div><div class="island"></div></div>
+  <div class="phone abs" id="phoneR"><div class="scr"><img src="screens/s15.png"></div><div class="island"></div></div>
+
+  <!-- main phone -->
+  <div class="phone abs" id="phone">
+    <div class="scr" id="scr">
+      <img id="s01" src="screens/s01.png"><img id="s02" src="screens/s02.png"><img id="s04" src="screens/s04.png">
+      <img id="s06" src="screens/s06.png"><img id="s07" src="screens/s07.png"><img id="s08" src="screens/s08.png">
+      <img id="s09" src="screens/s09.png"><img id="s10" src="screens/s10.png"><img id="s11" src="screens/s11.png">
+      <img id="s12" src="screens/s12.png"><img id="s13" src="screens/s13.png">
+      <div class="tap abs" id="tap"></div>
+    </div>
+    <div class="island"></div>
+  </div>
+
+  <!-- callouts -->
+  <div class="callout abs" id="k1"><div class="ic" style="background:var(--axa)">5</div><div><div class="t1">moments de vie</div><div class="t2">ton app change avec toi</div></div></div>
+  <div class="callout abs" id="k2"><div class="ic" style="background:var(--red)">€</div><div><div class="t1">2,20 €/mois</div><div class="t2">partagé avec Maman</div></div></div>
+  <div class="callout abs" id="k3"><div class="ic" style="background:#FF8A00">!</div><div><div class="t1">2 alertes</div><div class="t2">Email · Mots de passe</div></div></div>
+  <div class="callout abs" id="k4"><div class="ic" style="background:#1DB954">✓</div><div><div class="t1">Rappel en 2 min</div><div class="t2">par ta conseillère dédiée</div></div></div>
+  <div class="callout abs" id="k5"><div class="ic" style="background:var(--axa);font-size:21px">30%</div><div><div class="t1">d'autonomie</div><div class="t2">Toi 19,80 € · Parents 45,20 €</div></div></div>
+
+  <div id="dots" class="abs"><i></i><i></i><i></i><i></i><i></i></div>
+
+  <!-- blue layer: intro + outro -->
+  <div id="blue" class="abs">
+    <svg class="sky" viewBox="0 0 1920 330" preserveAspectRatio="none">
+      <path fill="#2B2BC9" d="M0 330V210h70v-60h50v60h40V120h60v90h50v-40h70v160h40V90h20V40h10v50h20v100h60v-70h80v210h50V150h90v180h40V200h70v130h60V60h30v-30h10v30h30v300h50V170h80v160h60V110h90v220h40V190h60v140h70V140h40v-30h10v30h40v190h60V200h90v130h60V160h70v170z"/>
+    </svg>
+    <div class="mask abs" id="w1" style="top:400px"><div class="word">Premier appart.</div></div>
+    <div class="mask abs" id="w2" style="top:400px"><div class="word">Premier job.</div></div>
+    <div class="mask abs" id="w3" style="top:400px"><div class="word">Alternance.</div></div>
+    <div class="mask abs" id="w4" style="top:400px"><div class="word">Permis.</div></div>
+    <div class="mask abs" id="w5" style="top:400px"><div class="word">Départ à l'étranger.</div></div>
+    <div class="mask abs" id="t1" style="top:360px"><div class="tagline">Ta vie change,</div></div>
+    <div class="mask abs" id="t2" style="top:480px"><div class="tagline">ta protection aussi.</div></div>
+    <div class="abs logo" id="logo" style="left:0;top:0">
+      <div><span class="name">Relais</span><span class="bar" id="logobar"></span></div>
+      <div class="by">by AXA</div>
+    </div>
+    <div class="abs" id="intro-sub" style="left:0;right:0;top:770px;text-align:center;color:#fff;font-size:34px;font-weight:500;opacity:.85">
+      L'app qui t'accompagne de tes parents vers ton autonomie.
+    </div>
+    <div class="abs outro-copy" id="outro" style="left:170px;top:470px">
+      <div class="tag">À toi de jouer.<br>On reste là.</div>
+      <div class="sub">Relais t'accompagne pas à pas, à ton rythme.</div>
+      <div class="pill">Bientôt sur iOS &amp; Android</div>
+    </div>
+  </div>
+  <div id="slash2" class="abs"></div>
+  <div id="slash" class="abs"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eOut = p => 1 - Math.pow(1 - p, 3);
+const eIn = p => p * p * p;
+const eIO = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const eBack = p => { const c = 1.7, c3 = c + 1; return 1 + c3 * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const set = (el, tf, op) => { el.style.transform = tf; if (op !== undefined) el.style.opacity = op; };
+
+const DURATION = 29;
+const PX = 380 / 285; // screen-sheet px -> phone px
+
+// ---------- phone screen timeline ----------
+// [time the transition starts, screen id, tap {x,y} in sheet px or null]
+const flow = [
+  [0,     's01', null],
+  [7.55,  's02', [143, 524]],
+  [9.55,  's04', [142, 192]],
+  [11.7,  's06', [144, 155]],
+  [12.75, 's07', [143, 467]],
+  [13.65, 's08', [143, 469]],
+  [14.55, 's09', null],
+  [16.05, 's10', [144, 305]],
+  [18.55, 's11', null],
+  [20.05, 's12', [208, 184]],
+  [22.55, 's13', null],
+];
+const SLIDE = 0.5, TAP = 0.45;
+const allScreens = flow.map(f => f[1]);
+
+function renderScreens(t) {
+  let cur = 0;
+  for (let i = 0; i < flow.length; i++) if (t >= flow[i][0]) cur = i;
+  allScreens.forEach((id, i) => {
+    const el = $(id);
+    if (i === cur) {
+      const p = i === 0 ? 1 : eIO(seg(t, flow[i][0], flow[i][0] + SLIDE));
+      set(el, `translateX(${(1 - p) * 380}px)`, 1);
+      el.style.zIndex = 2;
+    } else if (i === cur - 1) {
+      const p = eIO(seg(t, flow[cur][0], flow[cur][0] + SLIDE));
+      set(el, `translateX(${-p * 120}px)`, 1 - p * 0.5);
+      el.style.zIndex = 1;
+    } else { el.style.opacity = 0; el.style.zIndex = 0; }
+  });
+  // tap ripple shortly before a transition
+  const tap = $('tap'); tap.style.opacity = 0;
+  for (const [time, , pos] of flow) {
+    if (!pos) continue;
+    const a = time - TAP, p = seg(t, a, time + 0.1);
+    if (p > 0 && p < 1) {
+      tap.style.left = pos[0] * PX + 'px'; tap.style.top = pos[1] * PX + 'px';
+      const s = p < .4 ? lerp(1.4, .8, eOut(p / .4)) : lerp(.8, 1.6, (p - .4) / .6);
+      set(tap, `scale(${s})`, p < .4 ? eOut(p / .4) : 1 - (p - .4) / .6);
+    }
+  }
+}
+
+// ---------- feature scenes ----------
+const RIGHT = 1350, LEFT = 570, CY = 540;
+// [start, end, phone side, copy id, callout id]
+const scenes = [
+  [6.0, 10.5, 'R', 'c1', 'k1'],
+  [10.5, 14.5, 'L', 'c2', 'k2'],
+  [14.5, 18.5, 'R', 'c3', 'k3'],
+  [18.5, 22.5, 'L', 'c4', 'k4'],
+  [22.5, 26.0, 'R', 'c5', 'k5'],
+];
+const calloutAt = { k1: 7.0, k2: 13.95, k3: 15.2, k4: 20.7, k5: 23.3 };
+const calloutPos = {   // relative to phone centre
+  k1: [130, 230], k2: [-470, 220], k3: [125, -230], k4: [-480, -90], k5: [125, 200],
+};
+
+function phoneX(t) {
+  // move between sides at each scene boundary
+  let x = RIGHT;
+  for (let i = 1; i < scenes.length; i++) {
+    const b = scenes[i][0];
+    const from = scenes[i - 1][2] === 'R' ? RIGHT : LEFT;
+    const to = scenes[i][2] === 'R' ? RIGHT : LEFT;
+    if (t >= b - 0.35) x = lerp(from, to, eIO(seg(t, b - 0.35, b + 0.45)));
+  }
+  return x;
+}
+
+function renderCopy(t) {
+  scenes.forEach(([a, b, side, id], i) => {
+    const el = $(id);
+    const x = side === 'R' ? 190 : 1020;
+    el.style.left = x + 'px';
+    const last = i === scenes.length - 1;
+    const outP = last ? 0 : eIn(seg(t, b - 0.4, b));
+    const lines = el.querySelectorAll('.kicker, .line');
+    lines.forEach((ln, j) => {
+      const p = eOut(seg(t, a + 0.25 + j * 0.06, a + 0.85 + j * 0.06));
+      set(ln, `translateY(${(1 - p) * 50}px)`, p * (1 - outP));
+    });
+    el.style.transform = `translateX(${(side === 'R' ? -1 : 1) * outP * 60}px)`;
+    el.style.opacity = t > a - 0.1 && t < b + 0.1 || last ? 1 : 0;
+  });
+  // big background number
+  let idx = 0; scenes.forEach((s, i) => { if (t >= s[0]) idx = i; });
+  const s = scenes[idx];
+  const p = eOut(seg(t, s[0], s[0] + 0.9));
+  const bn = $('bignum');
+  bn.textContent = '0' + (idx + 1);
+  bn.style.left = (s[2] === 'R' ? 1000 : 120) + 'px';
+  set(bn, `translateY(${(1 - p) * 80}px)`, p);
+  // dots
+  [...$('dots').children].forEach((d, i) => {
+    const on = i === idx;
+    d.style.width = on ? '44px' : '8px';
+    d.style.background = on ? 'var(--axa)' : 'rgba(0,0,143,.18)';
+  });
+}
+
+function renderCallouts(t, px, py, phoneOp) {
+  scenes.forEach(([a, b, side, , k]) => {
+    const el = $(k);
+    const at = calloutAt[k];
+    const pin = eBack(seg(t, at, at + 0.55));
+    const pout = k === 'k5' ? eIn(seg(t, 25.4, 25.8)) : eIn(seg(t, b - 0.45, b - 0.1));
+    let [dx, dy] = calloutPos[k];
+    const float = Math.sin((t - at) * 2.2) * 6;
+    el.style.left = (px + dx) + 'px'; el.style.top = (py + dy) + 'px';
+    set(el, `translateY(${float + (1 - clamp(pin)) * 40}px) scale(${lerp(.6, 1, pin) * (1 - pout * .3)})`,
+        clamp(seg(t, at, at + 0.25)) * (1 - pout));
+  });
+}
+
+// ---------- master render ----------
+function render(t) {
+  // ===== INTRO (blue) =====
+  const words = ['w1', 'w2', 'w3', 'w4', 'w5'];
+  const wStart = 0.25, wDur = 0.58;
+  words.forEach((id, i) => {
+    const a = wStart + i * wDur, inner = $(id).firstElementChild;
+    const pin = eOut(seg(t, a, a + 0.28));
+    const pout = eIn(seg(t, a + wDur - 0.16, a + wDur + 0.06));
+    const isLast = i === words.length - 1;
+    set(inner, `translateY(${(1 - pin) * 160 - (isLast ? 0 : pout * 160)}px)`, isLast ? 1 - eIn(seg(t, 3.15, 3.35)) : 1);
+    $(id).style.opacity = t >= a && t < a + wDur + 0.1 + (isLast ? 0.3 : 0) ? 1 : 0;
+    $(id).style.height = '170px';
+  });
+  ['t1', 't2'].forEach((id, i) => {
+    const a = 3.35 + i * 0.18, inner = $(id).firstElementChild;
+    const p = eOut(seg(t, a, a + 0.45));
+    const out = eIn(seg(t, 4.55, 4.85));
+    set(inner, `translateY(${(1 - p) * 130 - out * 130}px)`, 1);
+    $(id).style.height = '125px';
+    $(id).style.opacity = t > a && t < 4.9 ? 1 : 0;
+  });
+
+  // logo build 4.75 -> 6.0
+  const logo = $('logo');
+  const lp = eOut(seg(t, 4.75, 5.25));
+  const logoOutro = eOut(seg(t, 26.55, 27.25));
+  const inIntro = t < 6.3;
+  if (inIntro) {
+    logo.style.left = '0px'; logo.style.right = '0px'; logo.style.top = '330px'; logo.style.textAlign = 'center';
+    set(logo, `translateY(${(1 - lp) * 60}px) scale(${lerp(.92, 1, lp)})`, lp);
+  } else {
+    logo.style.left = '170px'; logo.style.right = 'auto'; logo.style.top = '170px'; logo.style.textAlign = 'left';
+    set(logo, `translateY(${(1 - logoOutro) * 50}px) scale(.82)`, logoOutro);
+    logo.style.transformOrigin = 'left top';
+  }
+  const bar = $('logobar');
+  const bp = inIntro ? eBack(seg(t, 4.95, 5.35)) : eBack(seg(t, 26.8, 27.2));
+  bar.style.transform = `skewX(-18deg) scaleY(${bp})`;
+  const sub = $('intro-sub');
+  set(sub, `translateY(${(1 - eOut(seg(t, 5.15, 5.6))) * 30}px)`, eOut(seg(t, 5.15, 5.6)) * (t < 6.3 ? 1 : 0));
+
+  // blue layer: wipe out at 5.85 -> 6.35 (diagonal red slash), wipe back at 25.8 -> 26.4
+  const blue = $('blue'), slash = $('slash'), slash2 = $('slash2');
+  const wipeOut = eIO(seg(t, 5.85, 6.45));
+  const wipeIn = eIO(seg(t, 25.75, 26.45));
+  slash2.style.opacity = 0;
+  if (t < 6.5) {
+    blue.style.clipPath = `polygon(${wipeOut * 2600 - 400}px 0, 1920px 0, 1920px 1080px, ${wipeOut * 2600 - 750}px 1080px)`;
+    slash.style.opacity = wipeOut > 0 && wipeOut < 1 ? 1 : 0;
+    set(slash, `translateX(${wipeOut * 2600 - 560}px) skewX(-18deg)`);
+  } else if (t >= 25.75) {
+    const x = 2350 - wipeIn * 2700;
+    blue.style.clipPath = `polygon(${x + 350}px 0, 1920px 0, 1920px 1080px, ${x}px 1080px)`;
+    slash.style.opacity = wipeIn > 0 && wipeIn < 1 ? 1 : 0;
+    set(slash, `translateX(${x - 30}px) skewX(-18deg)`);
+  } else {
+    blue.style.clipPath = 'polygon(2000px 0, 2000px 0, 2000px 1080px, 2000px 1080px)';
+    slash.style.opacity = 0;
+  }
+  // skyline + intro elements only in intro; outro copy only in outro
+  blue.querySelector('.sky').style.opacity = t < 6.5 ? .55 : .35;
+  const oc = $('outro');
+  const op = eOut(seg(t, 26.9, 27.5));
+  set(oc, `translateY(${(1 - op) * 40}px)`, t > 25 ? op : 0);
+  oc.querySelector('.pill').style.opacity = eOut(seg(t, 27.35, 27.8));
+
+  // ===== FEATURE SCENES =====
+  // phone flies in 5.9 -> 6.7
+  const fly = eOut(seg(t, 5.95, 6.85));
+  let px = phoneX(t), py = CY + (1 - fly) * 900;
+  let rot = (1 - fly) * 12;
+  let scale = 1;
+  // outro: phone to centre-right with siblings, above the blue
+  const o = eIO(seg(t, 25.95, 26.85));
+  const OX = 1330;
+  px = lerp(px, OX, o); scale = lerp(1, .9, o);
+  const ph = $('phone');
+  ph.style.left = (px - 204) + 'px'; ph.style.top = (py - 426) + 'px';
+  set(ph, `rotate(${rot}deg) scale(${scale})`, 1);
+  ph.style.zIndex = t > 25.9 ? 30 : 3;
+  // swap main screen to home for the outro hero
+  if (t > 26.2) { allScreens.forEach(id => { $(id).style.opacity = id === 's04' ? 1 : 0; $(id).style.transform = 'none'; $(id).style.zIndex = id === 's04' ? 3 : 0; }); $('tap').style.opacity = 0; }
+  else renderScreens(t);
+  // side phones in outro
+  const sp = eOut(seg(t, 26.6, 27.4));
+  [['phoneL', -1], ['phoneR', 1]].forEach(([id, s]) => {
+    const el = $(id);
+    el.style.left = (OX - 204) + 'px'; el.style.top = (CY - 426) + 'px';
+    el.style.zIndex = 29;
+    set(el, `translateX(${s * sp * 300}px) translateY(${sp * 40}px) rotate(${s * sp * 9}deg) scale(.8)`, t > 26.4 ? clamp(sp * 2) : 0);
+  });
+  // gentle idle float on outro
+  if (t > 27.4) {
+    const f = Math.sin((t - 27.4) * 1.6) * 8;
+    ph.style.transform += ` translateY(${f}px)`;
+  }
+
+  renderCopy(t);
+  renderCallouts(t, px, py, fly);
+  const featVis = t > 5.8 && t < 26.6 ? 1 : 0;
+  scenes.forEach(s => { if (!featVis) $(s[3]).style.opacity = 0; });
+  $('dots').style.opacity = clamp(seg(t, 6.3, 6.8)) * (1 - seg(t, 25.6, 25.9));
+  $('bignum').style.opacity = featVis ? $('bignum').style.opacity : 0;
+  // background blob drifts with phone
+  const bl = $('blob');
+  bl.style.left = (px - 550) + 'px'; bl.style.top = (CY - 550) + 'px';
+
+  // fade to blue at the very end
+  $('stage').style.filter = 'none';
+}
+
+window.render = render;
+window.DURATION = DURATION;
+const q = new URLSearchParams(location.search);
+if (q.has('t')) render(parseFloat(q.get('t')));
+else { // live preview loop
+  const t0 = performance.now();
+  const loop = () => { render(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); };
+  loop();
+}
+</script>
+</body>
+</html>
