@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>La Poste « La belle vie »</title>
-<meta name="description" content="Analyse de la campagne La Poste Services Seniors « La belle vie » (2023) : le spot, puis les six acteurs de l'annonceur à la cible.">
+<meta name="description" content="Présentation de la campagne La Poste Services Seniors « La belle vie » (2023) et de ses six acteurs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -88,7 +88,6 @@
     position: absolute; left: 50%; top: 50%;
     width: 112px; height: 112px; margin: -56px 0 0 -56px; border-radius: 50%;
     background: var(--jaune);
-    animation: pulse 2.4s ease-out infinite;
     transition: transform .25s ease;
   }
   .poster:hover .play { transform: scale(1.08); }
@@ -104,33 +103,29 @@
     text-shadow: 0 2px 12px rgba(0, 0, 0, .4);
   }
   .poster:focus-visible { outline: 4px solid var(--jaune); outline-offset: -4px; }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 203, 5, .55); }
-    70%, 100% { box-shadow: 0 0 0 34px rgba(255, 203, 5, 0); }
-  }
 
   .caption {
     position: absolute; left: 200px; right: 200px; top: 812px;
     display: flex; align-items: baseline; justify-content: space-between; gap: 40px;
   }
   .caption h1 { font-size: 30px; font-weight: 700; letter-spacing: -.01em; }
-  .caption h1 span { color: var(--gris); font-weight: 500; }
   .caption p { font-size: 15px; font-weight: 500; color: var(--gris); white-space: nowrap; }
   
   /* ---------- Slides 2 et 3 : les acteurs ---------- */
   .head { position: absolute; left: 100px; right: 100px; top: 190px; }
-  .head h2 { font-size: 72px; font-weight: 700; letter-spacing: -.03em; line-height: 1.05; }
-  .head h2::after { content: ""; display: block; width: 64px; height: 6px; margin-top: 28px; background: var(--jaune); border-radius: 3px; }
+  .head h2 { font-size: 64px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
   .cols {
-    position: absolute; left: 100px; right: 100px; top: 470px;
+    position: absolute; left: 100px; right: 100px; top: 380px;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px;
   }
-  .col .label {
-    font-size: 15px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gris);
+  .col .label { display: flex; align-items: center; gap: 12px; font-size: 19px; font-weight: 600; color: var(--bleu); }
+  .col .label b {
+    width: 34px; height: 34px; border-radius: 50%; flex: none;
+    display: grid; place-items: center;
+    background: var(--jaune); color: var(--encre); font-size: 16px; font-weight: 700;
   }
-  .col .label b { color: var(--bleu); margin-right: 10px; }
-  .col h3 { margin-top: 16px; font-size: 40px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
-  .col p { margin-top: 14px; font-size: 21px; font-weight: 500; color: var(--gris); line-height: 1.45; }
+  .col h3 { margin-top: 18px; font-size: 34px; font-weight: 700; letter-spacing: -.01em; line-height: 1.15; }
+  .col p { margin-top: 14px; font-size: 21px; font-weight: 500; color: var(--gris); line-height: 1.5; }
 
   /* ---------- Navigation ---------- */
   .nav {
@@ -160,7 +155,6 @@
       -webkit-print-color-adjust: exact; print-color-adjust: exact;
     }
     .nav { display: none; }
-    .poster .play { animation: none; }
   }
 </style>
 </head>
@@ -180,7 +174,7 @@
     <section class="slide active" aria-label="Slide 1 : le spot">
       <div class="top">
         <span class="brand"><svg viewBox="330 330 1337 597" fill="currentColor" aria-hidden="true"><use href="#lp-bird"/></svg>La Poste</span>
-        <span>Analyse de campagne · B2C</span>
+        <span class="num">1/3</span>
       </div>
 
       <div class="player" id="player">
@@ -188,64 +182,64 @@
           <img src="https://i.ytimg.com/vi/LQl2i3erZbQ/maxresdefault.jpg"
                onerror="if(this.dataset.f){this.style.visibility='hidden'}else{this.dataset.f=1;this.src='https://i.ytimg.com/vi/LQl2i3erZbQ/hqdefault.jpg'}" alt="">
           <span class="play" aria-hidden="true"></span>
-          <span class="hint">Lire le spot · 30 s</span>
+          <span class="hint">Lire la vidéo</span>
         </button>
       </div>
 
       <div class="caption">
-        <h1>Services Seniors <span>— « La belle vie »</span></h1>
-        <p>Havas Paris · 2023</p>
+        <h1>La Poste, « La belle vie »</h1>
+        <p>Services Seniors, 2023</p>
       </div>
     </section>
 
-    <!-- ============ 2 · QUI FABRIQUE ============ -->
-    <section class="slide" aria-label="Slide 2 : qui fabrique la pub">
+    <!-- ============ 2 · CONCEPTION ============ -->
+    <section class="slide" aria-label="Slide 2 : la conception">
       <div class="top">
-        <span class="brand"><svg viewBox="330 330 1337 597" fill="currentColor" aria-hidden="true"><use href="#lp-bird"/></svg>La Poste · « La belle vie »</span>
-        <span class="num">02 / 03</span>
+        <span class="brand"><svg viewBox="330 330 1337 597" fill="currentColor" aria-hidden="true"><use href="#lp-bird"/></svg>La Poste</span>
+        <span class="num">2/3</span>
       </div>
-      <div class="head"><h2>Qui fabrique la pub ?</h2></div>
+      <div class="head"><h2>La conception de la campagne</h2></div>
       <div class="cols">
         <article class="col">
-          <p class="label"><b>01</b>Annonceur</p>
-          <h3>La Poste</h3>
-          <p>Vend ses services seniors.</p>
+          <p class="label"><b>1</b>L’annonceur</p>
+          <h3>Le Groupe La Poste</h3>
+          <p>C’est la marque. Elle veut faire connaître ses services pour les seniors : téléassistance, visites du facteur, portage de repas.</p>
         </article>
         <article class="col">
-          <p class="label"><b>02</b>Agence créa</p>
+          <p class="label"><b>2</b>L’agence de pub</p>
           <h3>Havas Paris</h3>
-          <p>Un film drôle, sans cliché.</p>
+          <p>Elle crée le film : une pub drôle sur la vieillesse, sur la chanson « La belle vie » de Sacha Distel.</p>
         </article>
         <article class="col">
-          <p class="label"><b>03</b>Agence média</p>
-          <h3>Groupe Havas</h3>
-          <p>Achète l’espace TV &amp; digital.</p>
+          <p class="label"><b>3</b>L’agence média</p>
+          <h3>Agence média du groupe Havas</h3>
+          <p>Elle prépare le plan média et achète l’espace publicitaire à la télé et sur internet.</p>
         </article>
       </div>
     </section>
 
     <!-- ============ 3 · DIFFUSION ============ -->
-    <section class="slide" aria-label="Slide 3 : comment elle touche sa cible">
+    <section class="slide" aria-label="Slide 3 : la diffusion">
       <div class="top">
-        <span class="brand"><svg viewBox="330 330 1337 597" fill="currentColor" aria-hidden="true"><use href="#lp-bird"/></svg>La Poste · « La belle vie »</span>
-        <span class="num">03 / 03</span>
+        <span class="brand"><svg viewBox="330 330 1337 597" fill="currentColor" aria-hidden="true"><use href="#lp-bird"/></svg>La Poste</span>
+        <span class="num">3/3</span>
       </div>
-      <div class="head"><h2>Comment elle touche sa cible ?</h2></div>
+      <div class="head"><h2>La diffusion de la campagne</h2></div>
       <div class="cols">
         <article class="col">
-          <p class="label"><b>04</b>Plateforme</p>
-          <h3>TV &amp; YouTube</h3>
-          <p>Diffusent le spot de 30 s.</p>
+          <p class="label"><b>4</b>La plateforme</p>
+          <h3>Les chaînes TV et YouTube</h3>
+          <p>Elles vendent l’espace publicitaire et diffusent le spot de 30 secondes.</p>
         </article>
         <article class="col">
-          <p class="label"><b>05</b>Algorithme</p>
-          <h3>Ciblage</h3>
-          <p>Vise les 50 ans et + et les aidants.</p>
+          <p class="label"><b>5</b>L’algorithme</p>
+          <h3>Le ciblage des régies</h3>
+          <p>Il choisit à qui montrer la pub : les plus de 50 ans et les aidants, aux heures de forte audience.</p>
         </article>
         <article class="col">
-          <p class="label"><b>06</b>Cible</p>
-          <h3>Seniors &amp; aidants</h3>
-          <p>Découvrent l’offre et passent à l’action.</p>
+          <p class="label"><b>6</b>La cible</p>
+          <h3>Les seniors et leurs enfants</h3>
+          <p>Ils voient la pub et peuvent se renseigner par téléphone, au bureau de poste ou sur le site.</p>
         </article>
       </div>
     </section>
